@@ -156,3 +156,4 @@ yarn-error.*
 *.pem
 /ios
 /android
+app/.gitignore
