@@ -2,11 +2,17 @@
 const {defineConfig} = require("eslint/config");
 const expoConfig = require("eslint-config-expo/flat");
 const eslintPluginPrettierRecommended = require("eslint-plugin-prettier/recommended");
+const simpleImportSort = require("eslint-plugin-simple-import-sort");
+const unusedImports = require("eslint-plugin-unused-imports");
 
 module.exports = defineConfig([
   expoConfig,
   eslintPluginPrettierRecommended,
   {
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+      "unused-imports": unusedImports,
+    },
     rules: {
       yoda: ["error"],
       semi: ["error"],
@@ -23,6 +29,8 @@ module.exports = defineConfig([
       "jsx-a11y/alt-text": ["off"],
       "react/jsx-curly-brace-presence": ["error", {props: "never"}],
       "prettier/prettier": ["warn"],
+      "simple-import-sort/imports": ["warn"],
+      "unused-imports/no-unused-imports": ["warn"],
     },
   },
   {
