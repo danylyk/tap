@@ -2,6 +2,7 @@
 dist/
 web-build/
 expo-env.d.ts
+uniwind-types.d.ts
 .kotlin/
 *.orig.*
 *.jks

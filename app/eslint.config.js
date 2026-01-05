@@ -34,6 +34,12 @@ module.exports = defineConfig([
     },
   },
   {
-    ignores: ["dist/*", "node_modules/*", ".expo/*"],
+    ignores: [
+      "dist/*",
+      "node_modules/*",
+      ".expo/*",
+      "expo-env.d.ts",
+      "uniwind-types.d.ts",
+    ],
   },
 ]);
