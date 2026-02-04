@@ -1,16 +1,16 @@
 import "@/public/assets/global.css";
 
-import {Stack} from "expo-router";
+import {Tabs} from "expo-router";
 
 export default function Layout() {
   return (
-    <Stack>
-      <Stack.Screen
-        name="(tabs)"
+    <Tabs>
+      <Tabs.Screen
+        name="index"
         options={{
           title: "Home",
         }}
       />
-    </Stack>
+    </Tabs>
   );
 }
