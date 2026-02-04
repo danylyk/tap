@@ -11,7 +11,7 @@ export default function Page() {
         alignItems: "center",
       }}
     >
-      <Text className="text-red-500 text-2xl">Index</Text>
+      <Text className="text-red-500 text-2xl font-black">Index</Text>
       <Link href="/about" className="mt-4 text-blue-500 text-lg">
         Go to About Page
       </Link>
