@@ -1,0 +1,55 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start",
+      "dependsOn": ["start app"],
+      "dependsOrder": "parallel"
+    },
+    {
+      "label": "Validate",
+      "dependsOn": ["validate app"],
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "Install",
+      "dependsOn": ["ci app"],
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "start app",
+      "type": "shell",
+      "command": "npm start",
+      "options": {
+        "cwd": "./app"
+      },
+      "presentation": {
+        "panel": "new",
+        "reveal": "silent"
+      }
+    },
+    {
+      "label": "ci app",
+      "type": "shell",
+      "command": "npm ci",
+      "options": {
+        "cwd": "./app"
+      },
+      "presentation": {
+        "panel": "new",
+        "reveal": "silent"
+      }
+    },
+    {
+      "label": "validate app",
+      "type": "shell",
+      "command": "npm run lint",
+      "options": {
+        "cwd": "./app"
+      },
+      "presentation": {
+        "panel": "new"
+      }
+    }
+  ]
+}

@@ -4,7 +4,8 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll": "always",
+    "source.fixAll": "never",
+    "source.fixAll.eslint": "explicit"
   },
   "files.associations": {
     "*.css": "tailwindcss"
