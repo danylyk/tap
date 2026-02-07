@@ -31,6 +31,7 @@ module.exports = defineConfig([
       "prettier/prettier": ["warn"],
       "simple-import-sort/imports": ["warn"],
       "unused-imports/no-unused-imports": ["warn"],
+      "react/no-unknown-property": ["off"],
     },
   },
   {
