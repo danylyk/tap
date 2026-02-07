@@ -1,15 +1,27 @@
 import React from "react";
-import {ImageBackground, View} from "react-native";
+import {Image, View} from "react-native";
 
+import Helper from "@/modules/game-helper";
+import Player from "@/modules/game-player";
 import Scene from "@/modules/game-scene";
-import backgroundImage from "@/public/assets/scene.png";
+import placeholder from "@/public/assets/scene.png";
 
 export default function Page() {
   return (
     <View className="flex-1">
-      <ImageBackground source={backgroundImage} className="flex-1">
-        <Scene />
-      </ImageBackground>
+      <Image
+        source={placeholder}
+        resizeMode="contain"
+        className="absolute w-full"
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+      />
+      <Scene>
+        <Helper />
+        <Player />
+      </Scene>
     </View>
   );
 }
