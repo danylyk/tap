@@ -18,10 +18,12 @@ export default function Page() {
           height: "100%",
         }}
       />
-      <Scene>
-        <Helper />
-        <Player />
-      </Scene>
+      <View className="absolute inset-0">
+        <Scene>
+          <Helper />
+          <Player />
+        </Scene>
+      </View>
     </View>
   );
 }

@@ -29,9 +29,9 @@ export default function Module() {
 
     const t = Math.min(state.clock.elapsedTime, 20) / 20;
 
-    const x = 0;
+    const x = 0 + 30 * (1 / 3);
     const y = 0;
-    const z = t * 270;
+    const z = t * 270 + 30 * (1 / 3);
 
     player.current.position.set(x, y, z);
     root.current.position.set((x + z) / 2, 0, (x + z) / 2);
@@ -41,8 +41,8 @@ export default function Module() {
     <>
       <group ref={root} />
       <group ref={player}>
-        <mesh position={[15, 15, 15]}>
-          <boxGeometry args={[30, 30, 30]} />
+        <mesh position={[5, 9, 5]}>
+          <boxGeometry args={[18, 18, 18]} />
           <meshStandardMaterial color={0xbaf455} />
         </mesh>
       </group>
