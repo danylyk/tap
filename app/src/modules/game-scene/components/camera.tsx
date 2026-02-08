@@ -3,7 +3,13 @@ import {useThree} from "@react-three/fiber/native";
 import {useEffect} from "react";
 
 export function Camera() {
-  const {camera, size} = useThree();
+  const camera = useThree((state) => {
+    return state.camera;
+  });
+
+  const size = useThree((state) => {
+    return state.size;
+  });
 
   useEffect(() => {
     camera.zoom = Math.min(size.height / 874, size.width / 402) * 1.425;
