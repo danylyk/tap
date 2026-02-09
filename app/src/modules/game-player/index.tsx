@@ -129,7 +129,7 @@ export default function Module() {
     character.current.position.lerpVectors(
       {x: transition.current.offset.x, y: 0, z: transition.current.offset.z},
       {x: 0, y: 0, z: 0},
-      easing.expo.out(Math.min(delta, 1)),
+      easing.expo.out(Math.min(delta / 10, 1)),
     );
   });
 
