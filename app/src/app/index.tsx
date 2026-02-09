@@ -1,12 +1,13 @@
 import React from "react";
-import {Button, Image, View} from "react-native";
+import {Button, View} from "react-native";
 
+// import {Image} from "react-native";
 import useGameStore from "@/elements/stores/game";
-import Helper from "@/modules/game-helper";
+// import Helper from "@/modules/game-helper";
 import Map from "@/modules/game-map";
 import Player from "@/modules/game-player";
 import Scene from "@/modules/game-scene";
-import placeholder from "@/public/assets/scene.png";
+// import placeholder from "@/public/assets/scene.png";
 
 export default function Page() {
   const reset = useGameStore((state) => {
@@ -15,7 +16,7 @@ export default function Page() {
 
   return (
     <View className="flex-1 justify-end">
-      <Image
+      {/* <Image
         source={placeholder}
         resizeMode="contain"
         className="absolute w-full opacity-10"
@@ -23,10 +24,10 @@ export default function Page() {
           width: "100%",
           height: "100%",
         }}
-      />
-      <View className="absolute inset-0 z-10">
+      /> */}
+      <View className="absolute inset-0 z-10 bg-white">
         <Scene>
-          <Helper />
+          {/* <Helper /> */}
           <Player />
           <Map />
         </Scene>
