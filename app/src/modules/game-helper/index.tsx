@@ -1,7 +1,7 @@
 export default function Module() {
   return (
     <>
-      <gridHelper args={[1320, 44]} />
+      <gridHelper args={[13200, 440]} />
       <axesHelper args={[100]} />
     </>
   );

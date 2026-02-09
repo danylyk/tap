@@ -1,4 +1,5 @@
 import {useFrame, useThree} from "@react-three/fiber/native";
+import {selectionAsync} from "expo-haptics";
 import {easing} from "maath";
 import {useEffect, useRef} from "react";
 import {Group} from "three";
@@ -161,6 +162,8 @@ export default function Module() {
                 z: player.current.position.z,
               },
             });
+
+            selectionAsync();
           }}
         >
           <planeGeometry args={[viewport.width, viewport.height]} />

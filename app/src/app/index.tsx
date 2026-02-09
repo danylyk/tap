@@ -3,6 +3,7 @@ import {Button, Image, View} from "react-native";
 
 import useGameStore from "@/elements/stores/game";
 import Helper from "@/modules/game-helper";
+import Map from "@/modules/game-map";
 import Player from "@/modules/game-player";
 import Scene from "@/modules/game-scene";
 import placeholder from "@/public/assets/scene.png";
@@ -17,7 +18,7 @@ export default function Page() {
       <Image
         source={placeholder}
         resizeMode="contain"
-        className="absolute w-full"
+        className="absolute w-full opacity-10"
         style={{
           width: "100%",
           height: "100%",
@@ -27,6 +28,7 @@ export default function Page() {
         <Scene>
           <Helper />
           <Player />
+          <Map />
         </Scene>
       </View>
       <View className="relative z-20 p-10 bg-[rgba(0,0,0,0.2)]">
