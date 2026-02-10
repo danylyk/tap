@@ -77,7 +77,7 @@ export default function Module() {
       return;
     }
 
-    const delta = time.current - move.time;
+    const t = time.current - move.time;
 
     const position = {
       x: Math.round(move.position.x / 10) * 10,
@@ -95,8 +95,8 @@ export default function Module() {
     };
 
     const distance = {
-      x: move.direction === "x" ? delta * 120 : 0,
-      z: move.direction === "z" ? delta * 120 : 0,
+      x: move.direction === "x" ? t * 120 : 0,
+      z: move.direction === "z" ? t * 120 : 0,
     };
 
     const active = {
@@ -130,7 +130,7 @@ export default function Module() {
     character.current.position.lerpVectors(
       {x: transition.current.offset.x, y: 0, z: transition.current.offset.z},
       {x: 0, y: 0, z: 0},
-      easing.expo.out(Math.min(delta / 10, 1)),
+      easing.expo.out(Math.min(t / 4, 1)),
     );
   });
 

@@ -9,8 +9,6 @@ export default function Module() {
   return (
     <>
       <Suspense>
-        {/* <Cell x={0} z={-2} /> */}
-        {/* <Cell x={1} z={-2} /> */}
         <B1 offset={0} />
         <B2 offset={4} />
         <B3 offset={10} />
@@ -19,7 +17,7 @@ export default function Module() {
         <B2 offset={28} />
         <B3 offset={34} />
         <B2 offset={40} />
-        <B4 offset={44} />
+        <B4 offset={46} />
       </Suspense>
     </>
   );

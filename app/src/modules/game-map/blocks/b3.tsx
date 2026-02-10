@@ -1,32 +1,11 @@
-import {Unit} from "../components/unit";
+import {Gltf} from "@react-three/drei/native";
+
+import model from "@/public/models/b3.glb";
 
 export function B3({offset}: {offset: number}) {
   return (
-    <group position={[30 * offset, 0, 30 * offset]}>
-      <Unit z={0} x={2} color={0xffffff} />
-      <Unit z={1} x={2} color={0xdddddd} />
-      <Unit z={2} x={2} color={0xffffff} />
-      <Unit z={3} x={2} color={0xdddddd} />
-      <Unit z={4} x={2} color={0xffffff} />
-      <Unit z={5} x={2} color={0xdddddd} />
-      <Unit z={0} x={3} color={0xdddddd} />
-      <Unit z={1} x={3} color={0xffffff} />
-      <Unit z={2} x={3} color={0xdddddd} />
-      <Unit z={3} x={3} color={0xffffff} />
-      <Unit z={4} x={3} color={0xdddddd} />
-      <Unit z={5} x={3} color={0xffffff} />
-      <Unit z={4} x={4} color={0xffffff} />
-      <Unit z={5} x={4} color={0xdddddd} />
-      <Unit z={6} x={4} color={0xffffff} />
-      <Unit z={7} x={4} color={0xdddddd} />
-      <Unit z={8} x={4} color={0xffffff} />
-      <Unit z={9} x={4} color={0xdddddd} />
-      <Unit z={4} x={5} color={0xdddddd} />
-      <Unit z={5} x={5} color={0xffffff} />
-      <Unit z={6} x={5} color={0xdddddd} />
-      <Unit z={7} x={5} color={0xffffff} />
-      <Unit z={8} x={5} color={0xdddddd} />
-      <Unit z={9} x={5} color={0xffffff} />
+    <group position={[offset * 30, 0, offset * 30]} scale={[30, 30, 30]}>
+      <Gltf src={model} />
     </group>
   );
 }
