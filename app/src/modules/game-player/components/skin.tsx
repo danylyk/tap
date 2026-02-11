@@ -4,13 +4,15 @@ import {useMemo, useRef} from "react";
 import {LoopOnce} from "three";
 
 import useGameStore from "@/elements/stores/game";
-import model from "@/public/models/p.glb";
 
 export function Skin() {
-  const {scene, animations} = useGLTF(model);
-  const {actions} = useAnimations(animations, scene);
-
   const direction = useRef("z");
+
+  const {scene, animations} = useGLTF(
+    "https://content.combostreak.com/tap/skins/1428d81a2f35e1714ff0bd0ea5e139f4.glb",
+  );
+
+  const {actions} = useAnimations(animations, scene);
 
   const states = useMemo(() => {
     return {
@@ -68,7 +70,7 @@ export function Skin() {
   });
 
   return (
-    <group position={[0, 0, 0]} scale={[30, 30, 30]}>
+    <group position={[5, 0, 5]} scale={[10, 10, 10]}>
       <primitive object={scene} />
     </group>
   );
