@@ -1,8 +1,9 @@
-import React from "react";
-import {Button, View} from "react-native";
+import React, {useState} from "react";
+import {Button, Text, View} from "react-native";
 
 // import {Image} from "react-native";
 import useGameStore from "@/elements/stores/game";
+import Debug from "@/modules/game-debug";
 // import Helper from "@/modules/game-helper";
 import Map from "@/modules/game-map";
 import Player from "@/modules/game-player";
@@ -10,6 +11,8 @@ import Scene from "@/modules/game-scene";
 // import placeholder from "@/public/assets/scene.png";
 
 export default function Page() {
+  const [fps, setFps] = useState(0);
+
   const reset = useGameStore((state) => {
     return state.reset;
   });
@@ -28,11 +31,13 @@ export default function Page() {
       <View className="absolute inset-0 z-10 bg-white">
         <Scene>
           {/* <Helper /> */}
+          <Debug update={setFps} />
           <Player />
           <Map />
         </Scene>
       </View>
       <View className="relative z-20 p-10 bg-[rgba(0,0,0,0.2)]">
+        <Text className="mb-4 text-white">FPS: {fps}</Text>
         <Button
           title="Stop"
           onPress={() => {
