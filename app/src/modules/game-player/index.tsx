@@ -6,6 +6,8 @@ import {Group} from "three";
 
 import useGameStore from "@/elements/stores/game";
 
+import {Skin} from "./components/skin";
+
 export default function Module() {
   const character = useRef<Group>(null);
   const player = useRef<Group>(null);
@@ -140,10 +142,7 @@ export default function Module() {
 
       <group ref={player}>
         <group ref={character}>
-          <mesh position={[15, 9, 15]}>
-            <boxGeometry args={[18, 18, 18]} />
-            <meshStandardMaterial color={0xbaf455} />
-          </mesh>
+          <Skin />
         </group>
       </group>
 

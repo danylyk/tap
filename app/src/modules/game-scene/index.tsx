@@ -1,5 +1,5 @@
 import {Canvas} from "@react-three/fiber/native";
-import React from "react";
+import React, {Suspense} from "react";
 
 import {Camera} from "./components/camera";
 
@@ -23,7 +23,7 @@ export default function Module({children}: {children?: React.ReactNode}) {
 
         <Camera />
 
-        {children}
+        <Suspense>{children}</Suspense>
       </Canvas>
     </>
   );
