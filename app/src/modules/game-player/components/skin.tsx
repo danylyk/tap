@@ -39,8 +39,8 @@ export function Skin() {
 
     direction.current = move.direction;
 
-    const current = move.direction === "x" ? "x" : "z";
-    const next = move.direction === "x" ? "z" : "x";
+    const current = move.direction === "z" ? "x" : "z";
+    const next = move.direction === "z" ? "z" : "x";
 
     const actions = {
       current: states.actions[current],
