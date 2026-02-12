@@ -77,6 +77,11 @@ export function useTransition<T>({
 
         value.current = start.current;
       },
+      stop: (to?: T) => {
+        value.current = to ?? value.current;
+        end.current = value.current;
+        progress.current = 1;
+      },
       update: () => {
         if (progress.current === 1) {
           update?.(value.current);

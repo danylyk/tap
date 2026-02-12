@@ -41,8 +41,8 @@ export function useCameraControl({
             z: 0,
           },
           {
-            x: camera.current.position.x,
-            z: camera.current.position.z,
+            x: camera.current.position.x - 10,
+            z: camera.current.position.z - 10,
           },
         );
       }

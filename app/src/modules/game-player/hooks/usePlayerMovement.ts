@@ -65,7 +65,7 @@ export function usePlayerMovement({
 
     function onClose() {
       if (ref.current) {
-        ref.current.position.set(0, 0, 0);
+        ref.current.position.set(10, 0, 10);
       }
     }
 

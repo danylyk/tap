@@ -80,17 +80,21 @@ export function useCharacterMovement({
       transition.to({x: 0, z: 0}, {x: active.x, z: active.z});
     }
 
+    function onStop() {
+      transition.stop();
+    }
+
     function onClose() {
-      if (ref.current) {
-        ref.current.position.set(0, 0, 0);
-      }
+      transition.to({x: 0, z: 0}, {x: 0, z: 0});
     }
 
     events.on("tap", onTap);
+    events.on("stop", onStop);
     events.on("close", onClose);
 
     return () => {
       events.off("tap", onTap);
+      events.off("stop", onStop);
       events.off("close", onClose);
     };
   }, [ref, player, transition]);

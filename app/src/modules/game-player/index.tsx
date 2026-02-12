@@ -45,11 +45,11 @@ export default function Module({speed}: {speed: number}) {
 
   return (
     <>
-      <group ref={camera}>
+      <group ref={camera} position={[10, 0, 10]}>
         <group ref={pivot} />
       </group>
 
-      <group ref={player}>
+      <group ref={player} position={[10, 0, 10]}>
         <group ref={character}>
           <Skin />
         </group>

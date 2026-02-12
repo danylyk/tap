@@ -1,8 +1,9 @@
 import {useAnimations, useGLTF} from "@react-three/drei/native";
 import {useFrame} from "@react-three/fiber/native";
-import {useMemo, useRef} from "react";
+import {useEffect, useMemo, useRef} from "react";
 import {LoopOnce} from "three";
 
+import {events} from "@/elements/events/game";
 import useGame from "@/elements/stores/game";
 
 export function Skin() {
@@ -12,7 +13,7 @@ export function Skin() {
     "https://content.combostreak.com/tap/skins/1428d81a2f35e1714ff0bd0ea5e139f4.glb",
   );
 
-  const {actions} = useAnimations(animations, scene);
+  const {actions, names} = useAnimations(animations, scene);
 
   const states = useMemo(() => {
     return {
@@ -68,6 +69,27 @@ export function Skin() {
 
     actions.next.play();
   });
+
+  useEffect(() => {
+    function onClose() {
+      for (const name of names) {
+        const action = actions[name];
+
+        if (action) {
+          action.stop();
+          action.reset();
+        }
+      }
+
+      direction.current = "z";
+    }
+
+    events.on("close", onClose);
+
+    return () => {
+      events.off("close", onClose);
+    };
+  }, [actions, names]);
 
   return (
     <group position={[5, 0, 5]} scale={[10, 10, 10]}>
