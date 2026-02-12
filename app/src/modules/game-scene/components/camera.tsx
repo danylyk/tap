@@ -1,8 +1,8 @@
 import {useThree} from "@react-three/fiber/native";
+import {useEffect} from "react";
 
 import {events} from "@/elements/events/game";
 
-import {useCameraState} from "../hooks/useCameraState";
 import {useCameraZoom} from "../hooks/useCameraZoom";
 
 export function Camera() {
@@ -15,12 +15,38 @@ export function Camera() {
   });
 
   const zoom = useCameraZoom({
-    zoom: 1.425,
+    zoom: 1.4,
   });
 
-  useCameraState({
-    zoom,
-  });
+  useEffect(() => {
+    function onOpen() {
+      zoom.to(1.375);
+    }
+
+    function onStart() {
+      zoom.to(1.425);
+    }
+
+    function onStop() {
+      zoom.to(1.375);
+    }
+
+    function onClose() {
+      zoom.to(1.4);
+    }
+
+    events.on("open", onOpen);
+    events.on("start", onStart);
+    events.on("stop", onStop);
+    events.on("close", onClose);
+
+    return () => {
+      events.off("open", onOpen);
+      events.off("start", onStart);
+      events.off("stop", onStop);
+      events.off("close", onClose);
+    };
+  }, [zoom]);
 
   return (
     <primitive object={camera}>
