@@ -1,179 +1,50 @@
-import {useFrame, useThree} from "@react-three/fiber/native";
-import {selectionAsync} from "expo-haptics";
-import {easing} from "maath";
-import {useEffect, useRef} from "react";
+import {useRef} from "react";
 import {Group} from "three";
 
-import useGameStore from "@/elements/stores/game";
-
 import {Skin} from "./components/skin";
+import {useCameraLink} from "./hooks/useCameraLink";
+import {useCameraMovement} from "./hooks/useCameraMovement";
+import {useCharacterMovement} from "./hooks/useCharacterMovement";
+import {usePlayerControl} from "./hooks/usePlayerControl";
+import {usePlayerMovement} from "./hooks/usePlayerMovement";
 
-export default function Module() {
+export default function Module({speed}: {speed: number}) {
   const character = useRef<Group>(null);
   const player = useRef<Group>(null);
-  const root = useRef<Group>(null);
+  const camera = useRef<Group>(null);
 
-  const time = useRef(0);
-
-  const transition = useRef<{
-    position: {
-      x: number;
-      z: number;
-    };
-    offset: {
-      x: number;
-      z: number;
-    };
-  }>({
-    position: {
-      x: 0,
-      z: 0,
-    },
-    offset: {
-      x: 0,
-      z: 0,
-    },
+  usePlayerControl({
+    ref: player,
   });
 
-  const camera = useThree((state) => {
-    return state.camera;
+  useCameraMovement({
+    ref: camera,
+    speed,
   });
 
-  const viewport = useThree((state) => {
-    return state.viewport;
+  useCharacterMovement({
+    ref: character,
+    player,
   });
 
-  const move = useGameStore((state) => {
-    return state.move;
+  usePlayerMovement({
+    ref: player,
+    speed,
   });
 
-  useEffect(() => {
-    if (!root.current) {
-      return;
-    }
-
-    root.current.add(camera);
-  }, [camera]);
-
-  useFrame((_, delta) => {
-    time.current += delta;
-  });
-
-  useFrame(() => {
-    if (!root.current) {
-      return;
-    }
-
-    if (!player.current) {
-      return;
-    }
-
-    if (!character.current) {
-      return;
-    }
-
-    const moves = useGameStore.getState();
-    const move = moves[moves.length - 1];
-
-    if (!move) {
-      return;
-    }
-
-    const t = time.current - move.time;
-
-    const position = {
-      x: Math.round(move.position.x / 10) * 10,
-      z: Math.round(move.position.z / 10) * 10,
-    };
-
-    const offset = {
-      x: move.direction === "x" ? move.position.z - position.z : 0,
-      z: move.direction === "z" ? move.position.x - position.x : 0,
-    };
-
-    const place = {
-      x: position.x + offset.x,
-      z: position.z + offset.z,
-    };
-
-    const distance = {
-      x: move.direction === "x" ? t * 120 : 0,
-      z: move.direction === "z" ? t * 120 : 0,
-    };
-
-    const active = {
-      x: place.x + distance.x,
-      z: place.z + distance.z,
-    };
-
-    const passive = {
-      x: (active.x + active.z) / 2,
-      z: (active.x + active.z) / 2,
-    };
-
-    if (
-      transition.current.position.x !== move.position.x ||
-      transition.current.position.z !== move.position.z
-    ) {
-      transition.current.position = {
-        x: move.position.x,
-        z: move.position.z,
-      };
-
-      transition.current.offset = {
-        x: player.current.position.x - active.x + character.current.position.x,
-        z: player.current.position.z - active.z + character.current.position.z,
-      };
-    }
-
-    player.current.position.set(active.x, 0, active.z);
-    root.current.position.set(passive.x, 0, passive.z);
-
-    character.current.position.lerpVectors(
-      {x: transition.current.offset.x, y: 0, z: transition.current.offset.z},
-      {x: 0, y: 0, z: 0},
-      easing.expo.out(Math.min(t / 4, 1)),
-    );
+  useCameraLink({
+    ref: camera,
   });
 
   return (
     <>
-      <group ref={root} />
+      <group ref={camera} />
 
       <group ref={player}>
         <group ref={character}>
           <Skin />
         </group>
       </group>
-
-      <primitive object={camera}>
-        <mesh
-          position={[0, 0, -1]}
-          onPointerDown={() => {
-            if (!player.current) {
-              return;
-            }
-
-            move({
-              time: time.current,
-              position: {
-                x: player.current.position.x,
-                z: player.current.position.z,
-              },
-            });
-
-            selectionAsync();
-          }}
-        >
-          <planeGeometry args={[viewport.width, viewport.height]} />
-          <meshBasicMaterial
-            transparent
-            opacity={0}
-            depthTest={false}
-            depthWrite={false}
-          />
-        </mesh>
-      </primitive>
     </>
   );
 }

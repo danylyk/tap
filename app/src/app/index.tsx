@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Button, Text, View} from "react-native";
 
 // import {Image} from "react-native";
-import useGameStore from "@/elements/stores/game";
+import useScene from "@/elements/stores/scene";
 import Debug from "@/modules/game-debug";
 // import Helper from "@/modules/game-helper";
 import Map from "@/modules/game-map";
@@ -13,8 +13,20 @@ import Scene from "@/modules/game-scene";
 export default function Page() {
   const [fps, setFps] = useState(0);
 
-  const reset = useGameStore((state) => {
-    return state.reset;
+  const status = useScene((state) => {
+    return state.status;
+  });
+
+  const open = useScene((state) => {
+    return state.open;
+  });
+
+  const close = useScene((state) => {
+    return state.close;
+  });
+
+  const stop = useScene((state) => {
+    return state.stop;
   });
 
   return (
@@ -32,18 +44,36 @@ export default function Page() {
         <Scene>
           {/* <Helper /> */}
           <Debug update={setFps} />
-          <Player />
+          <Player speed={10} />
           <Map />
         </Scene>
       </View>
       <View className="relative z-20 p-10 bg-[rgba(0,0,0,0.2)]">
         <Text className="mb-4 text-white">FPS: {fps}</Text>
-        <Button
-          title="Stop"
-          onPress={() => {
-            reset();
-          }}
-        />
+        {status === "none" && (
+          <Button
+            title="Open"
+            onPress={() => {
+              open();
+            }}
+          />
+        )}
+        {(status === "starting" || status === "ending") && (
+          <Button
+            title="Close"
+            onPress={() => {
+              close();
+            }}
+          />
+        )}
+        {status === "playing" && (
+          <Button
+            title="Stop"
+            onPress={() => {
+              stop();
+            }}
+          />
+        )}
       </View>
     </View>
   );

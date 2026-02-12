@@ -3,7 +3,7 @@ import {useFrame} from "@react-three/fiber/native";
 import {useMemo, useRef} from "react";
 import {LoopOnce} from "three";
 
-import useGameStore from "@/elements/stores/game";
+import useGame from "@/elements/stores/game";
 
 export function Skin() {
   const direction = useRef("z");
@@ -28,7 +28,7 @@ export function Skin() {
   }, [actions]);
 
   useFrame(() => {
-    const moves = useGameStore.getState();
+    const {moves} = useGame.getState();
     const move = moves[moves.length - 1];
 
     if (!move) {

@@ -1,20 +1,43 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {useThree} from "@react-three/fiber/native";
-import {useEffect} from "react";
+
+import {events} from "@/elements/events/game";
+
+import {useCameraState} from "../hooks/useCameraState";
+import {useCameraZoom} from "../hooks/useCameraZoom";
 
 export function Camera() {
   const camera = useThree((state) => {
     return state.camera;
   });
 
-  const size = useThree((state) => {
-    return state.size;
+  const viewport = useThree((state) => {
+    return state.viewport;
   });
 
-  useEffect(() => {
-    camera.zoom = Math.min(size.height / 874, size.width / 402) * 1.425;
-    camera.updateProjectionMatrix();
-  }, [size.height, size.width]);
+  const zoom = useCameraZoom({
+    zoom: 1.425,
+  });
 
-  return null;
+  useCameraState({
+    zoom,
+  });
+
+  return (
+    <primitive object={camera}>
+      <mesh
+        position={[0, 0, -1]}
+        onPointerDown={() => {
+          events.emit("tap");
+        }}
+      >
+        <planeGeometry args={[viewport.width, viewport.height]} />
+        <meshBasicMaterial
+          transparent
+          opacity={0}
+          depthTest={false}
+          depthWrite={false}
+        />
+      </mesh>
+    </primitive>
+  );
 }
