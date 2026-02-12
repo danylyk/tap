@@ -2,6 +2,7 @@ import {useRef} from "react";
 import {Group} from "three";
 
 import {Skin} from "./components/skin";
+import {useCameraControl} from "./hooks/useCameraControl";
 import {useCameraLink} from "./hooks/useCameraLink";
 import {useCameraMovement} from "./hooks/useCameraMovement";
 import {useCharacterMovement} from "./hooks/useCharacterMovement";
@@ -12,6 +13,12 @@ export default function Module({speed}: {speed: number}) {
   const character = useRef<Group>(null);
   const player = useRef<Group>(null);
   const camera = useRef<Group>(null);
+  const pivot = useRef<Group>(null);
+
+  useCameraControl({
+    ref: pivot,
+    camera,
+  });
 
   usePlayerControl({
     ref: player,
@@ -33,12 +40,14 @@ export default function Module({speed}: {speed: number}) {
   });
 
   useCameraLink({
-    ref: camera,
+    ref: pivot,
   });
 
   return (
     <>
-      <group ref={camera} />
+      <group ref={camera}>
+        <group ref={pivot} />
+      </group>
 
       <group ref={player}>
         <group ref={character}>
