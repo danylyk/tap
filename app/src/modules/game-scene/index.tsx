@@ -10,15 +10,15 @@ export default function Module({children}: {children?: React.ReactNode}) {
         orthographic
         camera={{
           up: [0, 1, 0],
-          position: [-960, 900, -960],
+          position: [-96, 90, -96],
           rotation: [
             -2.4468543773930898, -0.6550611020925815, -2.671825437663095,
           ],
-          zoom: 1.425,
-          far: 3200,
+          zoom: 14.4,
+          far: 320,
         }}
       >
-        <directionalLight position={[-600, 1200, -900]} />
+        <directionalLight position={[-60, 120, -90]} />
         <ambientLight />
 
         <Camera />

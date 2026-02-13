@@ -27,8 +27,8 @@ export function useCameraMovement({
     const t = clock.elapsedTime - move.time;
 
     const position = {
-      x: Math.round(move.position.x / 10) * 10,
-      z: Math.round(move.position.z / 10) * 10,
+      x: Math.round(move.position.x),
+      z: Math.round(move.position.z),
     };
 
     const offset = {
@@ -62,7 +62,7 @@ export function useCameraMovement({
   useEffect(() => {
     function onClose() {
       if (ref.current) {
-        ref.current.position.set(10, 0, 10);
+        ref.current.position.set(1, 0, 1);
       }
     }
 

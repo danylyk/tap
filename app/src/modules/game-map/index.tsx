@@ -102,12 +102,12 @@ export default function Module() {
             <mesh
               key={`${i}:${j}`}
               position={[
-                offset * 30 + position.x * 10 + 5,
+                offset * 3 + position.x + 0.5,
                 0,
-                offset * 30 + position.z * 10 + 5,
+                offset * 3 + position.z + 0.5,
               ]}
             >
-              <boxGeometry args={[5, 0.1, 5]} />
+              <boxGeometry args={[0.5, 0.1, 0.5]} />
               <meshBasicMaterial color="#0000ff" />
             </mesh>
           );

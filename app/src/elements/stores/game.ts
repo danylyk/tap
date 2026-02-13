@@ -27,8 +27,8 @@ const store = {
         time: payload.time,
         direction: "z",
         position: {
-          x: 10,
-          z: 10,
+          x: 1,
+          z: 1,
         },
       });
 

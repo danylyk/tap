@@ -58,8 +58,8 @@ export function useCharacterMovement({
       }
 
       const position = {
-        x: Math.round(move.position.x / 10) * 10,
-        z: Math.round(move.position.z / 10) * 10,
+        x: Math.round(move.position.x),
+        z: Math.round(move.position.z),
       };
 
       const offset = {

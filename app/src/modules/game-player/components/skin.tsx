@@ -92,7 +92,7 @@ export function Skin() {
   }, [actions, names]);
 
   return (
-    <group position={[5, 0, 5]} scale={[10, 10, 10]}>
+    <group position={[0.5, 0, 0.5]} scale={[3, 3, 3]}>
       <primitive object={scene} />
     </group>
   );

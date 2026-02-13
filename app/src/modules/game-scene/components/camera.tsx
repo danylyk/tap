@@ -15,24 +15,24 @@ export function Camera() {
   });
 
   const zoom = useCameraZoom({
-    zoom: 1.4,
+    zoom: 14.4,
   });
 
   useEffect(() => {
     function onOpen() {
-      zoom.to(1.375);
+      zoom.to(13.9);
     }
 
     function onStart() {
-      zoom.to(1.425);
+      zoom.to(14.4);
     }
 
     function onStop() {
-      zoom.to(1.375);
+      zoom.to(13.9);
     }
 
     function onClose() {
-      zoom.to(1.4);
+      zoom.to(14.2);
     }
 
     events.on("open", onOpen);
