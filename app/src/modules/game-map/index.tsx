@@ -1,114 +1,69 @@
-import {Skin} from "./components/skin";
+import {useEffect, useMemo} from "react";
 
-const map = {
-  speed: 120,
-  sections: [
-    {
-      skin: "https://content.combostreak.com/tap/sections/19c765ce2bf25409ee83682efbd69bb2.glb",
-      offset: 0,
-      positions: [
-        {x: 0, z: 0},
-        {x: 0, z: 1},
-        {x: 0, z: 2},
-        {x: 1, z: 0},
-        {x: 1, z: 1},
-        {x: 1, z: 2},
-      ],
-    },
-    {
-      skin: "https://content.combostreak.com/tap/sections/f804856e387da5f3a929a4ce2c27ff3b.glb",
-      offset: 4,
-      positions: [
-        {x: 0, z: 0},
-        {x: 0, z: 1},
-        {x: 0, z: 2},
-      ],
-    },
-    {
-      skin: "https://content.combostreak.com/tap/sections/67587f97f2f00a44ac34641132934156.glb",
-      offset: 10,
-      positions: [
-        {x: 0, z: 0},
-        {x: 0, z: 1},
-        {x: 0, z: 2},
-      ],
-    },
-    {
-      skin: "https://content.combostreak.com/tap/sections/f804856e387da5f3a929a4ce2c27ff3b.glb",
-      offset: 16,
-      positions: [
-        {x: 0, z: 0},
-        {x: 0, z: 1},
-        {x: 0, z: 2},
-      ],
-    },
-    {
-      skin: "https://content.combostreak.com/tap/sections/67587f97f2f00a44ac34641132934156.glb",
-      offset: 22,
-      positions: [
-        {x: 0, z: 0},
-        {x: 0, z: 1},
-        {x: 0, z: 2},
-      ],
-    },
-    {
-      skin: "https://content.combostreak.com/tap/sections/f804856e387da5f3a929a4ce2c27ff3b.glb",
-      offset: 28,
-      positions: [
-        {x: 0, z: 0},
-        {x: 0, z: 1},
-        {x: 0, z: 2},
-      ],
-    },
-    {
-      skin: "https://content.combostreak.com/tap/sections/67587f97f2f00a44ac34641132934156.glb",
-      offset: 34,
-      positions: [
-        {x: 0, z: 0},
-        {x: 0, z: 1},
-        {x: 0, z: 2},
-      ],
-    },
-    {
-      skin: "https://content.combostreak.com/tap/sections/f804856e387da5f3a929a4ce2c27ff3b.glb",
-      offset: 40,
-      positions: [
-        {x: 0, z: 0},
-        {x: 0, z: 1},
-        {x: 0, z: 2},
-      ],
-    },
-    {
-      skin: "https://content.combostreak.com/tap/sections/115b0541ac517957946d31d831fc6782.glb",
-      offset: 46,
-      positions: [
-        {x: 0, z: 0},
-        {x: 0, z: 1},
-        {x: 0, z: 2},
-      ],
-    },
-  ],
-};
+import useGame from "@/elements/stores/game";
+import useScene from "@/elements/stores/scene";
+
+import {Skin} from "./components/skin";
+import {getMap} from "./server";
 
 export default function Module() {
+  const {sections, positions, boundaries} = useMemo(() => {
+    return getMap();
+  }, []);
+
+  const initializeGame = useGame((state) => {
+    return state.initialize;
+  });
+
+  const initializeScene = useScene((state) => {
+    return state.initialize;
+  });
+
+  useEffect(() => {
+    initializeGame({
+      positions,
+    });
+  }, [initializeGame, positions]);
+
+  useEffect(() => {
+    initializeScene({
+      boundaries,
+    });
+  }, [initializeScene, boundaries]);
+
   return (
     <>
-      {map.sections.map(({skin, offset}, i) => {
-        return <Skin key={i} offset={offset} link={skin} />;
+      {sections.map(({model, offset}, i) => {
+        return <Skin key={i} offset={offset} link={model} />;
       })}
-      {map.sections.map(({positions, offset}, i) => {
-        return positions.map((position, j) => {
+      {positions.map(({x, z}, i) => {
+        return (
+          <mesh key={i} position={[x + 0.5, 0.05, z + 0.5]}>
+            <boxGeometry args={[0.6, 0.1, 0.6]} />
+            <meshBasicMaterial color="#0000ff" />
+          </mesh>
+        );
+      })}
+      {Object.entries(boundaries.x).map(([key, value], i) => {
+        const x = Number(key);
+
+        return value.map((z, j) => {
           return (
-            <mesh
-              key={`${i}:${j}`}
-              position={[
-                offset * 3 + position.x + 0.5,
-                0,
-                offset * 3 + position.z + 0.5,
-              ]}
-            >
-              <boxGeometry args={[0.5, 0.1, 0.5]} />
-              <meshBasicMaterial color="#0000ff" />
+            <mesh key={`${i}:${j}`} position={[x + 0.5, 0.1, z + 0.5]}>
+              <boxGeometry args={[0.3, 0.2, 0.3]} />
+              <meshBasicMaterial color="#00ff1a" />
+            </mesh>
+          );
+        });
+      })}
+      {Object.entries(boundaries.z).map(([key, value], i) => {
+        const z = Number(key);
+
+        return value.map((x, j) => {
+          return (
+            <mesh key={`${i}:${j}`} position={[x + 0.5, 0.2, z + 0.5]}>
+              <boxGeometry args={[0.3, 0.4, 0.3]} />
+              <meshBasicMaterial color="#ff0000" />
             </mesh>
           );
         });

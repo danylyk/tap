@@ -7,6 +7,7 @@ import {useCameraLink} from "./hooks/useCameraLink";
 import {useCameraMovement} from "./hooks/useCameraMovement";
 import {useCharacterMovement} from "./hooks/useCharacterMovement";
 import {usePlayerControl} from "./hooks/usePlayerControl";
+import {usePlayerLimit} from "./hooks/usePlayerLimit";
 import {usePlayerMovement} from "./hooks/usePlayerMovement";
 
 export default function Module({speed}: {speed: number}) {
@@ -36,6 +37,10 @@ export default function Module({speed}: {speed: number}) {
 
   usePlayerMovement({
     ref: player,
+    speed,
+  });
+
+  usePlayerLimit({
     speed,
   });
 

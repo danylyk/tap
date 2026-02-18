@@ -4,6 +4,16 @@ import {events} from "@/elements/events/game";
 
 export default create<{
   status: "none" | "starting" | "playing" | "ending";
+  boundaries: {
+    x: Record<number, number[]>;
+    z: Record<number, number[]>;
+  };
+  initialize: (payload: {
+    boundaries: {
+      x: Record<number, number[]>;
+      z: Record<number, number[]>;
+    };
+  }) => void;
   open: () => void;
   start: () => void;
   stop: () => void;
@@ -11,6 +21,25 @@ export default create<{
 }>((set) => {
   return {
     status: "none",
+    boundaries: {
+      x: {},
+      z: {},
+    },
+    initialize(payload: {
+      boundaries: {
+        x: Record<number, number[]>;
+        z: Record<number, number[]>;
+      };
+    }) {
+      set(() => {
+        return {
+          boundaries: {
+            x: payload.boundaries.x,
+            z: payload.boundaries.z,
+          },
+        };
+      });
+    },
     open() {
       set(() => {
         return {

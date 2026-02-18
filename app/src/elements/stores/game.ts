@@ -1,4 +1,5 @@
 export const state = {
+  map: new Set<string>(),
   moves: [] as {
     time: number;
     direction: "z" | "x";
@@ -12,6 +13,13 @@ export const state = {
 const store = {
   reset: () => {
     state.moves = [];
+  },
+  initialize: (payload: {positions: {x: number; z: number}[]}) => {
+    state.map = new Set(
+      payload.positions.map(({x, z}) => {
+        return `${x}:${z}`;
+      }),
+    );
   },
   move: (payload: {
     time: number;
