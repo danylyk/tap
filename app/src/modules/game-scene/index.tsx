@@ -7,6 +7,7 @@ export default function Module({children}: {children?: React.ReactNode}) {
   return (
     <>
       <Canvas
+        className="bg-white"
         orthographic
         camera={{
           up: [0, 1, 0],

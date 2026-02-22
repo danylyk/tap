@@ -1,3 +1,10 @@
+import {type ClassValue, clsx} from "clsx";
+import {twMerge} from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
 export function mapWith<T1, T2, T3>(
   array: T2[],
   mapper: (helper: T1, value: T2, index: number, array: T2[]) => T3 | undefined,

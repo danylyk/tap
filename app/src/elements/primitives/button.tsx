@@ -1,0 +1,106 @@
+import {cva, VariantProps} from "class-variance-authority";
+import React from "react";
+import {Pressable, Text, View} from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
+
+import {cn} from "@/lib/utils";
+
+const pressableVariants = cva("rounded-full", {
+  variants: {
+    variant: {
+      default: "rounded-full",
+      primary: "rounded-full",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+const buttonVariants = cva("flex-row items-center rounded-full", {
+  variants: {
+    variant: {
+      default: "bg-primary/10",
+      primary: "bg-primary",
+    },
+    size: {
+      default: "py-2 px-3 gap-1.5",
+      medium: "py-2.5 px-3.5",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+    size: "default",
+  },
+});
+
+const textVariants = cva("font-medium", {
+  variants: {
+    variant: {
+      default: "text-primary font-mediun uppercase",
+      primary: "text-white",
+    },
+    size: {
+      default: "text-sm",
+      medium: "text-lg",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+    size: "default",
+  },
+});
+
+function Button({
+  className,
+  variant,
+  size,
+  children,
+  scaling = 1.15,
+  ...props
+}: Omit<React.ComponentProps<typeof Pressable>, "children"> &
+  VariantProps<typeof buttonVariants> & {
+    children: React.ReactNode;
+    scaling?: number;
+  }) {
+  const scale = useSharedValue(1);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{scale: scale.value}],
+  }));
+
+  const isSingle = React.Children.toArray(children).length === 1;
+
+  return (
+    <Pressable
+      data-slot="button"
+      onPressIn={() => (scale.value = withSpring(scaling, {mass: 0.75}))}
+      onPressOut={() => (scale.value = withSpring(1))}
+      className={cn(pressableVariants({variant}))}
+      {...props}
+    >
+      <Animated.View
+        style={animatedStyle}
+        className={cn(buttonVariants({variant, size, className}))}
+      >
+        {React.Children.map(children, (child, i) => {
+          if (typeof child === "string" && child.trim()) {
+            return (
+              <Text className={cn(textVariants({variant, size}))}>{child}</Text>
+            );
+          }
+
+          return (
+            <View className={cn("-mx-0.75", isSingle && "-mx-1")}>{child}</View>
+          );
+        })}
+      </Animated.View>
+    </Pressable>
+  );
+}
+
+export {Button, pressableVariants, buttonVariants, textVariants};

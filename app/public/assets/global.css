@@ -2,3 +2,7 @@
 
 @import "tailwindcss";
 @import "uniwind";
+
+@theme {
+  --color-primary: #070B1E;
+}
