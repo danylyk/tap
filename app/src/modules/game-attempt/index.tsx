@@ -1,18 +1,22 @@
 import {useRef} from "react";
 import {Text, View} from "react-native";
 
+import {useStart} from "./hooks/useStart";
+
 export default function Module({...props}: React.ComponentProps<typeof View>) {
-  const refScore = useRef<Text | null>(null);
-  const refAttempt = useRef<Text | null>(null);
+  const progress = useRef<Text | null>(null);
+  const attempt = useRef<Text | null>(null);
+
+  useStart();
 
   return (
     <View {...props}>
       <Text className="text-4xl font-bold text-primary">
-        <Text ref={refScore}>26</Text>
+        <Text ref={progress}>0</Text>
         <Text className="text-2xl">%</Text>
       </Text>
       <Text className="text-base text-primary/40">
-        ATTEMPT <Text ref={refAttempt}>10</Text>
+        ATTEMPT <Text ref={attempt}>1</Text>
       </Text>
     </View>
   );

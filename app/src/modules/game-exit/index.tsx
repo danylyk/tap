@@ -5,9 +5,9 @@ import {Button} from "@/elements/primitives/button";
 import useEnvironment from "@/elements/stores/useEnvironment";
 
 export default function Module({...props}: React.ComponentProps<typeof View>) {
-  const {status, close, exit} = useEnvironment();
+  const {status, open, close} = useEnvironment();
 
-  if (["started", "closed"].includes(status) === false) {
+  if (["started", "stopped"].includes(status) === false) {
     return null;
   }
 
@@ -17,12 +17,12 @@ export default function Module({...props}: React.ComponentProps<typeof View>) {
         size="medium"
         className="h-12"
         onPress={() => {
-          if (status === "closed") {
-            close();
+          if (status === "stopped") {
+            open();
             return;
           }
 
-          exit();
+          close();
         }}
       >
         <X size={28} />

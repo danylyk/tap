@@ -7,7 +7,7 @@ export default function Module({
 }: React.ComponentProps<typeof Pressable>) {
   const {status, start} = useEnvironment();
 
-  if (["none", "opened"].includes(status) === false) {
+  if (["none"].includes(status) === false) {
     return null;
   }
 

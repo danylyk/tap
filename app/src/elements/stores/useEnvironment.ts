@@ -1,7 +1,9 @@
 import {create} from "zustand";
 
+import {events} from "@/elements/events/game";
+
 export default create<{
-  status: "none" | "started" | "opened" | "closed";
+  status: "none" | "opened" | "started" | "stopped";
   positions: Set<string>;
   boundaries: {
     x: Record<number, number[]>;
@@ -24,10 +26,10 @@ export default create<{
     }[];
     duration: number;
   }) => void;
-  start: () => void;
   open: () => void;
+  start: () => void;
+  stop: () => void;
   close: () => void;
-  exit: () => void;
 }>((set) => {
   return {
     status: "none",
@@ -60,33 +62,41 @@ export default create<{
         };
       });
     },
-    start: () => {
-      set(() => {
-        return {
-          status: "started",
-        };
-      });
-    },
     open: () => {
       set(() => {
         return {
           status: "opened",
         };
       });
+
+      events.emit("open");
     },
-    close: () => {
+    start: () => {
       set(() => {
         return {
-          status: "closed",
+          status: "started",
         };
       });
+
+      events.emit("start");
     },
-    exit: () => {
+    stop: () => {
+      set(() => {
+        return {
+          status: "stopped",
+        };
+      });
+
+      events.emit("stop");
+    },
+    close: () => {
       set(() => {
         return {
           status: "none",
         };
       });
+
+      events.emit("close");
     },
   };
 });
