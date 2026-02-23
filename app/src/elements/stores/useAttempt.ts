@@ -16,8 +16,8 @@ const store = {
 
     if (!move) {
       return {
-        x: 0,
-        z: 0,
+        x: 1,
+        z: 1,
       };
     }
 
@@ -64,8 +64,8 @@ const store = {
       type: "start",
       direction: "z",
       position: {
-        x: 0,
-        z: 0,
+        x: 1,
+        z: 1,
       },
     });
   },
