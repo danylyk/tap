@@ -1,8 +1,6 @@
 import {Canvas} from "@react-three/fiber/native";
 import React, {Suspense} from "react";
 
-import {Camera} from "./components/camera";
-
 export default function Module({children}: {children?: React.ReactNode}) {
   return (
     <Canvas
@@ -20,8 +18,6 @@ export default function Module({children}: {children?: React.ReactNode}) {
     >
       <directionalLight position={[-60, 120, -90]} />
       <ambientLight />
-
-      <Camera />
 
       <Suspense>{children}</Suspense>
     </Canvas>

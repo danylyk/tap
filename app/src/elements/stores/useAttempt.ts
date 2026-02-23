@@ -1,4 +1,4 @@
-export const state = {
+const store = {
   time: 0,
   speed: 0,
   history: [] as {
@@ -10,11 +10,8 @@ export const state = {
       z: number;
     };
   }[],
-};
-
-const store = {
   get position() {
-    const moves = state.history;
+    const moves = this.history;
     const move = moves[moves.length - 1];
 
     if (!move) {
@@ -24,7 +21,7 @@ const store = {
       };
     }
 
-    const t = state.time - move.time;
+    const t = this.time - move.time;
 
     const position = {
       x: Math.round(move.position.x),
@@ -42,8 +39,8 @@ const store = {
     };
 
     const distance = {
-      x: move.direction === "x" ? t * state.speed : 0,
-      z: move.direction === "z" ? t * state.speed : 0,
+      x: move.direction === "x" ? t * this.speed : 0,
+      z: move.direction === "z" ? t * this.speed : 0,
     };
 
     return {
@@ -51,18 +48,18 @@ const store = {
       z: place.z + distance.z,
     };
   },
-  load: () => {
-    state.time = 0;
-    state.history = [];
+  load() {
+    this.time = 0;
+    this.history = [];
   },
-  set: ({speed}: {speed: number}) => {
-    state.speed = speed;
+  set({speed}: {speed: number}) {
+    this.speed = speed;
   },
-  tick: ({delta}: {delta: number}) => {
-    state.time += delta;
+  tick({delta}: {delta: number}) {
+    this.time += delta;
   },
-  start: () => {
-    state.history.push({
+  start() {
+    this.history.push({
       time: 0,
       type: "start",
       direction: "z",
@@ -72,22 +69,22 @@ const store = {
       },
     });
   },
-  finish: ({
+  finish({
     position,
   }: {
     position: {
       x: number;
       z: number;
     };
-  }) => {
-    const move = state.history[state.history.length - 1];
+  }) {
+    const move = this.history[this.history.length - 1];
 
     if (!move) {
       return;
     }
 
-    state.history.push({
-      time: state.time,
+    this.history.push({
+      time: this.time,
       type: "finish",
       direction: move.direction,
       position: {
@@ -96,22 +93,22 @@ const store = {
       },
     });
   },
-  break: ({
+  break({
     position,
   }: {
     position: {
       x: number;
       z: number;
     };
-  }) => {
-    const move = state.history[state.history.length - 1];
+  }) {
+    const move = this.history[this.history.length - 1];
 
     if (!move) {
       return;
     }
 
-    state.history.push({
-      time: state.time,
+    this.history.push({
+      time: this.time,
       type: "break",
       direction: move.direction,
       position: {
@@ -120,22 +117,22 @@ const store = {
       },
     });
   },
-  move: ({
+  move({
     position,
   }: {
     position: {
       x: number;
       z: number;
     };
-  }) => {
-    const move = state.history[state.history.length - 1];
+  }) {
+    const move = this.history[this.history.length - 1];
 
     if (!move) {
       return;
     }
 
-    state.history.push({
-      time: state.time,
+    this.history.push({
+      time: this.time,
       type: "move",
       direction: move.direction === "x" ? "z" : "x",
       position: {
@@ -151,7 +148,7 @@ function useStore<T>(selector: (state: typeof store) => T) {
 }
 
 useStore.getState = () => {
-  return state;
+  return store;
 };
 
 export default useStore;

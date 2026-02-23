@@ -5,7 +5,7 @@ import useEnvironment from "@/elements/stores/useEnvironment";
 export default function Module({
   ...props
 }: React.ComponentProps<typeof Pressable>) {
-  const {status, start} = useEnvironment();
+  const {status, open} = useEnvironment();
 
   if (["none"].includes(status) === false) {
     return null;
@@ -14,7 +14,7 @@ export default function Module({
   return (
     <Pressable
       onPress={() => {
-        start();
+        open();
       }}
       {...props}
     />

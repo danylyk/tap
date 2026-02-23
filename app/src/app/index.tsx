@@ -3,6 +3,7 @@ import {View} from "react-native";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 
 import Attempt from "@/modules/game-attempt";
+import Camera from "@/modules/game-camera";
 import Enter from "@/modules/game-enter";
 import Exit from "@/modules/game-exit";
 import Map from "@/modules/game-map";
@@ -15,7 +16,8 @@ export default function Page() {
       <SafeAreaView style={{flex: 1}}>
         <View className="absolute inset-0 z-10">
           <Scene>
-            <Player speed={10} />
+            <Camera />
+            <Player />
             <Map />
           </Scene>
         </View>
@@ -23,7 +25,7 @@ export default function Page() {
         <View className="relative z-20 h-0">
           <View className="flex grow flex-row justify-between items-start m-6 h-0">
             <Attempt className="h-12" />
-            <Exit className="h-12" />
+            <Exit className="h-18" />
           </View>
         </View>
       </SafeAreaView>

@@ -8,8 +8,10 @@ export function useCameraLink({ref}: {ref: RefObject<Group | null>}) {
   });
 
   useEffect(() => {
-    if (ref.current) {
-      ref.current.add(camera);
+    if (!ref.current) {
+      return;
     }
+
+    ref.current.add(camera);
   }, [camera, ref]);
 }

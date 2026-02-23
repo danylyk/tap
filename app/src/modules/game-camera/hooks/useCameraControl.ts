@@ -34,18 +34,20 @@ export function useCameraControl({
 
   useEffect(() => {
     function onClose() {
-      if (camera.current) {
-        transition.to(
-          {
-            x: 0,
-            z: 0,
-          },
-          {
-            x: camera.current.position.x - 1,
-            z: camera.current.position.z - 1,
-          },
-        );
+      if (!camera.current) {
+        return;
       }
+
+      transition.to(
+        {
+          x: 0,
+          z: 0,
+        },
+        {
+          x: camera.current.position.x - 1,
+          z: camera.current.position.z - 1,
+        },
+      );
     }
 
     events.on("close", onClose);
