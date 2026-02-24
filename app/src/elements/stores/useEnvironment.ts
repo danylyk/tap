@@ -11,7 +11,10 @@ export default create<{
   };
   sections: {
     model: string;
-    position: number;
+    position: {
+      x: number;
+      z: number;
+    };
   }[];
   duration: number;
   load: (payload: {
@@ -22,7 +25,10 @@ export default create<{
     };
     sections: {
       model: string;
-      position: number;
+      position: {
+        x: number;
+        z: number;
+      };
     }[];
     duration: number;
   }) => void;
@@ -48,7 +54,10 @@ export default create<{
       };
       sections: {
         model: string;
-        position: number;
+        position: {
+          x: number;
+          z: number;
+        };
       }[];
       duration: number;
     }) => {

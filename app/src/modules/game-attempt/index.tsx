@@ -1,13 +1,9 @@
 import {useRef} from "react";
 import {Text, View} from "react-native";
 
-import {useStart} from "./hooks/useStart";
-
 export default function Module({...props}: React.ComponentProps<typeof View>) {
   const progress = useRef<Text | null>(null);
   const attempt = useRef<Text | null>(null);
-
-  useStart();
 
   return (
     <View {...props}>

@@ -1,3 +1,5 @@
+import {events} from "@/elements/events/game";
+
 const store = {
   time: 0,
   speed: 0,
@@ -10,9 +12,14 @@ const store = {
       z: number;
     };
   }[],
-  get position() {
-    const moves = this.history;
+  get action() {
+    const moves = store.history;
     const move = moves[moves.length - 1];
+
+    return move;
+  },
+  get position() {
+    const move = store.action;
 
     if (!move) {
       return {
@@ -21,7 +28,7 @@ const store = {
       };
     }
 
-    const t = this.time - move.time;
+    const t = store.time - move.time;
 
     const position = {
       x: Math.round(move.position.x),
@@ -39,8 +46,8 @@ const store = {
     };
 
     const distance = {
-      x: move.direction === "x" ? t * this.speed : 0,
-      z: move.direction === "z" ? t * this.speed : 0,
+      x: move.direction === "x" ? t * store.speed : 0,
+      z: move.direction === "z" ? t * store.speed : 0,
     };
 
     return {
@@ -48,18 +55,19 @@ const store = {
       z: place.z + distance.z,
     };
   },
-  load() {
-    this.time = 0;
-    this.history = [];
+  load: () => {
+    store.time = 0;
+    store.history = [];
   },
-  set({speed}: {speed: number}) {
-    this.speed = speed;
+  set: ({speed}: {speed: number}) => {
+    store.speed = speed;
   },
-  tick({delta}: {delta: number}) {
-    this.time += delta;
+  tick: ({delta}: {delta: number}) => {
+    store.time += delta;
+    events.emit("tick");
   },
-  start() {
-    this.history.push({
+  start: () => {
+    store.history.push({
       time: 0,
       type: "start",
       direction: "z",
@@ -69,22 +77,22 @@ const store = {
       },
     });
   },
-  finish({
+  finish: ({
     position,
   }: {
     position: {
       x: number;
       z: number;
     };
-  }) {
-    const move = this.history[this.history.length - 1];
+  }) => {
+    const move = store.history[store.history.length - 1];
 
     if (!move) {
       return;
     }
 
-    this.history.push({
-      time: this.time,
+    store.history.push({
+      time: store.time,
       type: "finish",
       direction: move.direction,
       position: {
@@ -93,22 +101,22 @@ const store = {
       },
     });
   },
-  break({
+  break: ({
     position,
   }: {
     position: {
       x: number;
       z: number;
     };
-  }) {
-    const move = this.history[this.history.length - 1];
+  }) => {
+    const move = store.history[store.history.length - 1];
 
     if (!move) {
       return;
     }
 
-    this.history.push({
-      time: this.time,
+    store.history.push({
+      time: store.time,
       type: "break",
       direction: move.direction,
       position: {
@@ -117,22 +125,22 @@ const store = {
       },
     });
   },
-  move({
+  move: ({
     position,
   }: {
     position: {
       x: number;
       z: number;
     };
-  }) {
-    const move = this.history[this.history.length - 1];
+  }) => {
+    const move = store.history[store.history.length - 1];
 
     if (!move) {
       return;
     }
 
-    this.history.push({
-      time: this.time,
+    store.history.push({
+      time: store.time,
       type: "move",
       direction: move.direction === "x" ? "z" : "x",
       position: {
@@ -143,7 +151,9 @@ const store = {
   },
 };
 
-function useStore<T>(selector: (state: typeof store) => T) {
+function useStore<T = typeof store>(
+  selector: (state: typeof store) => T = (state) => state as T,
+) {
   return selector(store);
 }
 

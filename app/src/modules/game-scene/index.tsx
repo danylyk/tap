@@ -1,5 +1,7 @@
 import {Canvas} from "@react-three/fiber/native";
-import React, {Suspense} from "react";
+import React from "react";
+
+import {Scene} from "./components/scene";
 
 export default function Module({children}: {children?: React.ReactNode}) {
   return (
@@ -19,7 +21,7 @@ export default function Module({children}: {children?: React.ReactNode}) {
       <directionalLight position={[-60, 120, -90]} />
       <ambientLight />
 
-      <Suspense>{children}</Suspense>
+      <Scene>{children}</Scene>
     </Canvas>
   );
 }

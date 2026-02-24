@@ -3,78 +3,46 @@ import {RefObject, useEffect} from "react";
 import {Group} from "three";
 
 import {events} from "@/elements/events/game";
-import useGame from "@/elements/stores/game";
+import useAttempt from "@/elements/stores/useAttempt";
+import useEnvironment from "@/elements/stores/useEnvironment";
 
-export function usePlayerMovement({
-  ref,
-  speed,
-}: {
-  ref: RefObject<Group | null>;
-  speed: number;
-}) {
-  const reset = useGame((state) => {
-    return state.reset;
-  });
-
-  useFrame(({clock}) => {
+export function usePlayerMovement({ref}: {ref: RefObject<Group | null>}) {
+  useFrame(() => {
     if (!ref.current) {
       return;
     }
 
-    const {moves} = useGame.getState();
-    const move = moves[moves.length - 1];
+    const {status} = useEnvironment.getState();
 
-    if (!move) {
+    if (status !== "started") {
       return;
     }
 
-    const t = clock.elapsedTime - move.time;
+    const {position} = useAttempt.getState();
 
-    const position = {
-      x: Math.round(move.position.x),
-      z: Math.round(move.position.z),
+    const point = {
+      x: position.x,
+      z: position.z,
     };
 
-    const offset = {
-      x: move.direction === "x" ? move.position.z - position.z : 0,
-      z: move.direction === "z" ? move.position.x - position.x : 0,
-    };
-
-    const place = {
-      x: position.x + offset.x,
-      z: position.z + offset.z,
-    };
-
-    const distance = {
-      x: move.direction === "x" ? t * speed : 0,
-      z: move.direction === "z" ? t * speed : 0,
-    };
-
-    const active = {
-      x: place.x + distance.x,
-      z: place.z + distance.z,
-    };
-
-    ref.current.position.set(active.x, 0, active.z);
+    ref.current.position.set(point.x, 0, point.z);
   });
 
   useEffect(() => {
-    function onStop() {
-      reset();
-    }
-
-    function onClose() {
-      if (ref.current) {
-        ref.current.position.set(1, 0, 1);
+    function onReset() {
+      if (!ref.current) {
+        return;
       }
+
+      ref.current.position.set(1, 0, 1);
     }
 
-    events.on("stop", onStop);
-    events.on("close", onClose);
+    events.on("open", onReset);
+    events.on("close", onReset);
 
     return () => {
-      events.off("stop", onStop);
-      events.off("close", onClose);
+      events.off("open", onReset);
+      events.off("close", onReset);
     };
-  }, [ref, reset]);
+  }, [ref]);
 }

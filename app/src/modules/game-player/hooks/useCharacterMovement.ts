@@ -4,8 +4,8 @@ import {Group, MathUtils} from "three";
 
 import {events} from "@/elements/events/game";
 import {useTransition} from "@/elements/hooks/useTransition";
-import useGame from "@/elements/stores/game";
-import useScene from "@/elements/stores/scene";
+import useAttempt from "@/elements/stores/useAttempt";
+import useEnvironment from "@/elements/stores/useEnvironment";
 
 export function useCharacterMovement({
   ref,
@@ -44,58 +44,40 @@ export function useCharacterMovement({
         return;
       }
 
-      const {status} = useScene.getState();
+      const {status} = useEnvironment.getState();
 
-      if (status !== "playing") {
+      if (status !== "started") {
         return;
       }
 
-      const {moves} = useGame.getState();
-      const move = moves[moves.length - 1];
+      const {position} = useAttempt.getState();
 
-      if (!move) {
-        return;
-      }
-
-      const position = {
-        x: Math.round(move.position.x),
-        z: Math.round(move.position.z),
+      const point = {
+        x: player.current.position.x - position.x + ref.current.position.x,
+        z: player.current.position.z - position.z + ref.current.position.z,
       };
 
-      const offset = {
-        x: move.direction === "x" ? move.position.z - position.z : 0,
-        z: move.direction === "z" ? move.position.x - position.x : 0,
-      };
-
-      const place = {
-        x: position.x + offset.x,
-        z: position.z + offset.z,
-      };
-
-      const active = {
-        x: player.current.position.x - place.x + ref.current.position.x,
-        z: player.current.position.z - place.z + ref.current.position.z,
-      };
-
-      transition.to({x: 0, z: 0}, {x: active.x, z: active.z});
+      transition.to({x: 0, z: 0}, {x: point.x, z: point.z});
     }
 
     function onStop() {
       transition.stop();
     }
 
-    function onClose() {
+    function onReset() {
       transition.to({x: 0, z: 0}, {x: 0, z: 0});
     }
 
     events.on("tap", onTap);
     events.on("stop", onStop);
-    events.on("close", onClose);
+    events.on("open", onReset);
+    events.on("close", onReset);
 
     return () => {
       events.off("tap", onTap);
       events.off("stop", onStop);
-      events.off("close", onClose);
+      events.off("open", onReset);
+      events.off("close", onReset);
     };
   }, [ref, player, transition]);
 }

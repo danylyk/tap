@@ -1,74 +1,45 @@
-import {useThree} from "@react-three/fiber";
-import {selectionAsync} from "expo-haptics";
 import {RefObject, useEffect} from "react";
 import {Group} from "three";
 
 import {events} from "@/elements/events/game";
-import useGame from "@/elements/stores/game";
-import useScene from "@/elements/stores/scene";
+import useAttempt from "@/elements/stores/useAttempt";
+import useEnvironment from "@/elements/stores/useEnvironment";
 
 export function usePlayerControl({ref}: {ref: RefObject<Group | null>}) {
-  const clock = useThree((state) => {
-    return state.clock;
-  });
-
-  const start = useScene((state) => {
-    return state.start;
-  });
-
-  const move = useGame((state) => {
-    return state.move;
-  });
-
-  const reset = useGame((state) => {
-    return state.reset;
-  });
-
   useEffect(() => {
     function onTap() {
       if (!ref.current) {
         return;
       }
 
-      const {status} = useScene.getState();
+      const {status} = useEnvironment.getState();
 
-      if (status === "playing") {
-        move({
-          time: clock.elapsedTime,
-          position: {
-            x: ref.current.position.x,
-            z: ref.current.position.z,
-          },
-        });
-
-        selectionAsync();
+      if (status !== "started") {
+        return;
       }
 
-      if (status === "starting") {
-        start();
+      const {time} = useAttempt.getState();
 
-        move({
-          time: clock.elapsedTime,
-          position: {
-            x: ref.current.position.x,
-            z: ref.current.position.z,
-          },
-        });
-
-        selectionAsync();
+      if (time === 0) {
+        return;
       }
-    }
 
-    function onClose() {
-      reset();
+      const {position, move} = useAttempt.getState();
+
+      const point = {
+        x: position.x,
+        z: position.z,
+      };
+
+      move({
+        position: point,
+      });
     }
 
     events.on("tap", onTap);
-    events.on("close", onClose);
 
     return () => {
       events.off("tap", onTap);
-      events.off("close", onClose);
     };
-  }, [ref, clock, move, start, reset]);
+  }, [ref]);
 }

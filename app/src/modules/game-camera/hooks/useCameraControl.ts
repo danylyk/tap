@@ -23,7 +23,7 @@ export function useCameraControl({
       };
     },
     easing: (t) => {
-      return easing.expo.out(t);
+      return easing.quint.out(t);
     },
     update: (value) => {
       if (ref.current) {
@@ -33,8 +33,8 @@ export function useCameraControl({
   });
 
   useEffect(() => {
-    function onClose() {
-      if (!camera.current) {
+    function onReset() {
+      if (!ref.current || !camera.current) {
         return;
       }
 
@@ -44,16 +44,18 @@ export function useCameraControl({
           z: 0,
         },
         {
-          x: camera.current.position.x - 1,
-          z: camera.current.position.z - 1,
+          x: camera.current.position.x - 1 + ref.current.position.x,
+          z: camera.current.position.z - 1 + ref.current.position.z,
         },
       );
     }
 
-    events.on("close", onClose);
+    events.on("open", onReset);
+    events.on("close", onReset);
 
     return () => {
-      events.off("close", onClose);
+      events.off("open", onReset);
+      events.off("close", onReset);
     };
   }, [ref, camera, transition]);
 }

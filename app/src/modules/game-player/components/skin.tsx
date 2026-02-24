@@ -4,7 +4,8 @@ import {useEffect, useMemo, useRef} from "react";
 import {LoopOnce} from "three";
 
 import {events} from "@/elements/events/game";
-import useGame from "@/elements/stores/game";
+import useAttempt from "@/elements/stores/useAttempt";
+import useEnvironment from "@/elements/stores/useEnvironment";
 
 export function Skin() {
   const direction = useRef("z");
@@ -29,21 +30,26 @@ export function Skin() {
   }, [actions]);
 
   useFrame(() => {
-    const {moves} = useGame.getState();
-    const move = moves[moves.length - 1];
+    const {status} = useEnvironment.getState();
 
-    if (!move) {
+    if (status !== "started") {
       return;
     }
 
-    if (move.direction === direction.current) {
+    const {action} = useAttempt.getState();
+
+    if (!action) {
       return;
     }
 
-    direction.current = move.direction;
+    if (action.direction === direction.current) {
+      return;
+    }
 
-    const current = move.direction === "z" ? "x" : "z";
-    const next = move.direction === "z" ? "z" : "x";
+    direction.current = action.direction;
+
+    const current = action.direction === "z" ? "x" : "z";
+    const next = action.direction === "z" ? "z" : "x";
 
     const actions = {
       current: states.actions[current],
@@ -71,7 +77,7 @@ export function Skin() {
   });
 
   useEffect(() => {
-    function onClose() {
+    function onReset() {
       for (const name of names) {
         const action = actions[name];
 
@@ -84,10 +90,12 @@ export function Skin() {
       direction.current = "z";
     }
 
-    events.on("close", onClose);
+    events.on("close", onReset);
+    events.on("open", onReset);
 
     return () => {
-      events.off("close", onClose);
+      events.off("close", onReset);
+      events.off("open", onReset);
     };
   }, [actions, names]);
 

@@ -53,3 +53,27 @@ export function forWith<T1, T2>(
     return callback(helper, value, index, array);
   });
 }
+
+export async function wait(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+export async function when<T extends readonly unknown[]>(
+  values: readonly [...T],
+) {
+  const [, ...result] = await Promise.allSettled([wait(300), ...values]);
+
+  for (const item of result) {
+    if (item.status === "rejected") {
+      throw item.reason;
+    }
+  }
+
+  return result.map((item) => {
+    return (item as PromiseFulfilledResult<unknown>).value;
+  }) as {
+    [K in keyof T]: Awaited<T[K]>;
+  };
+}
