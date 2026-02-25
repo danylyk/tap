@@ -20,18 +20,10 @@ export default function Module({
         id,
       });
 
-      const start = {
-        x: Math.min(...document.positions.map(({x}) => x)),
-        z: Math.min(...document.positions.map(({z}) => z)),
-      };
-
-      const end = {
-        x: Math.max(...document.positions.map(({x}) => x)),
-        z: Math.max(...document.positions.map(({z}) => z)),
-      };
+      const finish = document.sections[document.sections.length - 1];
 
       return {
-        size: end.x - start.x + end.z - start.z,
+        size: finish.offset * 2,
         duration: document.duration,
         boundaries: document.boundaries,
         positions: new Set(
