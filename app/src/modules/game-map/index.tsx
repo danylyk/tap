@@ -1,3 +1,5 @@
+import {Suspense} from "react";
+
 import useEnvironment from "@/elements/stores/useEnvironment";
 
 import {Skin} from "./components/skin";
@@ -8,6 +10,10 @@ export default function Module() {
   });
 
   return sections.map(({model, position}, i) => {
-    return <Skin key={i} position={position} link={model} />;
+    return (
+      <Suspense key={i}>
+        <Skin position={position} link={model} />
+      </Suspense>
+    );
   });
 }

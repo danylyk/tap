@@ -1,4 +1,4 @@
-import {useRef} from "react";
+import {Suspense, useRef} from "react";
 import {Group} from "three";
 
 import {Skin} from "./components/skin";
@@ -26,7 +26,9 @@ export default function Module() {
   return (
     <group ref={player} position={[1, 0, 1]}>
       <group ref={character}>
-        <Skin />
+        <Suspense>
+          <Skin />
+        </Suspense>
       </group>
     </group>
   );
