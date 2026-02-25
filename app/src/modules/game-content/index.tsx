@@ -1,4 +1,3 @@
-import _ from "lodash";
 import {useEffect} from "react";
 import {Text} from "react-native";
 
@@ -21,7 +20,18 @@ export default function Module({
         id,
       });
 
+      const start = {
+        x: Math.min(...document.positions.map(({x}) => x)),
+        z: Math.min(...document.positions.map(({z}) => z)),
+      };
+
+      const end = {
+        x: Math.max(...document.positions.map(({x}) => x)),
+        z: Math.max(...document.positions.map(({z}) => z)),
+      };
+
       return {
+        size: end.x - start.x + end.z - start.z,
         duration: document.duration,
         boundaries: document.boundaries,
         positions: new Set(
@@ -53,7 +63,7 @@ export default function Module({
 
   useEffect(() => {
     async function action() {
-      const {duration, sections, positions, boundaries} = await request({
+      const {size, duration, sections, positions, boundaries} = await request({
         id,
       });
 
@@ -63,12 +73,6 @@ export default function Module({
         sections,
         duration,
       });
-
-      const size = _.sumBy(sections, ({size}) => {
-        return size;
-      });
-
-      console.log(size, duration);
 
       set({
         speed: size / duration,
