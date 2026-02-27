@@ -24,12 +24,8 @@ export default function Page() {
             </Scene>
           </View>
           <Enter className="absolute inset-0 z-15 bg-primary/10" />
-          <View className="relative z-20 h-0">
-            <View className="flex grow flex-row justify-between items-start m-6 h-0">
-              <Attempt className="h-12" />
-              <Exit className="h-18" />
-            </View>
-          </View>
+          <Attempt className="absolute left-6 top-6 z-20 select-none" />
+          <Exit className="absolute right-6 top-6 z-20 select-none" />
         </Content>
       </SafeAreaView>
     </SafeAreaProvider>
