@@ -1,6 +1,6 @@
 import {useAnimations} from "@react-three/drei/native";
 import {useEffect} from "react";
-import {LoopOnce} from "three";
+import {LoopOnce, LoopRepeat} from "three";
 
 import {useModel} from "@/elements/hooks/useModel";
 
@@ -20,6 +20,16 @@ export function Skin() {
     actions["spawn"].clampWhenFinished = true;
     actions["spawn"].setLoop(LoopOnce, 0);
     actions["spawn"].play();
+
+    if (!actions["default"]) {
+      return;
+    }
+
+    const {duration} = actions["spawn"].getClip();
+
+    actions["spawn"].crossFadeTo(actions["default"], duration, true);
+    actions["default"].setLoop(LoopRepeat, Infinity);
+    actions["default"].play();
   }, [actions]);
 
   return (
