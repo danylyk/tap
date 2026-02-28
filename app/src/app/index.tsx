@@ -26,8 +26,10 @@ export default function Page() {
             </Scene>
           </View>
           <Enter className="absolute inset-0 z-15 bg-primary/10" />
-          <Attempt className="absolute left-6 top-6 z-20 select-none" />
-          <Exit className="absolute right-6 top-6 z-20 select-none" />
+          <View className="relative z-20">
+            <Attempt className="absolute left-6 top-6 select-none" />
+            <Exit className="absolute right-6 top-6 select-none" />
+          </View>
         </Content>
       </SafeAreaView>
     </SafeAreaProvider>
