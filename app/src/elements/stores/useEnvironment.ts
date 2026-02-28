@@ -4,6 +4,7 @@ import {events} from "@/elements/events/game";
 
 export default create<{
   status: "none" | "opened" | "started" | "stopped";
+  attempt: number;
   positions: Set<string>;
   boundaries: {
     x: Record<number, number[]>;
@@ -24,6 +25,7 @@ export default create<{
   }[];
   duration: number;
   load: (payload: {
+    attempt: number;
     positions: Set<string>;
     boundaries: {
       x: Record<number, number[]>;
@@ -58,25 +60,13 @@ export default create<{
     positions: new Set(),
     sections: [],
     marks: [],
+    attempt: 0,
     duration: 0,
-    load: (payload: {
-      positions: Set<string>;
-      boundaries: {
-        x: Record<number, number[]>;
-        z: Record<number, number[]>;
-      };
-      sections: {
-        model: string;
-        position: {
-          x: number;
-          z: number;
-        };
-      }[];
-      duration: number;
-    }) => {
+    load: (payload) => {
       set(() => {
         return {
           status: "none",
+          attempt: payload.attempt,
           positions: payload.positions,
           boundaries: payload.boundaries,
           sections: payload.sections,
@@ -85,9 +75,10 @@ export default create<{
       });
     },
     open: () => {
-      set(() => {
+      set((state) => {
         return {
           status: "opened",
+          attempt: state.marks.length,
         };
       });
 
@@ -120,7 +111,7 @@ export default create<{
 
       events.emit("close");
     },
-    mark: ({position}: {position: {x: number; z: number}}) => {
+    mark: ({position}) => {
       set((state) => {
         return {
           marks: [

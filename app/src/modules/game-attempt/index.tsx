@@ -1,5 +1,6 @@
 import {Text, View} from "react-native";
 
+import {Attempt} from "./components/attempt";
 import {Progress} from "./components/progress";
 
 export default function Module({...props}: React.ComponentProps<typeof View>) {
@@ -10,7 +11,7 @@ export default function Module({...props}: React.ComponentProps<typeof View>) {
         <Text className="text-2xl">%</Text>
       </Text>
       <Text className="text-base text-primary/40">
-        ATTEMPT <Text>1</Text>
+        ATTEMPT <Attempt />
       </Text>
     </View>
   );

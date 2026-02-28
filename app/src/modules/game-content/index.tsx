@@ -24,6 +24,7 @@ export default function Module({
 
       return {
         size: finish.offset * 2,
+        attempt: document.attempt,
         duration: document.duration,
         boundaries: document.boundaries,
         positions: new Set(
@@ -55,11 +56,13 @@ export default function Module({
 
   useEffect(() => {
     async function action() {
-      const {size, duration, sections, positions, boundaries} = await request({
-        id,
-      });
+      const {attempt, size, duration, sections, positions, boundaries} =
+        await request({
+          id,
+        });
 
       load({
+        attempt,
         positions,
         boundaries,
         sections,

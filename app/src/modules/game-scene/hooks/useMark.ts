@@ -26,8 +26,8 @@ export function useMark() {
         z: Math.round(position.z),
       };
 
-      const xs = boundaries.z[point.z].reverse();
-      const zs = boundaries.x[point.x].reverse();
+      const xs = boundaries.z[point.z]?.reverse() ?? [point.x];
+      const zs = boundaries.x[point.x]?.reverse() ?? [point.z];
 
       const x = xs.find((x) => {
         return point.x >= x;
