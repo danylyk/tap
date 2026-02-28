@@ -1,17 +1,15 @@
-import {useAnimations, useGLTF} from "@react-three/drei/native";
-import {useEffect, useMemo, useRef} from "react";
+import {useAnimations} from "@react-three/drei/native";
+import {useEffect} from "react";
 import {LoopOnce} from "three";
-import {SkeletonUtils} from "three-stdlib";
+
+import {useModel} from "@/elements/hooks/useModel";
 
 export function Skin() {
-  const {scene, animations} = useGLTF(
-    "https://content.combostreak.com/tap/marks/f0d98d8fe81c07a08f72d12c8c86f0f0.glb",
-  );
+  const {scene, ref, animations} = useModel({
+    link: "https://content.combostreak.com/tap/marks/f0d98d8fe81c07a08f72d12c8c86f0f0.glb",
+  });
 
-  const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
-  const groupRef = useRef(null);
-
-  const {actions} = useAnimations(animations, groupRef);
+  const {actions} = useAnimations(animations, ref);
 
   useEffect(() => {
     if (!actions["spawn"]) {
@@ -25,8 +23,8 @@ export function Skin() {
   }, [actions]);
 
   return (
-    <group ref={groupRef} position={[0.5, 0, 0.5]} scale={[3, 3, 3]}>
-      <primitive object={clone} />
+    <group ref={ref} position={[0.5, 0, 0.5]} scale={[3, 3, 3]}>
+      <primitive object={scene} />
     </group>
   );
 }

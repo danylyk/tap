@@ -1,20 +1,21 @@
-import {useAnimations, useGLTF} from "@react-three/drei/native";
+import {useAnimations} from "@react-three/drei/native";
 import {useFrame} from "@react-three/fiber/native";
 import {useEffect, useMemo, useRef} from "react";
 import {LoopOnce} from "three";
 
 import {events} from "@/elements/events/game";
+import {useModel} from "@/elements/hooks/useModel";
 import useAttempt from "@/elements/stores/useAttempt";
 import useEnvironment from "@/elements/stores/useEnvironment";
 
 export function Skin() {
   const direction = useRef("z");
 
-  const {scene, animations} = useGLTF(
-    "https://content.combostreak.com/tap/skins/1428d81a2f35e1714ff0bd0ea5e139f4.glb",
-  );
+  const {scene, ref, animations} = useModel({
+    link: "https://content.combostreak.com/tap/skins/1428d81a2f35e1714ff0bd0ea5e139f4.glb",
+  });
 
-  const {actions, names} = useAnimations(animations, scene);
+  const {actions, names} = useAnimations(animations, ref);
 
   const states = useMemo(() => {
     return {
@@ -100,7 +101,7 @@ export function Skin() {
   }, [actions, names]);
 
   return (
-    <group position={[0.5, 0, 0.5]} scale={[3, 3, 3]}>
+    <group ref={ref} position={[0.5, 0, 0.5]} scale={[3, 3, 3]}>
       <primitive object={scene} />
     </group>
   );

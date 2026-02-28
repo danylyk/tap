@@ -1,4 +1,6 @@
-import {Clone, useGLTF} from "@react-three/drei/native";
+import {Clone} from "@react-three/drei/native";
+
+import {useModel} from "@/elements/hooks/useModel";
 
 export function Skin({
   position,
@@ -7,10 +9,12 @@ export function Skin({
   position: {x: number; z: number};
   link: string;
 }) {
-  const {scene} = useGLTF(link);
+  const {scene, ref} = useModel({
+    link,
+  });
 
   return (
-    <group position={[position.x, 0, position.z]} scale={[3, 3, 3]}>
+    <group ref={ref} position={[position.x, 0, position.z]} scale={[3, 3, 3]}>
       <Clone object={scene} />
     </group>
   );
