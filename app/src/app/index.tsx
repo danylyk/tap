@@ -7,9 +7,10 @@ import Camera from "@/modules/game-camera";
 import Content from "@/modules/game-content";
 import Enter from "@/modules/game-enter";
 import Exit from "@/modules/game-exit";
-import Map from "@/modules/game-map";
+import Marks from "@/modules/game-marks";
 import Player from "@/modules/game-player";
 import Scene from "@/modules/game-scene";
+import Sections from "@/modules/game-sections";
 
 export default function Page() {
   return (
@@ -20,7 +21,8 @@ export default function Page() {
             <Scene>
               <Camera />
               <Player />
-              <Map />
+              <Sections />
+              <Marks />
             </Scene>
           </View>
           <Enter className="absolute inset-0 z-15 bg-primary/10" />

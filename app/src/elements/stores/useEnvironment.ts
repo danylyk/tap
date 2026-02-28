@@ -16,6 +16,12 @@ export default create<{
       z: number;
     };
   }[];
+  marks: {
+    position: {
+      x: number;
+      z: number;
+    };
+  }[];
   duration: number;
   load: (payload: {
     positions: Set<string>;
@@ -36,6 +42,12 @@ export default create<{
   start: () => void;
   stop: () => void;
   close: () => void;
+  mark: (payload: {
+    position: {
+      x: number;
+      z: number;
+    };
+  }) => void;
 }>((set) => {
   return {
     status: "none",
@@ -45,6 +57,7 @@ export default create<{
     },
     positions: new Set(),
     sections: [],
+    marks: [],
     duration: 0,
     load: (payload: {
       positions: Set<string>;
@@ -106,6 +119,18 @@ export default create<{
       });
 
       events.emit("close");
+    },
+    mark: ({position}: {position: {x: number; z: number}}) => {
+      set((state) => {
+        return {
+          marks: [
+            ...state.marks,
+            {
+              position: position,
+            },
+          ],
+        };
+      });
     },
   };
 });

@@ -7,4 +7,10 @@ export const events = mitt<{
   start: void;
   stop: void;
   close: void;
+  break: {
+    position: {
+      x: number;
+      z: number;
+    };
+  };
 }>();
