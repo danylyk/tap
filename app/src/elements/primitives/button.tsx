@@ -85,7 +85,10 @@ function Button({
     >
       <Animated.View
         style={animatedStyle}
-        className={cn(buttonVariants({variant, size, className}))}
+        className={cn(
+          "pointer-events-none",
+          buttonVariants({variant, size, className}),
+        )}
       >
         {React.Children.map(children, (child, i) => {
           if (typeof child === "string" && child.trim()) {
