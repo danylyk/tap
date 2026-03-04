@@ -11,11 +11,13 @@ export function useAnimator({
   names: string[];
 }) {
   const active = useRef<string | null>(null);
-  const timer = useRef<number>(-1);
+  const timer = useRef<number | null>(null);
 
   useEffect(() => {
     return () => {
-      clearTimeout(timer.current);
+      if (timer.current !== null) {
+        clearTimeout(timer.current);
+      }
     };
   }, []);
 
@@ -48,7 +50,9 @@ export function useAnimator({
         delay?: number;
         repeatable?: boolean;
       }) {
-        clearTimeout(timer.current);
+        if (timer.current !== null) {
+          clearTimeout(timer.current);
+        }
 
         const current = active.current ?? "";
         const next = name;
