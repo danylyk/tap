@@ -48,7 +48,7 @@ export default function Module() {
     }
 
     function onStop() {
-      zoom.to(13.9);
+      zoom.to(18.8);
     }
 
     function onClose() {

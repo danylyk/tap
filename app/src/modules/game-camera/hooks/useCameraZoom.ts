@@ -24,7 +24,7 @@ export function useCameraZoom({zoom}: {zoom: number}) {
       return MathUtils.lerp(from, to, progress);
     },
     easing: (t) => {
-      return easing.expo.out(t);
+      return easing.quint.out(t);
     },
     update: (value) => {
       camera.zoom = value * modifier.current;

@@ -4,6 +4,7 @@ import {Group, MathUtils} from "three";
 
 import {events} from "@/elements/events/game";
 import {useTransition} from "@/elements/hooks/useTransition";
+import useAttempt from "@/elements/stores/useAttempt";
 
 export function useCameraControl({
   ref,
@@ -50,12 +51,32 @@ export function useCameraControl({
       );
     }
 
+    function onStop() {
+      if (!ref.current || !camera.current) {
+        return;
+      }
+
+      const {position} = useAttempt.getState();
+
+      const root = {
+        x: (position.x + position.z) / 2,
+        z: (position.x + position.z) / 2,
+      };
+
+      transition.to({
+        x: position.x - root.x + 7,
+        z: position.z - root.z + 10,
+      });
+    }
+
     events.on("open", onReset);
     events.on("close", onReset);
+    events.on("stop", onStop);
 
     return () => {
       events.off("open", onReset);
       events.off("close", onReset);
+      events.off("stop", onStop);
     };
   }, [ref, camera, transition]);
 }
