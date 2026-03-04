@@ -12,7 +12,7 @@ export function usePlayerControl({ref}: {ref: RefObject<Group | null>}) {
         return;
       }
 
-      const {status} = useEnvironment.getState();
+      const {status, isAvailable} = useEnvironment.getState();
 
       if (status !== "started") {
         return;
@@ -30,6 +30,10 @@ export function usePlayerControl({ref}: {ref: RefObject<Group | null>}) {
         x: position.x,
         z: position.z,
       };
+
+      if (isAvailable(point) === false) {
+        return;
+      }
 
       move({
         position: point,

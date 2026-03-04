@@ -93,7 +93,7 @@ export function useAnimator({
             return;
           }
 
-          if (duration.current < 0.1 || duration.next < 0.1) {
+          if (duration.current < 0.015 || duration.next < 0.015) {
             state.current.stop();
             state.next.play();
             return;

@@ -6,7 +6,7 @@ import useEnvironment from "@/elements/stores/useEnvironment";
 
 export function useStop() {
   useFrame(() => {
-    const {status, positions, ...environment} = useEnvironment.getState();
+    const {status, isAvailable, ...environment} = useEnvironment.getState();
 
     if (status !== "started") {
       return;
@@ -19,9 +19,7 @@ export function useStop() {
       z: position.z,
     };
 
-    const key = `${Math.round(point.x)}:${Math.round(point.z)}`;
-
-    if (positions.has(key)) {
+    if (isAvailable(point) === true) {
       return;
     }
 

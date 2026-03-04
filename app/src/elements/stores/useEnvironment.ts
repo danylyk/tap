@@ -50,7 +50,8 @@ export default create<{
       z: number;
     };
   }) => void;
-}>((set) => {
+  isAvailable: (position: {x: number; z: number}) => boolean;
+}>((set, get) => {
   return {
     status: "none",
     boundaries: {
@@ -62,6 +63,9 @@ export default create<{
     marks: [],
     attempt: 0,
     duration: 0,
+    isAvailable: ({x, z}) => {
+      return get().positions.has(`${Math.round(x)}:${Math.round(z)}`);
+    },
     load: (payload) => {
       set(() => {
         return {
