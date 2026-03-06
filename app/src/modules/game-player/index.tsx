@@ -1,6 +1,7 @@
 import {Suspense, useRef} from "react";
 import {Group} from "three";
 
+import {Visible} from "@/elements/primitives/visible";
 import useEnvironment from "@/elements/stores/useEnvironment";
 
 import {Skin} from "./components/skin";
@@ -32,11 +33,11 @@ export default function Module() {
   return (
     <group ref={player} position={[1, 0, 1]}>
       <group ref={character}>
-        {status !== "stopped" && (
-          <Suspense>
+        <Suspense>
+          <Visible status={status !== "stopped"} delay={1000}>
             <Skin />
-          </Suspense>
-        )}
+          </Visible>
+        </Suspense>
       </group>
     </group>
   );

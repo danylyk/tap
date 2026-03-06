@@ -1,6 +1,7 @@
 import {uniqWith} from "lodash";
 import {Suspense} from "react";
 
+import {Visible} from "@/elements/primitives/visible";
 import useEnvironment from "@/elements/stores/useEnvironment";
 
 import {Skin} from "./components/skin";
@@ -20,7 +21,9 @@ export default function Module() {
       >
         <group>
           <Suspense>
-            <Skin />
+            <Visible status={true} delay={1000}>
+              <Skin />
+            </Visible>
           </Suspense>
         </group>
       </group>

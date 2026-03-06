@@ -4,7 +4,7 @@ import {useEffect} from "react";
 import {useAnimator} from "@/elements/hooks/useAnimator";
 import {useModel} from "@/elements/hooks/useModel";
 
-export function Skin() {
+export function Skin({isVisible}: {isVisible?: boolean}) {
   const {scene, ref, animations} = useModel({
     link: "https://content.combostreak.com/tap/marks/f0d98d8fe81c07a08f72d12c8c86f0f0.glb",
   });
@@ -17,6 +17,10 @@ export function Skin() {
   });
 
   useEffect(() => {
+    if (isVisible === false) {
+      return;
+    }
+
     play({
       name: "spawn",
     });
@@ -26,7 +30,17 @@ export function Skin() {
       repeatable: true,
       delay: 0.15,
     });
-  }, [play]);
+  }, [play, isVisible]);
+
+  useEffect(() => {
+    if (isVisible !== false) {
+      return;
+    }
+
+    play({
+      name: "destroy",
+    });
+  }, [play, isVisible]);
 
   return (
     <group ref={ref} position={[0.5, 0, 0.5]} scale={[3, 3, 3]}>

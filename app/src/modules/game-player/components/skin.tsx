@@ -8,7 +8,7 @@ import {useModel} from "@/elements/hooks/useModel";
 import useAttempt from "@/elements/stores/useAttempt";
 import useEnvironment from "@/elements/stores/useEnvironment";
 
-export function Skin() {
+export function Skin({isVisible}: {isVisible?: boolean}) {
   const direction = useRef("z");
 
   const {scene, ref, animations} = useModel({
@@ -23,6 +23,10 @@ export function Skin() {
   });
 
   useFrame(() => {
+    if (isVisible === false) {
+      return;
+    }
+
     const {status} = useEnvironment.getState();
 
     if (status !== "started") {
@@ -55,8 +59,12 @@ export function Skin() {
   });
 
   useEffect(() => {
+    if (isVisible === false) {
+      return () => {};
+    }
+
     function onReset() {
-      direction.current = "rotate-z";
+      direction.current = "x";
 
       if (state() === "spawn-z" || state() === "default-z") {
         return;
@@ -84,7 +92,31 @@ export function Skin() {
       events.off("close", onReset);
       events.off("open", onReset);
     };
-  }, [actions, names, play, reset, state]);
+  }, [actions, names, play, reset, state, isVisible]);
+
+  useEffect(() => {
+    if (isVisible !== false) {
+      return;
+    }
+
+    const {action} = useAttempt.getState();
+
+    if (!action) {
+      return;
+    }
+
+    if (action.direction === "z") {
+      play({
+        name: "destroy-z",
+      });
+
+      return;
+    }
+
+    play({
+      name: "destroy-x",
+    });
+  }, [play, isVisible]);
 
   return (
     <group ref={ref} position={[0.5, 0, 0.5]} scale={[3, 3, 3]}>
