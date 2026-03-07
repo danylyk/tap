@@ -11,9 +11,11 @@ export default function Module() {
     return state.marks;
   });
 
-  return uniqWith(marks, (a, b) => {
+  const a = uniqWith([...marks].reverse(), (a, b) => {
     return a.position.x === b.position.x && a.position.z === b.position.z;
-  }).map(({position}) => {
+  });
+
+  return a.map(({position}, i) => {
     return (
       <group
         key={`${position.x}:${position.z}`}
@@ -21,7 +23,7 @@ export default function Module() {
       >
         <group>
           <Suspense>
-            <Visible status={true} delay={1000}>
+            <Visible status={i < 10} delay={1000}>
               <Skin />
             </Visible>
           </Suspense>
