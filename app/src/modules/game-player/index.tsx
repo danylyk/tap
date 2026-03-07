@@ -1,7 +1,7 @@
 import {Suspense, useRef} from "react";
 import {Group} from "three";
 
-import {Visible} from "@/elements/primitives/visible";
+import {Visible} from "@/elements/components/visible";
 import useEnvironment from "@/elements/stores/useEnvironment";
 
 import {Skin} from "./components/skin";

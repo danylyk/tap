@@ -1,5 +1,6 @@
 import {Suspense} from "react";
 
+import {Culling} from "@/elements/components/culling";
 import useEnvironment from "@/elements/stores/useEnvironment";
 
 import {Skin} from "./components/skin";
@@ -9,11 +10,13 @@ export default function Module() {
     return state.sections;
   });
 
-  return sections.map(({model, position}, i) => {
+  return sections.map(({model, position, size}, i) => {
     return (
-      <Suspense key={i}>
-        <Skin position={position} link={model} />
-      </Suspense>
+      <Culling key={i} position={position} size={size}>
+        <Suspense>
+          <Skin position={position} link={model} />
+        </Suspense>
+      </Culling>
     );
   });
 }

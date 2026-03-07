@@ -1,7 +1,8 @@
 import {uniqWith} from "lodash";
 import {Suspense} from "react";
 
-import {Visible} from "@/elements/primitives/visible";
+import {Culling} from "@/elements/components/culling";
+import {Visible} from "@/elements/components/visible";
 import useEnvironment from "@/elements/stores/useEnvironment";
 
 import {Skin} from "./components/skin";
@@ -17,18 +18,17 @@ export default function Module() {
 
   return a.map(({position}, i) => {
     return (
-      <group
-        key={`${position.x}:${position.z}`}
-        position={[position.x, 0, position.z]}
-      >
-        <group>
-          <Suspense>
-            <Visible status={i < 10} delay={1000}>
-              <Skin />
-            </Visible>
-          </Suspense>
+      <Culling key={`${position.x}:${position.z}`} position={position} size={1}>
+        <group position={[position.x, 0, position.z]}>
+          <group>
+            <Suspense>
+              <Visible status={i < 10} delay={1000}>
+                <Skin />
+              </Visible>
+            </Suspense>
+          </group>
         </group>
-      </group>
+      </Culling>
     );
   });
 }

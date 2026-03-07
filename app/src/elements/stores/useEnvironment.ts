@@ -12,6 +12,7 @@ export default create<{
   };
   sections: {
     model: string;
+    size: number;
     position: {
       x: number;
       z: number;
@@ -33,6 +34,7 @@ export default create<{
     };
     sections: {
       model: string;
+      size: number;
       position: {
         x: number;
         z: number;
