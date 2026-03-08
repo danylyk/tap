@@ -1,4 +1,3 @@
-import * as Haptics from "expo-haptics";
 import {RefObject, useEffect} from "react";
 import {Group} from "three";
 
@@ -49,8 +48,6 @@ export function usePlayerControl({
       if (isAvailable(point) === false) {
         return;
       }
-
-      Haptics.selectionAsync();
 
       move({
         position: point,

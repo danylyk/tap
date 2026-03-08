@@ -1,5 +1,4 @@
 import {useFrame} from "@react-three/fiber/native";
-import * as Haptics from "expo-haptics";
 
 import {events} from "@/elements/events/game";
 import useAttempt from "@/elements/stores/useAttempt";
@@ -23,8 +22,6 @@ export function useStop() {
     if (isAvailable(point) === true) {
       return;
     }
-
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Rigid);
 
     attempt.break({
       position: point,
