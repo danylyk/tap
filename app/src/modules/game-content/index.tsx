@@ -19,10 +19,8 @@ export default function Module({
       id,
     });
 
-    const finish = document.sections[document.sections.length - 1];
-
     return {
-      size: finish.offset * 2,
+      size: document.size,
       color: document.color,
       attempt: document.attempt,
       duration: document.duration,

@@ -135,6 +135,7 @@ export async function getDocument({id}: {id: string}) {
   );
 
   return {
+    size: sections[sections.length - 1].offset * 2,
     attempt: 0,
     color: "#ffffff",
     duration: document.scene.duration,
