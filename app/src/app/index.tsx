@@ -16,7 +16,7 @@ import Sections from "@/modules/game-sections";
 export default function Page() {
   return (
     <Body>
-      <Content>
+      <Content id="6919d94f12f0c7f63e22afe87ef9fb51">
         <View className="absolute inset-0 z-10">
           <Scene>
             <Camera />
