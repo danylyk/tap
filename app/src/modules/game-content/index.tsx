@@ -14,37 +14,36 @@ export default function Module({
   children: React.ReactNode;
   id: string;
 }) {
-  const {loading, data, error, request} = useRequest(
-    async ({id}: {id: string}) => {
-      const document = await getDocument({
-        id,
-      });
+  const {data, error, request} = useRequest(async ({id}: {id: string}) => {
+    const document = await getDocument({
+      id,
+    });
 
-      const finish = document.sections[document.sections.length - 1];
+    const finish = document.sections[document.sections.length - 1];
 
-      return {
-        size: finish.offset * 2,
-        attempt: document.attempt,
-        duration: document.duration,
-        boundaries: document.boundaries,
-        positions: new Set(
-          document.positions.map(({x, z}) => {
-            return `${x}:${z}`;
-          }),
-        ),
-        sections: document.sections.map(({model, size, offset}) => {
-          return {
-            model,
-            size,
-            position: {
-              x: offset,
-              z: offset,
-            },
-          };
+    return {
+      size: finish.offset * 2,
+      color: document.color,
+      attempt: document.attempt,
+      duration: document.duration,
+      boundaries: document.boundaries,
+      positions: new Set(
+        document.positions.map(({x, z}) => {
+          return `${x}:${z}`;
         }),
-      };
-    },
-  );
+      ),
+      sections: document.sections.map(({model, size, offset}) => {
+        return {
+          model,
+          size,
+          position: {
+            x: offset,
+            z: offset,
+          },
+        };
+      }),
+    };
+  });
 
   const load = useEnvironment((state) => {
     return state.load;
@@ -56,12 +55,13 @@ export default function Module({
 
   useEffect(() => {
     async function action() {
-      const {attempt, size, duration, sections, positions, boundaries} =
+      const {attempt, size, color, duration, sections, positions, boundaries} =
         await request({
           id,
         });
 
       load({
+        color,
         attempt,
         positions,
         boundaries,
@@ -78,19 +78,11 @@ export default function Module({
   }, [id, request, load, set]);
 
   if (error) {
-    return (
-      <>
-        <Text>Error</Text>
-      </>
-    );
+    return <Text>Error</Text>;
   }
 
-  if (loading || !data) {
-    return (
-      <>
-        <Text>Loading ...</Text>
-      </>
-    );
+  if (!data) {
+    return null;
   }
 
   return children;

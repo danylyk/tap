@@ -135,6 +135,8 @@ export async function getDocument({id}: {id: string}) {
   );
 
   return {
+    attempt: 0,
+    color: "#ffffff",
     duration: document.scene.duration,
     sections,
     positions,

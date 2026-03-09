@@ -3,6 +3,7 @@ import {create} from "zustand";
 import {events} from "@/elements/events/game";
 
 export default create<{
+  color: string;
   status: "none" | "opened" | "started" | "stopped";
   attempt: number;
   positions: Set<string>;
@@ -26,6 +27,7 @@ export default create<{
   }[];
   duration: number;
   load: (payload: {
+    color: string;
     attempt: number;
     positions: Set<string>;
     boundaries: {
@@ -55,6 +57,7 @@ export default create<{
   isAvailable: (position: {x: number; z: number}) => boolean;
 }>((set, get) => {
   return {
+    color: "#ffffff",
     status: "none",
     boundaries: {
       x: {},
@@ -72,6 +75,7 @@ export default create<{
       set(() => {
         return {
           status: "none",
+          color: payload.color,
           attempt: payload.attempt,
           positions: payload.positions,
           boundaries: payload.boundaries,
