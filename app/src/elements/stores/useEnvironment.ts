@@ -63,6 +63,7 @@ export default create<{
       z: number;
     };
   }) => void;
+  addAttempt: () => void;
   checkPositionAvailability: (position: {x: number; z: number}) => boolean;
 }>((set, get) => {
   return {
@@ -101,15 +102,15 @@ export default create<{
       });
     },
     setContent: (payload) => {
-      set(({content: {marks}}) => {
+      set(({content: {marks, attempt}}) => {
         return {
           content: {
             color: payload.color,
-            attempt: payload.attempt,
             positions: payload.positions,
             boundaries: payload.boundaries,
             sections: payload.sections,
             duration: payload.duration,
+            attempt,
             marks,
           },
         };
@@ -168,6 +169,16 @@ export default create<{
                 position,
               },
             ],
+          },
+        };
+      });
+    },
+    addAttempt: () => {
+      set(({content}) => {
+        return {
+          content: {
+            ...content,
+            attempt: content.attempt + 1,
           },
         };
       });

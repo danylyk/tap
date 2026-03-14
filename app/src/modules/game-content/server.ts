@@ -1,7 +1,8 @@
 /* eslint-disable consistent-return */
 import {z} from "zod";
 
-import {api} from "@/lib/api";
+import useEnvironment from "@/elements/stores/useEnvironment";
+// import {api} from "@/lib/api";
 import {groupOf, mapWith} from "@/lib/utils";
 
 const Scene = z.object({
@@ -134,10 +135,17 @@ export async function getDocument({id}: {id: string}) {
     ),
   );
 
+  const {
+    content: {attempt},
+  } = useEnvironment.getState();
+
   return {
+    id,
+    attempt,
     size: sections[sections.length - 1].offset * 2,
-    attempt: 0,
-    color: "#ffffff",
+    color: `#${Math.floor(Math.random() * 0xffffff)
+      .toString(16)
+      .padStart(6, "0")}`,
     duration: document.scene.duration,
     sections,
     positions,

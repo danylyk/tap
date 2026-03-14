@@ -10,6 +10,7 @@ export function useStop() {
       scene: {state},
       checkPositionAvailability,
       setSceneState,
+      addAttempt,
     } = useEnvironment.getState();
 
     if (state !== "started") {
@@ -38,5 +39,7 @@ export function useStop() {
     setSceneState({
       state: "stopped",
     });
+
+    addAttempt();
   });
 }
