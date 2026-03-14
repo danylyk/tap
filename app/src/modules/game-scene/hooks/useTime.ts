@@ -13,9 +13,9 @@ export function useTime() {
       return;
     }
 
-    const {tick} = useAttempt.getState();
+    const {addTick} = useAttempt.getState();
 
-    tick({
+    addTick({
       delta,
     });
   });

@@ -12,14 +12,14 @@ export function useStart() {
         setSceneState,
       } = useEnvironment.getState();
 
-      const {...attempt} = useAttempt.getState();
+      const {setAttempt, addActionStart} = useAttempt.getState();
 
       if (state !== "opened") {
         return;
       }
 
-      attempt.load();
-      attempt.start();
+      setAttempt();
+      addActionStart();
 
       setSceneState({
         state: "started",

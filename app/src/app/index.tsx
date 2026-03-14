@@ -9,6 +9,7 @@ import Enter from "@/modules/game-enter";
 import Exit from "@/modules/game-exit";
 import Loader from "@/modules/game-loader";
 import Marks from "@/modules/game-marks";
+import Pause from "@/modules/game-pause";
 import Player from "@/modules/game-player";
 import Scene from "@/modules/game-scene";
 import Sections from "@/modules/game-sections";
@@ -34,6 +35,7 @@ export default function Page() {
         </View>
       </Content>
       <Loader />
+      <Pause />
     </Body>
   );
 }

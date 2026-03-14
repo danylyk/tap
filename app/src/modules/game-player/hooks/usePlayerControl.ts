@@ -12,12 +12,12 @@ export function usePlayerControl({
   ref: RefObject<Group | null>;
   fade?: number;
 }) {
-  const move = useAttempt((state) => {
-    return state.move;
+  const addActionMove = useAttempt((state) => {
+    return state.addActionMove;
   });
 
-  const load = useAttempt((state) => {
-    return state.load;
+  const setAttempt = useAttempt((state) => {
+    return state.setAttempt;
   });
 
   useEffect(() => {
@@ -52,7 +52,7 @@ export function usePlayerControl({
         return;
       }
 
-      move({
+      addActionMove({
         position: point,
       });
     }
@@ -62,7 +62,7 @@ export function usePlayerControl({
         return;
       }
 
-      load();
+      setAttempt();
     }
 
     events.on("tap", onTap);
@@ -74,5 +74,5 @@ export function usePlayerControl({
       events.off("open", onReset);
       events.off("close", onReset);
     };
-  }, [ref, move, load, fade]);
+  }, [ref, setAttempt, addActionMove, fade]);
 }

@@ -55,18 +55,18 @@ const store = {
       z: place.z + distance.z,
     };
   },
-  load: () => {
+  setAttempt: () => {
     store.time = 0;
     store.history = [];
   },
-  set: ({speed}: {speed: number}) => {
+  setSpeed: ({speed}: {speed: number}) => {
     store.speed = speed;
   },
-  tick: ({delta}: {delta: number}) => {
+  addTick: ({delta}: {delta: number}) => {
     store.time += delta;
     events.emit("tick");
   },
-  start: () => {
+  addActionStart: () => {
     store.history.push({
       time: 0,
       type: "start",
@@ -77,7 +77,7 @@ const store = {
       },
     });
   },
-  finish: ({
+  addActionFinish: ({
     position,
   }: {
     position: {
@@ -101,7 +101,7 @@ const store = {
       },
     });
   },
-  break: ({
+  addActionBreak: ({
     position,
   }: {
     position: {
@@ -125,7 +125,7 @@ const store = {
       },
     });
   },
-  move: ({
+  addActionMove: ({
     position,
   }: {
     position: {

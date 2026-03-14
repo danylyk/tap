@@ -22,8 +22,8 @@ export default function Module({
     return state.setContent;
   });
 
-  const set = useAttempt((state) => {
-    return state.set;
+  const setSpeed = useAttempt((state) => {
+    return state.setSpeed;
   });
 
   const {data, error, request} = useRequest(
@@ -78,13 +78,13 @@ export default function Module({
         duration,
       });
 
-      set({
+      setSpeed({
         speed: size / duration,
       });
     }
 
     action();
-  }, [id, request, setContent, set]);
+  }, [id, request, setContent, setSpeed]);
 
   if (error) {
     return <Text>Error</Text>;

@@ -16,7 +16,7 @@ export function useStop() {
       return;
     }
 
-    const {position, ...attempt} = useAttempt.getState();
+    const {position, addActionBreak} = useAttempt.getState();
 
     const point = {
       x: position.x,
@@ -27,7 +27,7 @@ export function useStop() {
       return;
     }
 
-    attempt.break({
+    addActionBreak({
       position: point,
     });
 
