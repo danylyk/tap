@@ -1,6 +1,8 @@
 import {useEffect, useMemo, useRef} from "react";
 import {AnimationAction, LoopOnce, LoopRepeat} from "three";
 
+import {events} from "@/elements/events/game";
+
 export function useAnimator({
   actions,
   names,
@@ -20,6 +22,32 @@ export function useAnimator({
       }
     };
   }, []);
+
+  useEffect(() => {
+    function onPause() {
+      for (const name of names) {
+        if (actions[name]) {
+          actions[name].paused = true;
+        }
+      }
+    }
+
+    function onResume() {
+      for (const name of names) {
+        if (actions[name]) {
+          actions[name].paused = false;
+        }
+      }
+    }
+
+    events.on("pause", onPause);
+    events.on("start", onResume);
+
+    return () => {
+      events.off("pause", onPause);
+      events.off("start", onResume);
+    };
+  }, [actions, names]);
 
   return useMemo(() => {
     return {

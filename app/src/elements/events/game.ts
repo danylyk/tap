@@ -5,6 +5,7 @@ export const events = mitt<{
   tick: void;
   open: void;
   start: void;
+  pause: void;
   stop: void;
   close: void;
   break: {

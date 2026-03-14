@@ -8,7 +8,7 @@ export default create<{
   };
   scene: {
     loading: boolean;
-    state: "opened" | "started" | "stopped" | "closed";
+    state: "opened" | "started" | "paused" | "stopped" | "closed";
   };
   content: {
     attempt: number;
@@ -37,7 +37,7 @@ export default create<{
   setDocument: (payload: {id: string}) => void;
   setSceneLoading: (payload: {value: boolean}) => void;
   setSceneState: (payload: {
-    state: "opened" | "started" | "stopped" | "closed";
+    state: "opened" | "started" | "paused" | "stopped" | "closed";
   }) => void;
   setContent: (payload: {
     color: string;
@@ -141,6 +141,10 @@ export default create<{
 
       if (state === "started") {
         events.emit("start");
+      }
+
+      if (state === "paused") {
+        events.emit("pause");
       }
 
       if (state === "stopped") {
