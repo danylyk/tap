@@ -28,8 +28,8 @@ export default function Module({
     <Animated.View
       {...props}
       entering={enabled ? FadeIn.duration(300) : undefined}
-      exiting={FadeOut.duration(300).delay(900)}
-      className="absolute inset-0 z-25"
+      exiting={FadeOut.duration(300).delay(100)}
+      className="absolute inset-0 z-25 pointer-events-none"
       style={{
         backgroundColor: color,
         transitionProperty: "backgroundColor",

@@ -31,7 +31,7 @@ export function useCameraMovement({ref}: {ref: RefObject<Group | null>}) {
   });
 
   useEffect(() => {
-    function onReset() {
+    function onLoad() {
       if (!ref.current) {
         return;
       }
@@ -39,12 +39,10 @@ export function useCameraMovement({ref}: {ref: RefObject<Group | null>}) {
       ref.current.position.set(1, 0, 1);
     }
 
-    events.on("open", onReset);
-    events.on("close", onReset);
+    events.on("load", onLoad);
 
     return () => {
-      events.off("open", onReset);
-      events.off("close", onReset);
+      events.off("load", onLoad);
     };
   }, [ref]);
 }

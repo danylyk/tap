@@ -9,6 +9,10 @@ export default function Module({
     return state.scene.state;
   });
 
+  const loading = useEnvironment((state) => {
+    return state.scene.loading;
+  });
+
   const setSceneState = useEnvironment((state) => {
     return state.setSceneState;
   });
@@ -20,6 +24,10 @@ export default function Module({
   return (
     <Pressable
       onPress={() => {
+        if (loading) {
+          return;
+        }
+
         setSceneState({
           state: "opened",
         });

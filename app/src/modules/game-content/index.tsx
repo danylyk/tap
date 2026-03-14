@@ -1,19 +1,15 @@
-import {useEffect} from "react";
+import debounce from "lodash/debounce";
+import {useEffect, useMemo} from "react";
 import {Text} from "react-native";
 
 import {useRequest} from "@/elements/hooks/useRequest";
 import useAttempt from "@/elements/stores/useAttempt";
 import useEnvironment from "@/elements/stores/useEnvironment";
+import {wait, when} from "@/lib/utils";
 
 import {getDocument} from "./server";
 
-export default function Module({
-  children,
-  id,
-}: {
-  children: React.ReactNode;
-  id: string;
-}) {
+export default function Module({children}: {children: React.ReactNode}) {
   const setSceneLoading = useEnvironment((state) => {
     return state.setSceneLoading;
   });
@@ -26,13 +22,31 @@ export default function Module({
     return state.setSpeed;
   });
 
+  const document = useEnvironment((state) => {
+    return state.document;
+  });
+
+  const setSceneLoadingDebounced = useMemo(
+    () =>
+      debounce(({value}: {value: boolean}) => {
+        setSceneLoading({
+          value,
+        });
+      }, 450),
+    [setSceneLoading],
+  );
+
   const {data, error, request} = useRequest(
     async ({id}: {id: string}) => {
-      const document = await getDocument({
-        id,
-      });
+      const [document] = await when([
+        getDocument({
+          id,
+        }),
+        wait(450),
+      ]);
 
       return {
+        id: document.id,
         size: document.size,
         color: document.color,
         attempt: document.attempt,
@@ -56,6 +70,14 @@ export default function Module({
       };
     },
     (value) => {
+      if (value === false) {
+        setSceneLoadingDebounced({
+          value,
+        });
+
+        return;
+      }
+
       setSceneLoading({
         value,
       });
@@ -66,8 +88,13 @@ export default function Module({
     async function action() {
       const {attempt, size, color, duration, sections, positions, boundaries} =
         await request({
-          id,
+          id: document.id,
         });
+
+      const {
+        scene: {state},
+        setSceneState,
+      } = useEnvironment.getState();
 
       setContent({
         color,
@@ -81,10 +108,18 @@ export default function Module({
       setSpeed({
         speed: size / duration,
       });
+
+      if (state !== "stopped") {
+        return;
+      }
+
+      setSceneState({
+        state: "opened",
+      });
     }
 
     action();
-  }, [id, request, setContent, setSpeed]);
+  }, [document, request, setContent, setSpeed]);
 
   if (error) {
     return <Text>Error</Text>;

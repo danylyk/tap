@@ -114,6 +114,8 @@ export default create<{
           },
         };
       });
+
+      events.emit("load");
     },
     setSceneLoading: ({value: loading}) => {
       set(({scene: {state}}) => {

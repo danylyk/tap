@@ -13,11 +13,27 @@ export default function Module({
     return state.scene.state;
   });
 
+  const id = useEnvironment((state) => {
+    return state.document.id;
+  });
+
+  const loading = useEnvironment((state) => {
+    return state.scene.loading;
+  });
+
   const setSceneState = useEnvironment((state) => {
     return state.setSceneState;
   });
 
+  const setDocument = useEnvironment((state) => {
+    return state.setDocument;
+  });
+
   if (["opened", "stopped"].includes(state) === false) {
+    return null;
+  }
+
+  if (loading) {
     return null;
   }
 
@@ -30,8 +46,8 @@ export default function Module({
         size="medium"
         onPress={() => {
           if (state === "stopped") {
-            setSceneState({
-              state: "opened",
+            setDocument({
+              id,
             });
 
             return;

@@ -3,6 +3,7 @@ import {useEffect, useRef} from "react";
 import {Group} from "three";
 
 import {events} from "@/elements/events/game";
+import useEnvironment from "@/elements/stores/useEnvironment";
 
 import {useCameraControl} from "./hooks/useCameraControl";
 import {useCameraLink} from "./hooks/useCameraLink";
@@ -39,6 +40,20 @@ export default function Module() {
   });
 
   useEffect(() => {
+    function onLoad() {
+      const {
+        scene: {state},
+      } = useEnvironment.getState();
+
+      if (state === "stopped") {
+        zoom.to(13.9, 13.9);
+      }
+
+      if (state === "closed") {
+        zoom.to(14.2, 14.2);
+      }
+    }
+
     function onOpen() {
       zoom.to(13.9);
     }
@@ -55,12 +70,14 @@ export default function Module() {
       zoom.to(14.2);
     }
 
+    events.on("load", onLoad);
     events.on("open", onOpen);
     events.on("start", onStart);
     events.on("stop", onStop);
     events.on("close", onClose);
 
     return () => {
+      events.on("load", onLoad);
       events.off("open", onOpen);
       events.off("start", onStart);
       events.off("stop", onStop);

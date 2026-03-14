@@ -1,12 +1,17 @@
 import {Canvas} from "@react-three/fiber/native";
 import React from "react";
 
+import useEnvironment from "@/elements/stores/useEnvironment";
+
 import {Scene} from "./components/scene";
 
 export default function Module({children}: {children?: React.ReactNode}) {
+  const color = useEnvironment((state) => {
+    return state.content.color;
+  });
+
   return (
     <Canvas
-      className="bg-white"
       orthographic
       camera={{
         up: [0, 1, 0],
@@ -16,6 +21,9 @@ export default function Module({children}: {children?: React.ReactNode}) {
         ],
         zoom: 14.4,
         far: 320,
+      }}
+      style={{
+        backgroundColor: color,
       }}
     >
       <directionalLight position={[-60, 120, -90]} />

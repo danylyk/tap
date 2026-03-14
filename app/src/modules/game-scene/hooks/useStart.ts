@@ -8,13 +8,13 @@ export function useStart() {
   useEffect(() => {
     function onTap() {
       const {
-        scene: {state},
+        scene: {state, loading},
         setSceneState,
       } = useEnvironment.getState();
 
       const {setAttempt, addActionStart} = useAttempt.getState();
 
-      if (state !== "opened") {
+      if (state !== "opened" || loading) {
         return;
       }
 

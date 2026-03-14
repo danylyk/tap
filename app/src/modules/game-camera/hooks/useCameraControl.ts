@@ -34,7 +34,7 @@ export function useCameraControl({
   });
 
   useEffect(() => {
-    function onReset() {
+    function onLoad() {
       if (!ref.current || !camera.current) {
         return;
       }
@@ -45,8 +45,8 @@ export function useCameraControl({
           z: 0,
         },
         {
-          x: camera.current.position.x - 1 + ref.current.position.x,
-          z: camera.current.position.z - 1 + ref.current.position.z,
+          x: 0,
+          z: 0,
         },
       );
     }
@@ -69,13 +69,11 @@ export function useCameraControl({
       });
     }
 
-    events.on("open", onReset);
-    events.on("close", onReset);
+    events.on("load", onLoad);
     events.on("stop", onStop);
 
     return () => {
-      events.off("open", onReset);
-      events.off("close", onReset);
+      events.off("load", onLoad);
       events.off("stop", onStop);
     };
   }, [ref, camera, transition]);
