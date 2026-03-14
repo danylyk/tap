@@ -26,9 +26,12 @@ export function usePlayerControl({
         return;
       }
 
-      const {status, isAvailable} = useEnvironment.getState();
+      const {
+        scene: {state},
+        checkPositionAvailability,
+      } = useEnvironment.getState();
 
-      if (status !== "started") {
+      if (state !== "started") {
         return;
       }
 
@@ -45,7 +48,7 @@ export function usePlayerControl({
         z: position.z,
       };
 
-      if (isAvailable(point) === false) {
+      if (checkPositionAvailability(point) === false) {
         return;
       }
 

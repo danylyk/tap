@@ -5,8 +5,8 @@ import useAttempt from "@/elements/stores/useAttempt";
 import useEnvironment from "@/elements/stores/useEnvironment";
 
 export function useMark() {
-  const mark = useEnvironment((state) => {
-    return state.mark;
+  const addMark = useEnvironment((state) => {
+    return state.addMark;
   });
 
   useEffect(() => {
@@ -18,7 +18,10 @@ export function useMark() {
         z: number;
       };
     }) {
-      const {boundaries} = useEnvironment.getState();
+      const {
+        content: {boundaries},
+      } = useEnvironment.getState();
+
       const {action} = useAttempt.getState();
 
       const point = {
@@ -38,7 +41,7 @@ export function useMark() {
       });
 
       if (action.direction === "x") {
-        mark({
+        addMark({
           position: {
             x: x ?? xs[0],
             z: point.z,
@@ -48,7 +51,7 @@ export function useMark() {
         return;
       }
 
-      mark({
+      addMark({
         position: {
           x: point.x,
           z: z ?? zs[0],
@@ -60,5 +63,5 @@ export function useMark() {
     return () => {
       events.off("break", onMark);
     };
-  }, [mark]);
+  }, [addMark]);
 }

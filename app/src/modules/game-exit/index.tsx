@@ -9,9 +9,15 @@ export default function Module({
   className,
   ...props
 }: React.ComponentProps<typeof View>) {
-  const {status, open, close} = useEnvironment();
+  const state = useEnvironment((state) => {
+    return state.scene.state;
+  });
 
-  if (["opened", "stopped"].includes(status) === false) {
+  const setSceneState = useEnvironment((state) => {
+    return state.setSceneState;
+  });
+
+  if (["opened", "stopped"].includes(state) === false) {
     return null;
   }
 
@@ -23,12 +29,17 @@ export default function Module({
       <Button
         size="medium"
         onPress={() => {
-          if (status === "stopped") {
-            open();
+          if (state === "stopped") {
+            setSceneState({
+              state: "opened",
+            });
+
             return;
           }
 
-          close();
+          setSceneState({
+            state: "closed",
+          });
         }}
       >
         <X size={28} />

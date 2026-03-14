@@ -7,7 +7,7 @@
     "android": "expo run:android",
     "ios": "expo run:ios --device --configuration Release",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint && tsc --noEmit"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",

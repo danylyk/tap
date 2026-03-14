@@ -5,16 +5,24 @@ import useEnvironment from "@/elements/stores/useEnvironment";
 export default function Module({
   ...props
 }: React.ComponentProps<typeof Pressable>) {
-  const {status, open} = useEnvironment();
+  const state = useEnvironment((state) => {
+    return state.scene.state;
+  });
 
-  if (["none"].includes(status) === false) {
+  const setSceneState = useEnvironment((state) => {
+    return state.setSceneState;
+  });
+
+  if (["none"].includes(state) === false) {
     return null;
   }
 
   return (
     <Pressable
       onPress={() => {
-        open();
+        setSceneState({
+          state: "opened",
+        });
       }}
       {...props}
     />

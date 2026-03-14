@@ -12,9 +12,11 @@ export function useCameraMovement({ref}: {ref: RefObject<Group | null>}) {
       return;
     }
 
-    const {status} = useEnvironment.getState();
+    const {
+      scene: {state},
+    } = useEnvironment.getState();
 
-    if (status !== "started") {
+    if (state !== "started") {
       return;
     }
 

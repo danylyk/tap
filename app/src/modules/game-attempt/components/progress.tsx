@@ -11,7 +11,10 @@ export function Progress() {
   useEffect(() => {
     function onTick() {
       const {time} = useAttempt.getState();
-      const {duration} = useEnvironment.getState();
+
+      const {
+        content: {duration},
+      } = useEnvironment.getState();
 
       setProgress(() => {
         return Math.min(99, Math.floor((time / duration) * 100));

@@ -43,8 +43,8 @@ export default function Module({
     };
   });
 
-  const load = useEnvironment((state) => {
-    return state.load;
+  const setContent = useEnvironment((state) => {
+    return state.setContent;
   });
 
   const set = useAttempt((state) => {
@@ -58,7 +58,7 @@ export default function Module({
           id,
         });
 
-      load({
+      setContent({
         color,
         attempt,
         positions,
@@ -73,7 +73,7 @@ export default function Module({
     }
 
     action();
-  }, [id, request, load, set]);
+  }, [id, request, setContent, set]);
 
   if (error) {
     return <Text>Error</Text>;

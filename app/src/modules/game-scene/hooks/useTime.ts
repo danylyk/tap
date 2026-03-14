@@ -5,9 +5,11 @@ import useEnvironment from "@/elements/stores/useEnvironment";
 
 export function useTime() {
   useFrame((_, delta) => {
-    const {status} = useEnvironment.getState();
+    const {
+      scene: {state},
+    } = useEnvironment.getState();
 
-    if (status !== "started") {
+    if (state !== "started") {
       return;
     }
 

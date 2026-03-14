@@ -13,8 +13,8 @@ export default function Module() {
   const character = useRef<Group>(null);
   const player = useRef<Group>(null);
 
-  const status = useEnvironment((state) => {
-    return state.status;
+  const state = useEnvironment((state) => {
+    return state.scene.state;
   });
 
   usePlayerControl({
@@ -34,7 +34,7 @@ export default function Module() {
     <group ref={player} position={[1, 0, 1]}>
       <group ref={character}>
         <Suspense>
-          <Visible status={status !== "stopped"} delay={1000}>
+          <Visible status={state !== "stopped"} delay={1000}>
             <Skin />
           </Visible>
         </Suspense>

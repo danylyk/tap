@@ -7,7 +7,7 @@ import {Skin} from "./components/skin";
 
 export default function Module() {
   const sections = useEnvironment((state) => {
-    return state.sections;
+    return state.content.sections;
   });
 
   return sections.map(({model, position, size}, i) => {

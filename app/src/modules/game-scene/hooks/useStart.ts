@@ -7,16 +7,23 @@ import useEnvironment from "@/elements/stores/useEnvironment";
 export function useStart() {
   useEffect(() => {
     function onTap() {
-      const {status, ...environment} = useEnvironment.getState();
+      const {
+        scene: {state},
+        setSceneState,
+      } = useEnvironment.getState();
+
       const {...attempt} = useAttempt.getState();
 
-      if (status !== "opened") {
+      if (state !== "opened") {
         return;
       }
 
       attempt.load();
       attempt.start();
-      environment.start();
+
+      setSceneState({
+        state: "started",
+      });
     }
 
     events.on("tap", onTap);

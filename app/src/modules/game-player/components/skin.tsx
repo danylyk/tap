@@ -17,7 +17,7 @@ export function Skin({isVisible}: {isVisible?: boolean}) {
 
   const {actions, names} = useAnimations(animations, ref);
 
-  const {play, reset, state} = useAnimator({
+  const animator = useAnimator({
     actions,
     names,
   });
@@ -27,9 +27,11 @@ export function Skin({isVisible}: {isVisible?: boolean}) {
       return;
     }
 
-    const {status} = useEnvironment.getState();
+    const {
+      scene: {state},
+    } = useEnvironment.getState();
 
-    if (status !== "started") {
+    if (state !== "started") {
       return;
     }
 
@@ -45,13 +47,13 @@ export function Skin({isVisible}: {isVisible?: boolean}) {
 
     direction.current = action.direction;
 
-    if (state() !== "spawn-z" && state() !== "default-z") {
-      play({
+    if (animator.state() !== "spawn-z" && animator.state() !== "default-z") {
+      animator.play({
         name: action.direction === "z" ? "rotate-z" : "rotate-x",
       });
     }
 
-    play({
+    animator.play({
       name: action.direction === "z" ? "run-z" : "run-x",
       repeatable: true,
       delay: 0.15,
@@ -66,17 +68,17 @@ export function Skin({isVisible}: {isVisible?: boolean}) {
     function onReset() {
       direction.current = "x";
 
-      if (state() === "spawn-z" || state() === "default-z") {
+      if (animator.state() === "spawn-z" || animator.state() === "default-z") {
         return;
       }
 
-      reset();
+      animator.reset();
 
-      play({
+      animator.play({
         name: "spawn-z",
       });
 
-      play({
+      animator.play({
         name: "default-z",
         repeatable: true,
         delay: 0.15,
@@ -92,7 +94,7 @@ export function Skin({isVisible}: {isVisible?: boolean}) {
       events.off("close", onReset);
       events.off("open", onReset);
     };
-  }, [actions, names, play, reset, state, isVisible]);
+  }, [actions, names, animator, isVisible]);
 
   useEffect(() => {
     if (isVisible !== false) {
@@ -106,17 +108,17 @@ export function Skin({isVisible}: {isVisible?: boolean}) {
     }
 
     if (action.direction === "z") {
-      play({
+      animator.play({
         name: "destroy-z",
       });
 
       return;
     }
 
-    play({
+    animator.play({
       name: "destroy-x",
     });
-  }, [play, isVisible]);
+  }, [animator, isVisible]);
 
   return (
     <group ref={ref} position={[0.5, 0, 0.5]} scale={[3, 3, 3]}>

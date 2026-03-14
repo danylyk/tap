@@ -6,9 +6,13 @@ import useEnvironment from "@/elements/stores/useEnvironment";
 
 export function useStop() {
   useFrame(() => {
-    const {status, isAvailable, ...environment} = useEnvironment.getState();
+    const {
+      scene: {state},
+      checkPositionAvailability,
+      setSceneState,
+    } = useEnvironment.getState();
 
-    if (status !== "started") {
+    if (state !== "started") {
       return;
     }
 
@@ -19,7 +23,7 @@ export function useStop() {
       z: position.z,
     };
 
-    if (isAvailable(point) === true) {
+    if (checkPositionAvailability(point) === true) {
       return;
     }
 
@@ -31,6 +35,8 @@ export function useStop() {
       position: point,
     });
 
-    environment.stop();
+    setSceneState({
+      state: "stopped",
+    });
   });
 }

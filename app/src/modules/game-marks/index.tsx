@@ -9,7 +9,7 @@ import {Skin} from "./components/skin";
 
 export default function Module() {
   const marks = useEnvironment((state) => {
-    return state.marks;
+    return state.content.marks;
   });
 
   const a = uniqWith([...marks].reverse(), (a, b) => {

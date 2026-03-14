@@ -1,32 +1,45 @@
 import {create} from "zustand";
 
-import {events} from "@/elements/events/game";
+import {events} from "../events/game";
 
 export default create<{
-  color: string;
-  status: "none" | "opened" | "started" | "stopped";
-  attempt: number;
-  positions: Set<string>;
-  boundaries: {
-    x: Record<number, number[]>;
-    z: Record<number, number[]>;
+  document: {
+    id: string;
   };
-  sections: {
-    model: string;
-    size: number;
-    position: {
-      x: number;
-      z: number;
+  scene: {
+    loading: boolean;
+    state: "opened" | "started" | "stopped" | "closed";
+  };
+  content: {
+    attempt: number;
+    color: string;
+    positions: Set<string>;
+    boundaries: {
+      x: Record<number, number[]>;
+      z: Record<number, number[]>;
     };
-  }[];
-  marks: {
-    position: {
-      x: number;
-      z: number;
-    };
-  }[];
-  duration: number;
-  load: (payload: {
+    sections: {
+      model: string;
+      size: number;
+      position: {
+        x: number;
+        z: number;
+      };
+    }[];
+    marks: {
+      position: {
+        x: number;
+        z: number;
+      };
+    }[];
+    duration: number;
+  };
+  setDocument: (payload: {id: string}) => void;
+  setSceneLoading: (payload: {value: boolean}) => void;
+  setSceneState: (payload: {
+    state: "opened" | "started" | "stopped" | "closed";
+  }) => void;
+  setContent: (payload: {
     color: string;
     attempt: number;
     positions: Set<string>;
@@ -44,92 +57,110 @@ export default create<{
     }[];
     duration: number;
   }) => void;
-  open: () => void;
-  start: () => void;
-  stop: () => void;
-  close: () => void;
-  mark: (payload: {
+  addMark: (payload: {
     position: {
       x: number;
       z: number;
     };
   }) => void;
-  isAvailable: (position: {x: number; z: number}) => boolean;
+  checkPositionAvailability: (position: {x: number; z: number}) => boolean;
 }>((set, get) => {
   return {
-    color: "#ffffff",
-    status: "none",
-    boundaries: {
-      x: {},
-      z: {},
+    document: {
+      id: "6919d94f12f0c7f63e22afe87ef9fb51",
     },
-    positions: new Set(),
-    sections: [],
-    marks: [],
-    attempt: 0,
-    duration: 0,
-    isAvailable: ({x, z}) => {
-      return get().positions.has(`${Math.round(x)}:${Math.round(z)}`);
+    scene: {
+      loading: true,
+      state: "closed",
     },
-    load: (payload) => {
+    content: {
+      attempt: 0,
+      color: "#ffffff",
+      positions: new Set(),
+      boundaries: {
+        x: {},
+        z: {},
+      },
+      sections: [],
+      marks: [],
+      duration: 0,
+    },
+    checkPositionAvailability: ({x, z}) => {
+      const point = `${Math.round(x)}:${Math.round(z)}`;
+      const collection = get().content.positions;
+
+      return collection.has(point);
+    },
+    setDocument: ({id}) => {
       set(() => {
         return {
-          status: "none",
-          color: payload.color,
-          attempt: payload.attempt,
-          positions: payload.positions,
-          boundaries: payload.boundaries,
-          sections: payload.sections,
-          duration: payload.duration,
+          document: {
+            id,
+          },
         };
       });
     },
-    open: () => {
-      set((state) => {
+    setContent: (payload) => {
+      set(({content: {marks}}) => {
         return {
-          status: "opened",
-          attempt: state.marks.length,
+          content: {
+            color: payload.color,
+            attempt: payload.attempt,
+            positions: payload.positions,
+            boundaries: payload.boundaries,
+            sections: payload.sections,
+            duration: payload.duration,
+            marks,
+          },
+        };
+      });
+    },
+    setSceneLoading: ({value: loading}) => {
+      set(({scene: {state}}) => {
+        return {
+          scene: {
+            state,
+            loading,
+          },
+        };
+      });
+    },
+    setSceneState: ({state}) => {
+      set(({scene: {loading}}) => {
+        return {
+          scene: {
+            state,
+            loading,
+          },
         };
       });
 
-      events.emit("open");
-    },
-    start: () => {
-      set(() => {
-        return {
-          status: "started",
-        };
-      });
+      if (state === "opened") {
+        events.emit("open");
+      }
 
-      events.emit("start");
-    },
-    stop: () => {
-      set(() => {
-        return {
-          status: "stopped",
-        };
-      });
+      if (state === "started") {
+        events.emit("start");
+      }
 
-      events.emit("stop");
-    },
-    close: () => {
-      set(() => {
-        return {
-          status: "none",
-        };
-      });
+      if (state === "stopped") {
+        events.emit("stop");
+      }
 
-      events.emit("close");
+      if (state === "closed") {
+        events.emit("close");
+      }
     },
-    mark: ({position}) => {
-      set((state) => {
+    addMark: ({position}) => {
+      set(({content}) => {
         return {
-          marks: [
-            ...state.marks,
-            {
-              position: position,
+          content: {
+            ...content,
+            marks: {
+              ...content.marks,
+              position,
             },
-          ],
+          },
         };
       });
     },

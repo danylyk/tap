@@ -9,11 +9,11 @@ export default function Module({
   const [enabled, setEnabled] = useState(false);
 
   const color = useEnvironment((state) => {
-    return state.color;
+    return state.content.color;
   });
 
   const active = useEnvironment((state) => {
-    return false;
+    return state.scene.loading;
   });
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function Module({
     <Animated.View
       {...props}
       entering={enabled ? FadeIn.duration(300) : undefined}
-      exiting={FadeOut.duration(300)}
+      exiting={FadeOut.duration(300).delay(1000)}
       className="absolute inset-0 z-25 pointer-events-none"
       style={{
         backgroundColor: color,
