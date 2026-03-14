@@ -14,33 +14,8 @@ export default function Module({
   children: React.ReactNode;
   id: string;
 }) {
-  const {data, error, request} = useRequest(async ({id}: {id: string}) => {
-    const document = await getDocument({
-      id,
-    });
-
-    return {
-      size: document.size,
-      color: document.color,
-      attempt: document.attempt,
-      duration: document.duration,
-      boundaries: document.boundaries,
-      positions: new Set(
-        document.positions.map(({x, z}) => {
-          return `${x}:${z}`;
-        }),
-      ),
-      sections: document.sections.map(({model, size, offset}) => {
-        return {
-          model,
-          size,
-          position: {
-            x: offset,
-            z: offset,
-          },
-        };
-      }),
-    };
+  const setSceneLoading = useEnvironment((state) => {
+    return state.setSceneLoading;
   });
 
   const setContent = useEnvironment((state) => {
@@ -50,6 +25,42 @@ export default function Module({
   const set = useAttempt((state) => {
     return state.set;
   });
+
+  const {data, error, request} = useRequest(
+    async ({id}: {id: string}) => {
+      const document = await getDocument({
+        id,
+      });
+
+      return {
+        size: document.size,
+        color: document.color,
+        attempt: document.attempt,
+        duration: document.duration,
+        boundaries: document.boundaries,
+        positions: new Set(
+          document.positions.map(({x, z}) => {
+            return `${x}:${z}`;
+          }),
+        ),
+        sections: document.sections.map(({model, size, offset}) => {
+          return {
+            model,
+            size,
+            position: {
+              x: offset,
+              z: offset,
+            },
+          };
+        }),
+      };
+    },
+    (value) => {
+      setSceneLoading({
+        value,
+      });
+    },
+  );
 
   useEffect(() => {
     async function action() {

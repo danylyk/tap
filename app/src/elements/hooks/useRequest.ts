@@ -5,6 +5,7 @@ import {when} from "@/lib/utils";
 
 export function useRequest<P extends readonly unknown[], T>(
   fetcher: (...args: P) => Promise<T>,
+  loader: (status: boolean) => void = () => {},
 ) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -16,6 +17,7 @@ export function useRequest<P extends readonly unknown[], T>(
     error,
     request: useCallback(async (...args: P): Promise<T> => {
       try {
+        loader(true);
         setError(false);
         setLoading(true);
 
@@ -23,11 +25,13 @@ export function useRequest<P extends readonly unknown[], T>(
 
         setLoading(false);
         setData(result);
+        loader(false);
 
         return result;
       } catch (e) {
         setLoading(false);
         setError(true);
+        loader(false);
 
         throw e;
       }

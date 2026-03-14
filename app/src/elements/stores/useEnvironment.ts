@@ -156,10 +156,12 @@ export default create<{
         return {
           content: {
             ...content,
-            marks: {
+            marks: [
               ...content.marks,
-              position,
-            },
+              {
+                position,
+              },
+            ],
           },
         };
       });

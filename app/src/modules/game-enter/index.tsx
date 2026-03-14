@@ -13,7 +13,7 @@ export default function Module({
     return state.setSceneState;
   });
 
-  if (["none"].includes(state) === false) {
+  if (["closed"].includes(state) === false) {
     return null;
   }
 
