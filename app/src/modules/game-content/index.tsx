@@ -32,7 +32,7 @@ export default function Module({children}: {children: React.ReactNode}) {
         setSceneLoading({
           value,
         });
-      }, 500),
+      }, 600),
     [setSceneLoading],
   );
 
@@ -42,7 +42,7 @@ export default function Module({children}: {children: React.ReactNode}) {
         getDocument({
           id,
         }),
-        wait(500),
+        wait(400),
       ]);
 
       return {
