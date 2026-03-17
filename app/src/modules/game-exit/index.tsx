@@ -38,10 +38,7 @@ export default function Module({
   }
 
   return (
-    <View
-      className={cn("-m-3 p-3 bg-white/1 rounded-full", className)}
-      {...props}
-    >
+    <View className={cn("-m-3 p-3 rounded-full", className)} {...props}>
       <Button
         size="medium"
         onPress={() => {

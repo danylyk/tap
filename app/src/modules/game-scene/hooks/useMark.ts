@@ -1,11 +1,16 @@
 import {useEffect} from "react";
 
 import {events} from "@/elements/events/game";
+import useAccount from "@/elements/stores/useAccount";
 import useAttempt from "@/elements/stores/useAttempt";
 import useEnvironment from "@/elements/stores/useEnvironment";
 
 export function useMark() {
-  const addMark = useEnvironment((state) => {
+  const id = useEnvironment((state) => {
+    return state.document.id;
+  });
+
+  const addMark = useAccount((state) => {
     return state.addMark;
   });
 
@@ -42,6 +47,7 @@ export function useMark() {
 
       if (action.direction === "x") {
         addMark({
+          id,
           position: {
             x: x ?? xs[0],
             z: point.z,
@@ -52,6 +58,7 @@ export function useMark() {
       }
 
       addMark({
+        id,
         position: {
           x: point.x,
           z: z ?? zs[0],
@@ -63,5 +70,5 @@ export function useMark() {
     return () => {
       events.off("break", onMark);
     };
-  }, [addMark]);
+  }, [addMark, id]);
 }

@@ -26,12 +26,6 @@ export default create<{
         z: number;
       };
     }[];
-    marks: {
-      position: {
-        x: number;
-        z: number;
-      };
-    }[];
     duration: number;
   };
   setDocument: (payload: {id: string}) => void;
@@ -57,13 +51,6 @@ export default create<{
     }[];
     duration: number;
   }) => void;
-  addMark: (payload: {
-    position: {
-      x: number;
-      z: number;
-    };
-  }) => void;
-  addAttempt: () => void;
   checkPositionAvailability: (position: {x: number; z: number}) => boolean;
 }>((set, get) => {
   return {
@@ -83,7 +70,6 @@ export default create<{
         z: {},
       },
       sections: [],
-      marks: [],
       duration: 0,
     },
     checkPositionAvailability: ({x, z}) => {
@@ -102,16 +88,15 @@ export default create<{
       });
     },
     setContent: (payload) => {
-      set(({content: {marks, attempt}}) => {
+      set(() => {
         return {
           content: {
             color: payload.color,
+            attempt: payload.attempt,
             positions: payload.positions,
             boundaries: payload.boundaries,
             sections: payload.sections,
             duration: payload.duration,
-            attempt,
-            marks,
           },
         };
       });
@@ -157,31 +142,6 @@ export default create<{
       if (state === "closed") {
         events.emit("close");
       }
-    },
-    addMark: ({position}) => {
-      set(({content}) => {
-        return {
-          content: {
-            ...content,
-            marks: [
-              ...content.marks,
-              {
-                position,
-              },
-            ],
-          },
-        };
-      });
-    },
-    addAttempt: () => {
-      set(({content}) => {
-        return {
-          content: {
-            ...content,
-            attempt: content.attempt + 1,
-          },
-        };
-      });
     },
   };
 });

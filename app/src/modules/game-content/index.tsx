@@ -3,6 +3,7 @@ import {useEffect, useMemo} from "react";
 import {Text} from "react-native";
 
 import {useRequest} from "@/elements/hooks/useRequest";
+import useAccount from "@/elements/stores/useAccount";
 import useAttempt from "@/elements/stores/useAttempt";
 import useEnvironment from "@/elements/stores/useEnvironment";
 import {wait, when} from "@/lib/utils";
@@ -16,6 +17,10 @@ export default function Module({children}: {children: React.ReactNode}) {
 
   const setContent = useEnvironment((state) => {
     return state.setContent;
+  });
+
+  const setAttempt = useAccount((state) => {
+    return state.setAttempt;
   });
 
   const setSpeed = useAttempt((state) => {
@@ -49,6 +54,7 @@ export default function Module({children}: {children: React.ReactNode}) {
         id: document.id,
         size: document.size,
         color: document.color,
+        marks: document.marks,
         attempt: document.attempt,
         duration: document.duration,
         boundaries: document.boundaries,
@@ -86,10 +92,18 @@ export default function Module({children}: {children: React.ReactNode}) {
 
   useEffect(() => {
     async function action() {
-      const {attempt, size, color, duration, sections, positions, boundaries} =
-        await request({
-          id: document.id,
-        });
+      const {
+        attempt,
+        size,
+        color,
+        duration,
+        sections,
+        positions,
+        boundaries,
+        marks,
+      } = await request({
+        id: document.id,
+      });
 
       const {
         scene: {state},
@@ -103,6 +117,11 @@ export default function Module({children}: {children: React.ReactNode}) {
         boundaries,
         sections,
         duration,
+      });
+
+      setAttempt({
+        id: document.id,
+        marks,
       });
 
       setSpeed({
@@ -119,7 +138,7 @@ export default function Module({children}: {children: React.ReactNode}) {
     }
 
     action();
-  }, [document, request, setContent, setSpeed]);
+  }, [document, request, setContent, setAttempt, setSpeed]);
 
   if (error) {
     return <Text>Error</Text>;

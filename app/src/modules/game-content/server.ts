@@ -1,9 +1,9 @@
 /* eslint-disable consistent-return */
 import {z} from "zod";
 
-import useEnvironment from "@/elements/stores/useEnvironment";
-// import {api} from "@/lib/api";
-import {groupOf, mapWith} from "@/lib/utils";
+import useAccount from "@/elements/stores/useAccount";
+import {api} from "@/lib/api";
+import {groupOf, mapWith, when} from "@/lib/utils";
 
 const Scene = z.object({
   duration: z.number().default(0),
@@ -25,18 +25,43 @@ export type IScene = z.infer<typeof Scene>;
 export type ISection = z.infer<typeof Section>;
 export type IDocument = z.infer<typeof Document>;
 
-export async function getDocument({id}: {id: string}) {
+async function getContent({id}: {id: string}) {
   const document = Document.parse(
     await api.get({
       url: `documents/${id}.json`,
     }),
   );
 
+  return document;
+}
+
+async function getAttempt({id}: {id: string}) {
+  const {attempts} = useAccount.getState();
+
+  if (attempts[id]) {
+    return attempts[id];
+  }
+
+  return {
+    marks: [],
+  };
+}
+
+export async function getDocument({id}: {id: string}) {
+  const [content, attempt] = await when([
+    getContent({
+      id,
+    }),
+    getAttempt({
+      id,
+    }),
+  ]);
+
   const sections = mapWith(
-    document.scene.sections,
+    content.scene.sections,
     (helper, section) => {
       const {model, size, positions} =
-        document.sections[section as keyof IDocument["sections"]];
+        content.sections[section as keyof IDocument["sections"]];
 
       helper.offset += size;
 
@@ -135,18 +160,15 @@ export async function getDocument({id}: {id: string}) {
     ),
   );
 
-  const {
-    content: {attempt},
-  } = useEnvironment.getState();
-
   return {
     id,
-    attempt,
+    marks: attempt.marks,
+    attempt: attempt.marks.length,
     size: sections[sections.length - 1].offset * 2,
     color: `#${Math.floor(Math.random() * 0xffffff)
       .toString(16)
       .padStart(6, "0")}`,
-    duration: document.scene.duration,
+    duration: content.scene.duration,
     sections,
     positions,
     boundaries: {
