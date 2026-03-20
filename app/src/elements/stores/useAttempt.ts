@@ -5,7 +5,7 @@ const store = {
   speed: 0,
   history: [] as {
     time: number;
-    type: "start" | "finish" | "break" | "move";
+    type: "a" | "b" | "c" | "d";
     direction: "z" | "x";
     position: {
       x: number;
@@ -69,7 +69,7 @@ const store = {
   addActionStart: () => {
     store.history.push({
       time: 0,
-      type: "start",
+      type: "a",
       direction: "z",
       position: {
         x: 1,
@@ -93,7 +93,7 @@ const store = {
 
     store.history.push({
       time: store.time,
-      type: "finish",
+      type: "b",
       direction: move.direction,
       position: {
         x: position.x,
@@ -117,7 +117,7 @@ const store = {
 
     store.history.push({
       time: store.time,
-      type: "break",
+      type: "c",
       direction: move.direction,
       position: {
         x: position.x,
@@ -141,13 +141,26 @@ const store = {
 
     store.history.push({
       time: store.time,
-      type: "move",
+      type: "d",
       direction: move.direction === "x" ? "z" : "x",
       position: {
         x: position.x,
         z: position.z,
       },
     });
+  },
+  getAttempt: () => {
+    return JSON.stringify(
+      store.history.map((action) => {
+        return {
+          a: Math.round(action.time * 100) / 100,
+          b: action.type,
+          c: action.direction,
+          d: Math.round(action.position.x * 100) / 100,
+          e: Math.round(action.position.z * 100) / 100,
+        };
+      }),
+    );
   },
 };
 

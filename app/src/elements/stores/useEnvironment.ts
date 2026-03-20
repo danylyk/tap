@@ -13,7 +13,7 @@ export default create<{
   content: {
     attempt: number;
     color: string;
-    positions: Set<string>;
+    positions: Map<string, string | undefined>;
     boundaries: {
       x: Record<number, number[]>;
       z: Record<number, number[]>;
@@ -36,7 +36,7 @@ export default create<{
   setContent: (payload: {
     color: string;
     attempt: number;
-    positions: Set<string>;
+    positions: Map<string, string | undefined>;
     boundaries: {
       x: Record<number, number[]>;
       z: Record<number, number[]>;
@@ -52,10 +52,14 @@ export default create<{
     duration: number;
   }) => void;
   checkPositionAvailability: (position: {x: number; z: number}) => boolean;
+  checkPositionType: (
+    position: {x: number; z: number},
+    type: string | undefined,
+  ) => boolean;
 }>((set, get) => {
   return {
     document: {
-      id: "6919d94f12f0c7f63e22afe87ef9fb51",
+      id: "6919d94f12f0c7f63e22afe87ef9fb53",
     },
     scene: {
       loading: true,
@@ -64,7 +68,7 @@ export default create<{
     content: {
       attempt: 0,
       color: "#ffffff",
-      positions: new Set(),
+      positions: new Map(),
       boundaries: {
         x: {},
         z: {},
@@ -77,6 +81,12 @@ export default create<{
       const collection = get().content.positions;
 
       return collection.has(point);
+    },
+    checkPositionType: ({x, z}, type) => {
+      const point = `${Math.round(x)}:${Math.round(z)}`;
+      const collection = get().content.positions;
+
+      return collection.get(point) === type;
     },
     setDocument: ({id}) => {
       set(() => {

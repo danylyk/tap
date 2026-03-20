@@ -15,4 +15,10 @@ export const events = mitt<{
       z: number;
     };
   };
+  finish: {
+    position: {
+      x: number;
+      z: number;
+    };
+  };
 }>();

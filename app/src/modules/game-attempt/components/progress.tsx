@@ -27,14 +27,22 @@ export function Progress() {
       });
     }
 
+    function onFinish() {
+      setProgress(() => {
+        return 100;
+      });
+    }
+
     events.on("tick", onTick);
     events.on("open", onReset);
     events.on("close", onReset);
+    events.on("finish", onFinish);
 
     return () => {
       events.off("tick", onTick);
       events.off("open", onReset);
       events.off("close", onReset);
+      events.off("finish", onFinish);
     };
   }, []);
 

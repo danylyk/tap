@@ -55,12 +55,13 @@ export default function Module({children}: {children: React.ReactNode}) {
         size: document.size,
         color: document.color,
         marks: document.marks,
+        done: document.done,
         attempt: document.attempt,
         duration: document.duration,
         boundaries: document.boundaries,
-        positions: new Set(
-          document.positions.map(({x, z}) => {
-            return `${x}:${z}`;
+        positions: new Map(
+          document.positions.map(({x, z, type}) => {
+            return [`${x}:${z}`, type];
           }),
         ),
         sections: document.sections.map(({model, size, offset}) => {
@@ -101,6 +102,7 @@ export default function Module({children}: {children: React.ReactNode}) {
         positions,
         boundaries,
         marks,
+        done,
       } = await request({
         id: document.id,
       });
@@ -122,6 +124,7 @@ export default function Module({children}: {children: React.ReactNode}) {
       setAttempt({
         id: document.id,
         marks,
+        done,
       });
 
       setSpeed({

@@ -13,7 +13,9 @@ const Scene = z.object({
 const Section = z.object({
   model: z.string().default(""),
   size: z.number().default(0),
-  positions: z.array(z.tuple([z.number(), z.number()])).default([]),
+  positions: z
+    .array(z.tuple([z.number(), z.number(), z.string().optional()]))
+    .default([]),
 });
 
 const Document = z.object({
@@ -44,6 +46,7 @@ async function getAttempt({id}: {id: string}) {
 
   return {
     marks: [],
+    done: false,
   };
 }
 
@@ -78,10 +81,11 @@ export async function getDocument({id}: {id: string}) {
   );
 
   const positions = sections.flatMap(({positions, offset}) => {
-    return positions.map(([x, z]) => {
+    return positions.map(([x, z, type]) => {
       return {
         x: x + offset,
         z: z + offset,
+        type,
       };
     });
   });
@@ -162,6 +166,7 @@ export async function getDocument({id}: {id: string}) {
 
   return {
     id,
+    done: attempt.done,
     marks: attempt.marks,
     attempt: attempt.marks.length,
     size: sections[sections.length - 1].offset * 2,

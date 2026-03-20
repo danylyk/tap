@@ -7,6 +7,7 @@ export default create(
   persist<{
     attempts: {
       [id: string]: {
+        done: boolean;
         marks: {
           position: {
             x: number;
@@ -17,6 +18,7 @@ export default create(
     };
     setAttempt: (payload: {
       id: string;
+      done: boolean;
       marks: {
         position: {
           x: number;
@@ -31,16 +33,18 @@ export default create(
         z: number;
       };
     }) => void;
+    setDone: (payload: {id: string}) => void;
   }>(
     (set, get) => {
       return {
         attempts: {},
-        setAttempt: ({id, marks}) => {
+        setAttempt: ({id, done, marks}) => {
           set((state) => {
             return {
               attempts: {
                 ...state.attempts,
                 [id]: {
+                  done,
                   marks,
                 },
               },
@@ -54,17 +58,41 @@ export default create(
             return;
           }
 
+          if (attempt.done === true) {
+            return;
+          }
+
           set((state) => {
             return {
               attempts: {
                 ...state.attempts,
                 [id]: {
+                  ...attempt,
                   marks: [
                     ...attempt.marks,
                     {
                       position,
                     },
                   ],
+                },
+              },
+            };
+          });
+        },
+        setDone: ({id}) => {
+          const attempt = get().attempts[id];
+
+          if (!attempt) {
+            return;
+          }
+
+          set((state) => {
+            return {
+              attempts: {
+                ...state.attempts,
+                [id]: {
+                  ...attempt,
+                  done: true,
                 },
               },
             };
