@@ -1,6 +1,6 @@
 import {ChevronRight, RotateCcw} from "lucide-react-native";
 import {View} from "react-native";
-import Animated, {Easing, FadeInLeft} from "react-native-reanimated";
+import Animated, {Easing, FadeIn, FadeInLeft} from "react-native-reanimated";
 
 import {Button} from "@/elements/primitives/button";
 import useAccount from "@/elements/stores/useAccount";
@@ -43,17 +43,23 @@ export default function Module({
         className="flex-row gap-4 items-center justify-center"
       >
         {done && (
-          <Button
-            variant="primary"
-            size="medium"
-            onPress={() => {
-              setDocument({
-                id,
-              });
-            }}
+          <Animated.View
+            entering={FadeIn.delay(2000)
+              .duration(1000)
+              .easing(Easing.bezier(0, 0.05, 0.05, 1))}
           >
-            <RotateCcw stroke="white" strokeWidth={3} size={20} />
-          </Button>
+            <Button
+              variant="primary"
+              size="medium"
+              onPress={() => {
+                setDocument({
+                  id,
+                });
+              }}
+            >
+              <RotateCcw stroke="white" strokeWidth={3} size={20} />
+            </Button>
+          </Animated.View>
         )}
         {done && (
           <Button
