@@ -56,6 +56,16 @@ export default create<{
     position: {x: number; z: number},
     type: string | undefined,
   ) => boolean;
+  getClosestPoint: ({
+    position,
+    direction,
+  }: {
+    position: {x: number; z: number};
+    direction: "x" | "z";
+  }) => {
+    x: number;
+    z: number;
+  };
 }>((set, get) => {
   return {
     document: {
@@ -152,6 +162,38 @@ export default create<{
       if (state === "closed") {
         events.emit("close");
       }
+    },
+    getClosestPoint: ({position, direction}) => {
+      const {boundaries} = get().content;
+
+      const point = {
+        x: Math.round(position.x),
+        z: Math.round(position.z),
+      };
+
+      const xs = boundaries.z[point.z]?.reverse() ?? [point.x];
+
+      const x = xs.find((x) => {
+        return point.x >= x;
+      });
+
+      if (direction === "x") {
+        return {
+          x: x ?? xs[0],
+          z: point.z,
+        };
+      }
+
+      const zs = boundaries.x[point.x]?.reverse() ?? [point.z];
+
+      const z = zs.find((z) => {
+        return point.z >= z;
+      });
+
+      return {
+        x: point.x,
+        z: z ?? zs[0],
+      };
     },
   };
 });

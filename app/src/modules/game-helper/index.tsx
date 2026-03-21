@@ -22,6 +22,15 @@ export default function Module() {
           );
         }
 
+        if (type === "b") {
+          return (
+            <mesh key={`${x}:${z}`} position={[x + 0.5, 0, z + 0.5]}>
+              <boxGeometry args={[0.5, 0.01, 0.5]} />
+              <meshBasicMaterial color="red" />
+            </mesh>
+          );
+        }
+
         return null;
       })}
     </>

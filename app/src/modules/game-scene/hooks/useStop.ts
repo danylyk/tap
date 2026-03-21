@@ -16,6 +16,7 @@ export function useStop() {
       scene: {state},
       checkPositionType,
       checkPositionAvailability,
+      getClosestPoint,
       setSceneState,
     } = useEnvironment.getState();
 
@@ -31,20 +32,34 @@ export function useStop() {
       },
     } = useAccount.getState();
 
-    const {position, addActionBreak, addActionFinish} = useAttempt.getState();
+    const {
+      position,
+      action: {direction},
+      addActionBreak,
+      addActionFinish,
+    } = useAttempt.getState();
 
     const point = {
       x: position.x,
       z: position.z,
     };
 
-    if (checkPositionType(point, "a") === true) {
+    if (checkPositionAvailability(point) === true) {
+      return;
+    }
+
+    setSceneState({
+      state: "stopped",
+    });
+
+    const cell = getClosestPoint({
+      position,
+      direction,
+    });
+
+    if (checkPositionType(cell, "a") === true) {
       addActionFinish({
         position: point,
-      });
-
-      setSceneState({
-        state: "stopped",
       });
 
       events.emit("finish", {
@@ -62,24 +77,22 @@ export function useStop() {
       return;
     }
 
-    if (checkPositionAvailability(point) === false) {
-      addActionBreak({
-        position: point,
-      });
-
-      setSceneState({
-        state: "stopped",
-      });
-
-      events.emit("break", {
-        position: point,
-      });
-
-      if (done === true) {
-        return;
-      }
-
+    if (checkPositionType(cell, "b") === true) {
       return;
     }
+
+    addActionBreak({
+      position: point,
+    });
+
+    events.emit("break", {
+      position: point,
+    });
+
+    if (done === true) {
+      return;
+    }
+
+    return;
   });
 }

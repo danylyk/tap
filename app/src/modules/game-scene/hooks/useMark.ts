@@ -24,45 +24,19 @@ export function useMark() {
       };
     }) {
       const {
-        content: {boundaries},
-      } = useEnvironment.getState();
+        action: {direction},
+      } = useAttempt.getState();
 
-      const {action} = useAttempt.getState();
+      const {getClosestPoint} = useEnvironment.getState();
 
-      const point = {
-        x: Math.round(position.x),
-        z: Math.round(position.z),
-      };
-
-      const xs = boundaries.z[point.z]?.reverse() ?? [point.x];
-      const zs = boundaries.x[point.x]?.reverse() ?? [point.z];
-
-      const x = xs.find((x) => {
-        return point.x >= x;
+      const point = getClosestPoint({
+        position,
+        direction,
       });
-
-      const z = zs.find((z) => {
-        return point.z >= z;
-      });
-
-      if (action.direction === "x") {
-        addMark({
-          id,
-          position: {
-            x: x ?? xs[0],
-            z: point.z,
-          },
-        });
-
-        return;
-      }
 
       addMark({
         id,
-        position: {
-          x: point.x,
-          z: z ?? zs[0],
-        },
+        position: point,
       });
     }
 

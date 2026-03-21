@@ -28,7 +28,6 @@ export function usePlayerControl({
 
       const {
         scene: {state},
-        checkPositionType,
         checkPositionAvailability,
       } = useEnvironment.getState();
 
@@ -48,10 +47,6 @@ export function usePlayerControl({
         x: position.x,
         z: position.z,
       };
-
-      if (checkPositionType(point, "a") === true) {
-        return;
-      }
 
       if (checkPositionAvailability(point) === false) {
         return;
