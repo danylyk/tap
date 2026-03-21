@@ -34,7 +34,10 @@ export default function Module() {
     <group ref={player} position={[1, 0, 1]}>
       <group ref={character}>
         <Suspense>
-          <Visible status={state !== "stopped"} delay={1000}>
+          <Visible
+            status={state !== "stopped" && state !== "missed"}
+            delay={1000}
+          >
             <Skin />
           </Visible>
         </Suspense>

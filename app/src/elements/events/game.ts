@@ -6,6 +6,7 @@ export const events = mitt<{
   load: void;
   open: void;
   start: void;
+  miss: void;
   pause: void;
   stop: void;
   close: void;

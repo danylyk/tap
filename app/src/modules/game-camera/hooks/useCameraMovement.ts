@@ -39,10 +39,20 @@ export function useCameraMovement({ref}: {ref: RefObject<Group | null>}) {
       ref.current.position.set(1, 0, 1);
     }
 
+    function onOpen() {
+      if (!ref.current) {
+        return;
+      }
+
+      ref.current.position.set(1, 0, 1);
+    }
+
     events.on("load", onLoad);
+    events.on("open", onOpen);
 
     return () => {
       events.off("load", onLoad);
+      events.off("open", onOpen);
     };
   }, [ref]);
 }

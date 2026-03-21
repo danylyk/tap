@@ -1,4 +1,5 @@
 import {useMark} from "../hooks/useMark";
+import {useMiss} from "../hooks/useMiss";
 import {usePause} from "../hooks/usePause";
 import {useStart} from "../hooks/useStart";
 import {useStop} from "../hooks/useStop";
@@ -10,6 +11,7 @@ export function Scene({children}: {children: React.ReactNode}) {
   useStop();
   useTime();
   useMark();
+  useMiss();
 
   return children;
 }

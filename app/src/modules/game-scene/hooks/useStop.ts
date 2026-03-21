@@ -48,13 +48,21 @@ export function useStop() {
       return;
     }
 
-    setSceneState({
-      state: "stopped",
-    });
-
     const cell = getClosestPoint({
       position,
       direction,
+    });
+
+    if (checkPositionType(cell, "b") === true) {
+      setSceneState({
+        state: "missed",
+      });
+
+      return;
+    }
+
+    setSceneState({
+      state: "stopped",
     });
 
     if (checkPositionType(cell, "a") === true) {
@@ -74,10 +82,6 @@ export function useStop() {
         id,
       });
 
-      return;
-    }
-
-    if (checkPositionType(cell, "b") === true) {
       return;
     }
 

@@ -62,6 +62,10 @@ export default function Module() {
       zoom.to(14.4);
     }
 
+    function onMiss() {
+      zoom.to(15.4);
+    }
+
     function onStop() {
       zoom.to(18.8);
     }
@@ -73,13 +77,15 @@ export default function Module() {
     events.on("load", onLoad);
     events.on("open", onOpen);
     events.on("start", onStart);
+    events.on("miss", onMiss);
     events.on("stop", onStop);
     events.on("close", onClose);
 
     return () => {
-      events.on("load", onLoad);
+      events.off("load", onLoad);
       events.off("open", onOpen);
       events.off("start", onStart);
+      events.off("miss", onMiss);
       events.off("stop", onStop);
       events.off("close", onClose);
     };

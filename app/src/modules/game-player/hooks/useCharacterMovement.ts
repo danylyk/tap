@@ -66,18 +66,24 @@ export function useCharacterMovement({
       transition.stop();
     }
 
+    function onMiss() {
+      transition.stop();
+    }
+
     function onReset() {
       transition.to({x: 0, z: 0}, {x: 0, z: 0});
     }
 
     events.on("tap", onTap);
     events.on("stop", onStop);
+    events.on("miss", onMiss);
     events.on("open", onReset);
     events.on("close", onReset);
 
     return () => {
       events.off("tap", onTap);
       events.off("stop", onStop);
+      events.off("miss", onMiss);
       events.off("open", onReset);
       events.off("close", onReset);
     };
