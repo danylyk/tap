@@ -5,6 +5,7 @@ import {Body} from "@/elements/components/body";
 import Attempt from "@/modules/game-attempt";
 import Camera from "@/modules/game-camera";
 import Content from "@/modules/game-content";
+import Continue from "@/modules/game-continue";
 import Enter from "@/modules/game-enter";
 import Exit from "@/modules/game-exit";
 import Loader from "@/modules/game-loader";
@@ -12,6 +13,7 @@ import Marks from "@/modules/game-marks";
 import Pause from "@/modules/game-pause";
 import Player from "@/modules/game-player";
 import Scene from "@/modules/game-scene";
+import Score from "@/modules/game-score";
 import Sections from "@/modules/game-sections";
 
 export default function Page() {
@@ -26,12 +28,16 @@ export default function Page() {
             <Marks />
           </Scene>
         </View>
+        <Score className="absolute inset-0 z-25" />
         <Enter className="absolute inset-0 z-15" />
         <View className="relative z-20">
           <Attempt className="absolute left-6 top-6 select-none" />
         </View>
         <View className="relative z-30">
           <Exit className="absolute right-6 top-6 select-none" />
+        </View>
+        <View className="relative z-25 mt-auto">
+          <Continue className="absolute right-6 bottom-6 select-none" />
         </View>
       </Content>
       <Loader />

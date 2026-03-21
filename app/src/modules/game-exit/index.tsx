@@ -13,10 +13,6 @@ export default function Module({
     return state.scene.state;
   });
 
-  const id = useEnvironment((state) => {
-    return state.document.id;
-  });
-
   const loading = useEnvironment((state) => {
     return state.scene.loading;
   });
@@ -25,11 +21,7 @@ export default function Module({
     return state.setSceneState;
   });
 
-  const setDocument = useEnvironment((state) => {
-    return state.setDocument;
-  });
-
-  if (["opened", "stopped"].includes(state) === false) {
+  if (["opened"].includes(state) === false) {
     return null;
   }
 
@@ -42,14 +34,6 @@ export default function Module({
       <Button
         size="medium"
         onPress={() => {
-          if (state === "stopped") {
-            setDocument({
-              id,
-            });
-
-            return;
-          }
-
           setSceneState({
             state: "closed",
           });
