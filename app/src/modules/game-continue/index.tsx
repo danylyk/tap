@@ -40,7 +40,21 @@ export default function Module({
         entering={FadeInLeft.delay(1500)
           .duration(500)
           .easing(Easing.bezier(0, 0.5, 0.25, 1))}
+        className="flex-row gap-4 items-center justify-center"
       >
+        {done && (
+          <Button
+            variant="primary"
+            size="medium"
+            onPress={() => {
+              setDocument({
+                id,
+              });
+            }}
+          >
+            <RotateCcw stroke="white" strokeWidth={3} size={20} />
+          </Button>
+        )}
         {done && (
           <Button
             className="px-5 gap-3"
