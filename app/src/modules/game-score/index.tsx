@@ -90,9 +90,9 @@ export default function Module({
               entering={FadeInDown.delay(600 + 300 * preogress)
                 .duration(300 + 300 * preogress)
                 .easing(Easing.bezier(0, 0.25, 0.25, 1))}
-              className="w-full px-6 py-3 bg-primary"
+              className="w-full px-6 py-2 min-h-14 flex-row gap-2 items-center justify-center bg-primary"
             >
-              <Text className="text-white text-base font-bold uppercase text-center">
+              <Text className="text-white text-lg font-bold uppercase text-center">
                 {text}
               </Text>
             </Animated.View>
