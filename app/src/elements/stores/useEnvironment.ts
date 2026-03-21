@@ -9,9 +9,11 @@ export default create<{
   scene: {
     loading: boolean;
     state: "opened" | "started" | "missed" | "paused" | "stopped" | "closed";
+    progress: number;
   };
   content: {
     attempt: number;
+    done: boolean;
     color: string;
     positions: Map<string, string | undefined>;
     boundaries: {
@@ -30,11 +32,13 @@ export default create<{
   };
   setDocument: (payload: {id: string}) => void;
   setSceneLoading: (payload: {value: boolean}) => void;
+  setSceneProgress: (payload: {progress: number}) => void;
   setSceneState: (payload: {
     state: "opened" | "started" | "missed" | "paused" | "stopped" | "closed";
   }) => void;
   setContent: (payload: {
     color: string;
+    done: boolean;
     attempt: number;
     positions: Map<string, string | undefined>;
     boundaries: {
@@ -69,13 +73,15 @@ export default create<{
 }>((set, get) => {
   return {
     document: {
-      id: "6919d94f12f0c7f63e22afe87ef9fb53",
+      id: "6919d94f12f0c7f63e22afe87ef9fb58",
     },
     scene: {
       loading: true,
       state: "closed",
+      progress: 0,
     },
     content: {
+      done: false,
       attempt: 0,
       color: "#ffffff",
       positions: new Map(),
@@ -112,6 +118,7 @@ export default create<{
         return {
           content: {
             color: payload.color,
+            done: payload.done,
             attempt: payload.attempt,
             positions: payload.positions,
             boundaries: payload.boundaries,
@@ -124,21 +131,23 @@ export default create<{
       events.emit("load");
     },
     setSceneLoading: ({value: loading}) => {
-      set(({scene: {state}}) => {
+      set(({scene: {state, progress}}) => {
         return {
           scene: {
             state,
             loading,
+            progress,
           },
         };
       });
     },
     setSceneState: ({state}) => {
-      set(({scene: {loading}}) => {
+      set(({scene: {loading, progress}}) => {
         return {
           scene: {
             state,
             loading,
+            progress: state === "opened" ? 0 : progress,
           },
         };
       });
@@ -166,6 +175,17 @@ export default create<{
       if (state === "closed") {
         events.emit("close");
       }
+    },
+    setSceneProgress: ({progress}) => {
+      set(({scene: {state, loading}}) => {
+        return {
+          scene: {
+            state,
+            loading,
+            progress,
+          },
+        };
+      });
     },
     getClosestPoint: ({position, direction}) => {
       const {boundaries} = get().content;

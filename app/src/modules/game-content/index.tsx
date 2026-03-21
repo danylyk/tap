@@ -114,6 +114,7 @@ export default function Module({children}: {children: React.ReactNode}) {
 
       setContent({
         color,
+        done,
         attempt,
         positions,
         boundaries,

@@ -2,7 +2,6 @@ import mitt from "mitt";
 
 export const events = mitt<{
   tap: void;
-  tick: void;
   load: void;
   open: void;
   start: void;

@@ -1,5 +1,3 @@
-import {events} from "@/elements/events/game";
-
 const store = {
   time: 0,
   speed: 0,
@@ -64,7 +62,6 @@ const store = {
   },
   addTick: ({delta}: {delta: number}) => {
     store.time += delta;
-    events.emit("tick");
   },
   addActionStart: () => {
     store.history.push({
