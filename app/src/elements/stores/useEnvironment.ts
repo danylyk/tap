@@ -73,7 +73,7 @@ export default create<{
 }>((set, get) => {
   return {
     document: {
-      id: "6919d94f12f0c7f63e22afe87ef9fb58",
+      id: "6919d94f12f0c7f63e22afe87ef9fb61",
     },
     scene: {
       loading: true,

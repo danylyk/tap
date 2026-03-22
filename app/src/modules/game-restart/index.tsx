@@ -1,4 +1,4 @@
-import {ChevronRight, RotateCcw} from "lucide-react-native";
+import {RotateCcw} from "lucide-react-native";
 import {View} from "react-native";
 import Animated, {Easing, FadeInLeft} from "react-native-reanimated";
 
@@ -31,52 +31,32 @@ export default function Module({
     return null;
   }
 
+  if (!done) {
+    return null;
+  }
+
   return (
     <View
       className={cn("flex-row items-center justify-center gap-2", className)}
       {...props}
     >
       <Animated.View
-        entering={FadeInLeft.delay(1500)
+        entering={FadeInLeft.delay(1700)
           .duration(500)
           .easing(Easing.bezier(0, 0.5, 0.25, 1))}
         className="flex-row gap-4 items-center justify-center"
       >
-        {done && (
-          <Button
-            className="px-5.5 py-3 gap-3"
-            variant="primary"
-            size="medium"
-            onPress={() => {
-              setDocument({
-                id,
-              });
-            }}
-          >
-            Continue
-            <ChevronRight
-              stroke="white"
-              className="-mx-0.5"
-              strokeWidth={2.5}
-              size={20}
-            />
-          </Button>
-        )}
-        {!done && (
-          <Button
-            className="px-5.5 py-3 gap-3.5"
-            variant="primary"
-            size="medium"
-            onPress={() => {
-              setDocument({
-                id,
-              });
-            }}
-          >
-            Retry
-            <RotateCcw stroke="white" strokeWidth={2.5} size={16} />
-          </Button>
-        )}
+        <Button
+          className="w-12 h-12 items-center justify-center"
+          size="medium"
+          onPress={() => {
+            setDocument({
+              id,
+            });
+          }}
+        >
+          <RotateCcw strokeWidth={2.5} size={20} />
+        </Button>
       </Animated.View>
     </View>
   );

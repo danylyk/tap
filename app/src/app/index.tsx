@@ -12,6 +12,7 @@ import Loader from "@/modules/game-loader";
 import Marks from "@/modules/game-marks";
 import Pause from "@/modules/game-pause";
 import Player from "@/modules/game-player";
+import Restart from "@/modules/game-restart";
 import Scene from "@/modules/game-scene";
 import Score from "@/modules/game-score";
 import Sections from "@/modules/game-sections";
@@ -38,6 +39,9 @@ export default function Page() {
         </View>
         <View className="relative z-25 mt-auto">
           <Continue className="absolute right-6 bottom-6 select-none" />
+        </View>
+        <View className="relative z-25">
+          <Restart className="absolute left-6 bottom-6 select-none" />
         </View>
       </Content>
       <Loader />

@@ -42,11 +42,11 @@ const textVariants = cva("font-medium", {
   variants: {
     variant: {
       default: "text-primary font-mediun uppercase",
-      primary: "text-white font-bold uppercase",
+      primary: "text-white font-medium uppercase",
     },
     size: {
       default: "text-sm",
-      medium: "text-lg",
+      medium: "text-base",
     },
   },
   defaultVariants: {
