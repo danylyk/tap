@@ -1,4 +1,4 @@
-import {Suspense, useRef} from "react";
+import {Suspense, useMemo, useRef} from "react";
 import {Group} from "three";
 
 import {Visible} from "@/elements/components/visible";
@@ -30,14 +30,31 @@ export default function Module() {
     ref: player,
   });
 
+  const isVisible = useMemo(() => {
+    if (state === "missed") {
+      return false;
+    }
+
+    if (state !== "stopped") {
+      return true;
+    }
+
+    const {
+      scene: {progress},
+    } = useEnvironment.getState();
+
+    if (progress >= 100) {
+      return true;
+    }
+
+    return false;
+  }, [state]);
+
   return (
     <group ref={player} position={[1, 0, 1]}>
       <group ref={character}>
         <Suspense>
-          <Visible
-            status={state !== "stopped" && state !== "missed"}
-            delay={1000}
-          >
+          <Visible status={isVisible} delay={1000}>
             <Skin />
           </Visible>
         </Suspense>

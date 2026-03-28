@@ -85,12 +85,36 @@ export function Skin({isVisible}: {isVisible?: boolean}) {
       });
     }
 
+    function onFinish() {
+      const {action} = useAttempt.getState();
+
+      if (!action) {
+        return;
+      }
+
+      if (action.direction === "z") {
+        animator.play({
+          name: "finish-z",
+          repeatable: true,
+        });
+
+        return;
+      }
+
+      animator.play({
+        name: "finish-x",
+        repeatable: true,
+      });
+    }
+
+    events.on("finish", onFinish);
     events.on("close", onReset);
     events.on("open", onReset);
 
     onReset();
 
     return () => {
+      events.off("finish", onFinish);
       events.off("close", onReset);
       events.off("open", onReset);
     };
