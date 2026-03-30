@@ -1,5 +1,6 @@
 import {X} from "lucide-react-native";
 import {View} from "react-native";
+import Animated, {Easing, FadeIn, FadeOut} from "react-native-reanimated";
 
 import {Button} from "@/elements/primitives/button";
 import useEnvironment from "@/elements/stores/useEnvironment";
@@ -30,7 +31,12 @@ export default function Module({
   }
 
   return (
-    <View className={cn("-m-3 p-3 rounded-full", className)} {...props}>
+    <Animated.View
+      {...props}
+      className={cn("-m-3 p-3 rounded-full", className)}
+      entering={FadeIn.duration(500).easing(Easing.bezier(0, 0.5, 0.5, 1))}
+      exiting={FadeOut.duration(100).easing(Easing.bezier(0, 0.5, 0.5, 1))}
+    >
       <Button
         size="medium"
         onPress={() => {
@@ -41,6 +47,6 @@ export default function Module({
       >
         <X size={28} />
       </Button>
-    </View>
+    </Animated.View>
   );
 }
