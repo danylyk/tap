@@ -8,6 +8,7 @@ import Content from "@/modules/game-content";
 import Continue from "@/modules/game-continue";
 import Enter from "@/modules/game-enter";
 import Exit from "@/modules/game-exit";
+import Frame from "@/modules/game-frame";
 import Loader from "@/modules/game-loader";
 import Marks from "@/modules/game-marks";
 import Pause from "@/modules/game-pause";
@@ -46,6 +47,7 @@ export default function Page() {
       </Content>
       <Loader />
       <Pause />
+      <Frame />
     </Body>
   );
 }

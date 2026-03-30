@@ -16,6 +16,14 @@ export default function Module({...props}: React.ComponentProps<typeof View>) {
     return state.attempts[id]?.done;
   });
 
+  const isClosed = useEnvironment((state) => {
+    return state.scene.state === "closed";
+  });
+
+  if (isClosed) {
+    return null;
+  }
+
   return (
     <View {...props}>
       <Text className="text-4xl font-bold text-primary">
