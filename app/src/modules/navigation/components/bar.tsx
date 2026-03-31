@@ -23,7 +23,7 @@ export function Bar({...props}: BottomTabBarProps) {
   useEffect(() => {
     bottom.value = withTiming(isEnabled && isOpened ? -offset : 0, {
       easing: Easing.bezier(0, 0.25, 0.25, 1),
-      duration: 500,
+      duration: 400,
     });
   }, [isEnabled, isOpened, bottom, offset]);
 

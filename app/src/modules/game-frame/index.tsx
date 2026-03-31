@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {useBottomTabBarHeight} from "@react-navigation/bottom-tabs";
 import {useEffect} from "react";
 import {useWindowDimensions, View} from "react-native";
@@ -40,7 +41,7 @@ export default function Module({
   useEffect(() => {
     const config = {
       easing: Easing.bezier(0, 0.25, 0.25, 1),
-      duration: 500,
+      duration: 400,
     };
 
     if (isClosed) {
@@ -58,6 +59,26 @@ export default function Module({
     }
   }, [
     isClosed,
+    defaultLeft,
+    defaultTop,
+    defaultRight,
+    defaultBottom,
+    x,
+    y,
+    w,
+    h,
+    r,
+  ]);
+
+  useEffect(() => {
+    if (isClosed) {
+      w.value = width - defaultLeft - defaultRight;
+      h.value = height - defaultTop - defaultBottom;
+    } else {
+      w.value = width;
+      h.value = height;
+    }
+  }, [
     defaultLeft,
     defaultTop,
     defaultRight,
@@ -101,7 +122,13 @@ export default function Module({
       {...props}
       className="absolute inset-0 z-50 pointer-events-none"
     >
-      <Svg width={width} height={height} style={{position: "absolute"}}>
+      <Svg
+        width={width}
+        height={height}
+        style={{
+          position: "absolute",
+        }}
+      >
         <AnimatedPath
           animatedProps={animatedProps}
           fill="white"
