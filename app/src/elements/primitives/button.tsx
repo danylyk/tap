@@ -25,7 +25,7 @@ const buttonVariants = cva("flex-row items-center rounded-full", {
   variants: {
     variant: {
       default: "bg-primary/10",
-      primary: "bg-primary",
+      primary: "bg-white",
     },
     size: {
       default: "py-2 px-3 gap-1.5",
@@ -41,8 +41,8 @@ const buttonVariants = cva("flex-row items-center rounded-full", {
 const textVariants = cva("font-medium", {
   variants: {
     variant: {
-      default: "text-primary font-mediun uppercase",
-      primary: "text-white font-medium uppercase",
+      default: "text-white font-medium uppercase",
+      primary: "text-primary font-medium uppercase",
     },
     size: {
       default: "text-sm",

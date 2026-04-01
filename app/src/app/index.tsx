@@ -9,6 +9,7 @@ import Continue from "@/modules/game-continue";
 import Enter from "@/modules/game-enter";
 import Exit from "@/modules/game-exit";
 import Frame from "@/modules/game-frame";
+import Level from "@/modules/game-level";
 import Loader from "@/modules/game-loader";
 import Marks from "@/modules/game-marks";
 import Pause from "@/modules/game-pause";
@@ -17,6 +18,7 @@ import Restart from "@/modules/game-restart";
 import Scene from "@/modules/game-scene";
 import Score from "@/modules/game-score";
 import Sections from "@/modules/game-sections";
+import Vignette from "@/modules/game-vignette";
 
 export default function Page() {
   return (
@@ -48,6 +50,8 @@ export default function Page() {
       <Loader />
       <Pause />
       <Frame />
+      <Level />
+      <Vignette />
     </Body>
   );
 }

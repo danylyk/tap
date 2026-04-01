@@ -54,12 +54,7 @@ export default function Module({
             }}
           >
             Continue
-            <ChevronRight
-              stroke="white"
-              className="-mx-0.5"
-              strokeWidth={2.5}
-              size={20}
-            />
+            <ChevronRight className="-mx-0.5" strokeWidth={2.5} size={20} />
           </Button>
         )}
         {!done && (
@@ -74,7 +69,7 @@ export default function Module({
             }}
           >
             Retry
-            <RotateCcw stroke="white" strokeWidth={2.5} size={16} />
+            <RotateCcw color="white" strokeWidth={2.5} size={16} />
           </Button>
         )}
       </Animated.View>

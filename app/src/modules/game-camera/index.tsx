@@ -50,7 +50,7 @@ export default function Module() {
       }
 
       if (state === "closed") {
-        zoom.to(14.2, 14.2);
+        zoom.to(15, 15);
       }
     }
 
@@ -71,7 +71,7 @@ export default function Module() {
     }
 
     function onClose() {
-      zoom.to(14.2);
+      zoom.to(15);
     }
 
     events.on("load", onLoad);

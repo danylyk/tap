@@ -7,7 +7,7 @@ export function Body({children}: {children: React.ReactNode}) {
       <SafeAreaView
         style={{
           flex: 1,
-          backgroundColor: "#fff",
+          backgroundColor: "#070B1E",
         }}
       >
         {children}

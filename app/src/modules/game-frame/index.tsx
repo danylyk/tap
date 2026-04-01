@@ -27,10 +27,14 @@ export default function Module({
     return state.scene.state === "closed";
   });
 
-  const defaultTop = Math.max(insets.top, 16);
-  const defaultBottom = Math.max(tabBarHeight + 16, 16);
-  const defaultLeft = Math.max(insets.left, 16);
-  const defaultRight = Math.max(insets.right, 16);
+  const isStarted = useEnvironment((state) => {
+    return state.scene.state === "started";
+  });
+
+  const defaultTop = Math.max(insets.top, 16) + 4;
+  const defaultBottom = Math.max(tabBarHeight + 16, 16) + 4;
+  const defaultLeft = Math.max(insets.left, 16) + 4;
+  const defaultRight = Math.max(insets.right, 16) + 4;
 
   const x = useSharedValue(defaultLeft);
   const y = useSharedValue(defaultTop);
@@ -117,11 +121,12 @@ export default function Module({
     return {d: `${outerRect} ${inner}`};
   });
 
+  if (isStarted) {
+    return null;
+  }
+
   return (
-    <Animated.View
-      {...props}
-      className="absolute inset-0 z-50 pointer-events-none"
-    >
+    <Animated.View {...props} className="absolute z-50 pointer-events-none">
       <Svg
         width={width}
         height={height}
@@ -131,8 +136,10 @@ export default function Module({
       >
         <AnimatedPath
           animatedProps={animatedProps}
-          fill="white"
+          fill="#070B1E"
           fillRule="evenodd"
+          strokeWidth={1}
+          stroke="rgba(255, 255, 255, 0.1)"
         />
       </Svg>
 

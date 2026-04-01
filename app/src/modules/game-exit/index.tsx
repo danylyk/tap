@@ -45,7 +45,7 @@ export default function Module({
           });
         }}
       >
-        <X size={28} />
+        <X color="white" size={28} />
       </Button>
     </Animated.View>
   );

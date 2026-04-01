@@ -55,7 +55,7 @@ export default function Module({
             });
           }}
         >
-          <RotateCcw strokeWidth={2.5} size={20} />
+          <RotateCcw color="white" strokeWidth={2.5} size={20} />
         </Button>
       </Animated.View>
     </View>

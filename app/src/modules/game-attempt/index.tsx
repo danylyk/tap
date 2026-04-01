@@ -31,17 +31,17 @@ export default function Module({...props}: React.ComponentProps<typeof View>) {
       entering={FadeIn.duration(500).easing(Easing.bezier(0, 0.5, 0.5, 1))}
       exiting={FadeOut.duration(100).easing(Easing.bezier(0, 0.5, 0.5, 1))}
     >
-      <Text className="text-4xl font-bold text-primary">
+      <Text className="text-4xl font-bold text-white">
         <Progress />
         <Text className="text-2xl">%</Text>
       </Text>
-      <Text className="text-base text-primary/40">
+      <Text className="text-base text-white/40">
         ATTEMPT <Attempt />
       </Text>
 
       {done && (
         <View className="p-1 bg-primary/10 w-7 h-7 flex items-center justify-center rounded-full mt-1">
-          <Check size={16} />
+          <Check stroke="white" size={16} />
         </View>
       )}
     </Animated.View>

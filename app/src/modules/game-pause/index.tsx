@@ -15,7 +15,7 @@ export default function Module({...props}: React.ComponentProps<typeof View>) {
   return (
     <View
       {...props}
-      className="absolute inset-0 z-30 color-primary bg-primary/5 flex items-center justify-center pointer-events-none"
+      className="absolute inset-0 z-30 color-primary bg-primary/10 flex items-center justify-center pointer-events-none"
     >
       <Pause size={128} fill="currentColor" opacity={0.35} />
     </View>
