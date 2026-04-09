@@ -41,6 +41,7 @@ export default function Module({
   const w = useSharedValue(width - defaultLeft - defaultRight);
   const h = useSharedValue(height - defaultTop - defaultBottom);
   const r = useSharedValue(28);
+  const a = useSharedValue(0);
 
   useEffect(() => {
     const config = {
@@ -54,12 +55,14 @@ export default function Module({
       w.value = withTiming(width - defaultLeft - defaultRight, config);
       h.value = withTiming(height - defaultTop - defaultBottom, config);
       r.value = withTiming(28, config);
+      a.value = withTiming(1, config);
     } else {
       x.value = withTiming(0, config);
       y.value = withTiming(0, config);
       w.value = withTiming(width, config);
       h.value = withTiming(height, config);
       r.value = withTiming(0, config);
+      a.value = withTiming(1, config);
     }
   }, [
     isClosed,
@@ -72,6 +75,7 @@ export default function Module({
     w,
     h,
     r,
+    a,
   ]);
 
   useEffect(() => {
@@ -118,7 +122,10 @@ export default function Module({
       "Z",
     ].join(" ");
 
-    return {d: `${outerRect} ${inner}`};
+    return {
+      d: `${outerRect} ${inner}`,
+      opacity: a.value,
+    };
   });
 
   if (isStarted) {
