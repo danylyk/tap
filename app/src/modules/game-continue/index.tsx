@@ -69,7 +69,7 @@ export default function Module({
             }}
           >
             Retry
-            <RotateCcw color="white" strokeWidth={2.5} size={16} />
+            <RotateCcw strokeWidth={2.5} size={16} />
           </Button>
         )}
       </Animated.View>
