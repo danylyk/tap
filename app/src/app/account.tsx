@@ -1,12 +1,15 @@
 import React from "react";
-import {View} from "react-native";
 
 import {Body} from "@/elements/components/body";
+import {Scroll} from "@/elements/components/scroll";
+import {Text} from "@/elements/components/text";
 
 export default function Page() {
   return (
     <Body>
-      <View />
+      <Scroll>
+        <Text>Account</Text>
+      </Scroll>
     </Body>
   );
 }

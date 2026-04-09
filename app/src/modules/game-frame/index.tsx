@@ -126,7 +126,7 @@ export default function Module({
   }
 
   return (
-    <Animated.View {...props} className="absolute z-50 pointer-events-none">
+    <View {...props} className="absolute z-50 pointer-events-none">
       <Svg
         width={width}
         height={height}
@@ -136,7 +136,7 @@ export default function Module({
       >
         <AnimatedPath
           animatedProps={animatedProps}
-          fill="#070B1E"
+          fill="#000000"
           fillRule="evenodd"
           strokeWidth={1}
           stroke="rgba(255, 255, 255, 0.1)"
@@ -144,6 +144,6 @@ export default function Module({
       </Svg>
 
       {children}
-    </Animated.View>
+    </View>
   );
 }

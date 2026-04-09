@@ -1,5 +1,6 @@
 import "@/public/assets/global.css";
 
+import {DarkTheme, ThemeProvider} from "@react-navigation/native";
 import {Tabs} from "expo-router";
 import {House, User} from "lucide-react-native";
 
@@ -7,26 +8,30 @@ import Navigation from "@/modules/navigation";
 
 export default function Layout() {
   return (
-    <Navigation>
-      <Tabs.Screen
-        name="index"
-        options={{
-          headerShown: false,
-          title: "Home",
-          tabBarIcon: ({color, size}) => {
-            return <House color={color} size={size} />;
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="account"
-        options={{
-          title: "Account",
-          tabBarIcon: ({color, size}) => {
-            return <User color={color} size={size} />;
-          },
-        }}
-      />
-    </Navigation>
+    <ThemeProvider value={DarkTheme}>
+      <Navigation>
+        <Tabs.Screen
+          name="index"
+          options={{
+            headerShown: false,
+            title: "Home",
+            tabBarIcon: ({color, size}) => {
+              return <House color={color} size={size} />;
+            },
+          }}
+        />
+        <Tabs.Screen
+          name="account"
+          options={{
+            title: "Account",
+            headerTitle: "Account",
+            headerShown: true,
+            tabBarIcon: ({color, size}) => {
+              return <User color={color} size={size} />;
+            },
+          }}
+        />
+      </Navigation>
+    </ThemeProvider>
   );
 }

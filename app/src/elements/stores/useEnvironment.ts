@@ -83,7 +83,7 @@ export default create<{
     content: {
       done: false,
       attempt: 0,
-      color: "#ffffff",
+      color: "#1C1C1E",
       positions: new Map(),
       boundaries: {
         x: {},

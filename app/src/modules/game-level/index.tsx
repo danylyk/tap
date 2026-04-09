@@ -15,6 +15,8 @@ import {useSafeAreaInsets} from "react-native-safe-area-context";
 import useEnvironment from "@/elements/stores/useEnvironment";
 import {cn} from "@/lib/utils";
 
+import {Attempt} from "./components/attempt";
+
 export default function Module({
   className,
   ...props
@@ -81,16 +83,21 @@ export default function Module({
           style={{
             position: "absolute",
             zIndex: 2,
-            right: 44,
-            bottom: tabBarHeight + 52,
+            right: 51,
+            bottom: tabBarHeight + 51,
           }}
         >
           <ChevronRight stroke="white" size={28} />
         </Animated.View>
       )}
-      <Animated.View className="relative z-2 p=5" style={animatedStyle}>
+      <Animated.View
+        className="relative z-2 p=5 select-none"
+        style={animatedStyle}
+      >
         <Text className="text-8xl font-black text-white">71</Text>
-        <Text className="text-3xl font-light text-white/25">ATTEMPT 3</Text>
+        <Text className="text-3xl font-light text-white/25">
+          ATTEMPT <Attempt />
+        </Text>
       </Animated.View>
     </Animated.View>
   );
