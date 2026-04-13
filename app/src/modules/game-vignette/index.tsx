@@ -61,7 +61,7 @@ export default function Module() {
         }}
       >
         <LinearGradient
-          colors={["rgba(7,11,30,0.3)", "rgba(7,11,30,0)"]}
+          colors={["rgba(0,0,0,0.3)", "rgba(0,0,0,0)"]}
           style={{
             position: "absolute",
             left: 0,
@@ -73,7 +73,7 @@ export default function Module() {
       </View>
       <Animated.View style={animatedStyle}>
         <LinearGradient
-          colors={["rgba(7,11,30,0.0)", "rgba(7,11,30,0.8)"]}
+          colors={["rgba(0,0,0,0.0)", "rgba(0,0,0,0.8)"]}
           style={{
             position: "absolute",
             left: 0,
