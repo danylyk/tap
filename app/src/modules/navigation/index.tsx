@@ -19,17 +19,9 @@ export default function Module({
           backgroundColor: "transparent",
           borderTopColor: "rgba(255, 255, 255, 0.15)",
         },
-        headerTransparent: true,
         tabBarActiveTintColor: "white",
         tabBarInactiveTintColor: "rgba(255, 255, 255, 0.5)",
         tabBarBackground: () => (
-          <BlurView
-            intensity={80}
-            tint="systemChromeMaterialDark"
-            style={StyleSheet.absoluteFill}
-          />
-        ),
-        headerBackground: () => (
           <BlurView
             intensity={80}
             tint="systemChromeMaterialDark"

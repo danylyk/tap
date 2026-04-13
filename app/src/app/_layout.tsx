@@ -13,19 +13,18 @@ export default function Layout() {
         <Tabs.Screen
           name="index"
           options={{
-            headerShown: false,
             title: "Home",
+            headerShown: false,
             tabBarIcon: ({color, size}) => {
               return <House color={color} size={size} />;
             },
           }}
         />
         <Tabs.Screen
-          name="account"
+          name="(account)"
           options={{
             title: "Account",
-            headerTitle: "Account",
-            headerShown: true,
+            headerShown: false,
             tabBarIcon: ({color, size}) => {
               return <User color={color} size={size} />;
             },

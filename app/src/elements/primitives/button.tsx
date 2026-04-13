@@ -13,6 +13,7 @@ const pressableVariants = cva("rounded-full", {
   variants: {
     variant: {
       default: "rounded-full",
+      secondary: "rounded-3xl",
       primary: "rounded-full",
     },
   },
@@ -25,11 +26,13 @@ const buttonVariants = cva("flex-row items-center rounded-full", {
   variants: {
     variant: {
       default: "bg-primary/10",
+      secondary: "bg-white/10 justify-center rounded-2xl",
       primary: "bg-white",
     },
     size: {
       default: "py-2 px-3 gap-1.5",
       medium: "py-2.5 px-3.5",
+      large: "py-3.5 px-4.5",
     },
   },
   defaultVariants: {
@@ -42,11 +45,13 @@ const textVariants = cva("font-medium", {
   variants: {
     variant: {
       default: "text-white font-medium uppercase",
+      secondary: "text-white font-medium uppercase",
       primary: "text-primary font-medium uppercase",
     },
     size: {
       default: "text-sm",
       medium: "text-base",
+      large: "text-base",
     },
   },
   defaultVariants: {

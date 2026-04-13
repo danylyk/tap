@@ -22,7 +22,7 @@ import Vignette from "@/modules/game-vignette";
 
 export default function Page() {
   return (
-    <Body>
+    <Body noHeader noFooter>
       <Content>
         <View className="absolute inset-0 z-10">
           <Scene>
@@ -35,16 +35,16 @@ export default function Page() {
         <Score className="absolute inset-0 z-25" />
         <Enter className="absolute inset-0 z-15" />
         <View className="relative z-20">
-          <Attempt className="absolute left-6 top-6 select-none" />
+          <Attempt className="absolute left-3 top-3 select-none" />
         </View>
         <View className="relative z-30">
-          <Exit className="absolute right-6 top-6 select-none" />
+          <Exit className="absolute right-3 top-3 select-none" />
         </View>
         <View className="relative z-25 mt-auto">
-          <Continue className="absolute right-6 bottom-6 select-none" />
+          <Continue className="absolute right-3 bottom-3 -mb-3 select-none" />
         </View>
         <View className="relative z-25">
-          <Restart className="absolute left-6 bottom-6 select-none" />
+          <Restart className="absolute left-3 bottom-3 select-none" />
         </View>
       </Content>
       <Loader />

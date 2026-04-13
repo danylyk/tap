@@ -13,19 +13,14 @@ import useEnvironment from "@/elements/stores/useEnvironment";
 export function Bar({...props}: BottomTabBarProps) {
   const pathname = usePathname();
 
-  const isOpened = useEnvironment((state) => state.scene.state !== "closed");
-  const isEnabled = pathname === "/";
+  const isOpened = useEnvironment((state) => {
+    return state.scene.state !== "closed";
+  });
 
   const [offset, setOffset] = useState(0);
 
   const bottom = useSharedValue(0);
-
-  useEffect(() => {
-    bottom.value = withTiming(isEnabled && isOpened ? -offset : 0, {
-      easing: Easing.bezier(0, 0.25, 0.25, 1),
-      duration: 400,
-    });
-  }, [isEnabled, isOpened, bottom, offset]);
+  const enabled = pathname === "/";
 
   const animatedStyle = useAnimatedStyle(() => ({
     position: "absolute",
@@ -33,6 +28,13 @@ export function Bar({...props}: BottomTabBarProps) {
     left: 0,
     right: 0,
   }));
+
+  useEffect(() => {
+    bottom.value = withTiming(enabled && isOpened ? -offset : 0, {
+      easing: Easing.bezier(0, 0.25, 0.25, 1),
+      duration: 400,
+    });
+  }, [enabled, isOpened, bottom, offset]);
 
   return (
     <Animated.View

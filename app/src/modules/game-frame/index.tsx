@@ -133,7 +133,7 @@ export default function Module({
   }
 
   return (
-    <View {...props} className="absolute z-50 pointer-events-none">
+    <View {...props} className="absolute inset-0 z-50 pointer-events-none">
       <Svg
         width={width}
         height={height}
