@@ -22,7 +22,13 @@ import Vignette from "@/modules/game-vignette";
 
 export default function Page() {
   return (
-    <Body noHeader noFooter>
+    <Body
+      noHeader
+      noFooter
+      style={{
+        gap: 0,
+      }}
+    >
       <Content>
         <View className="absolute inset-0 z-10">
           <Scene>
@@ -41,7 +47,7 @@ export default function Page() {
           <Exit className="absolute right-3 top-3 select-none" />
         </View>
         <View className="relative z-25 mt-auto">
-          <Continue className="absolute right-3 bottom-3 -mb-3 select-none" />
+          <Continue className="absolute right-3 bottom-3 select-none" />
         </View>
         <View className="relative z-25">
           <Restart className="absolute left-3 bottom-3 select-none" />

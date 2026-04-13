@@ -28,7 +28,6 @@ export function Body({
       <SafeAreaView
         {...props}
         style={[
-          style,
           {
             flex: 1,
             gap: 12,
@@ -42,6 +41,7 @@ export function Body({
                 }),
             paddingBottom: noFooter ? 16 : bottom - insets.bottom + 16,
           },
+          style,
         ]}
       >
         {children}
