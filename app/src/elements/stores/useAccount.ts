@@ -103,11 +103,15 @@ export default create(
     {
       name: "account",
       storage: createJSONStorage(() => {
-        if (Platform.OS === "web") {
-          return localStorage;
+        if (Platform.OS !== "web") {
+          return AsyncStorage;
         }
 
-        return AsyncStorage;
+        if (typeof localStorage === "undefined") {
+          throw new Error("localStorage is unavailable");
+        }
+
+        return localStorage;
       }),
     },
   ),
