@@ -36,11 +36,11 @@ export default function Module({
   const defaultLeft = Math.max(insets.left, 16) + 4;
   const defaultRight = Math.max(insets.right, 16) + 4;
 
-  const x = useSharedValue(defaultLeft);
-  const y = useSharedValue(defaultTop);
-  const w = useSharedValue(width - defaultLeft - defaultRight);
-  const h = useSharedValue(height - defaultTop - defaultBottom);
-  const r = useSharedValue(28);
+  const x = useSharedValue(0);
+  const y = useSharedValue(0);
+  const w = useSharedValue(width);
+  const h = useSharedValue(height);
+  const r = useSharedValue(0);
   const a = useSharedValue(0);
 
   useEffect(() => {

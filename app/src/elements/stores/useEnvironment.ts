@@ -77,7 +77,7 @@ export default create<{
     },
     scene: {
       loading: true,
-      state: "closed",
+      state: "opened",
       progress: 0,
     },
     content: {

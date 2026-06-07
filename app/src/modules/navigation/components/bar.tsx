@@ -19,7 +19,7 @@ export function Bar({...props}: BottomTabBarProps) {
 
   const [offset, setOffset] = useState(0);
 
-  const bottom = useSharedValue(0);
+  const bottom = useSharedValue(-1000);
   const enabled = pathname === "/";
 
   const animatedStyle = useAnimatedStyle(() => ({
