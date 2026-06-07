@@ -42,7 +42,7 @@ export function GroupButton({
     >
       <Animated.View
         style={animatedStyle}
-        className="p-1.75 pl-2 rounded-xl items-center min-h-9.5 flex-row gap-4 justify-between"
+        className="p-1.75 pl-2 rounded-xl items-center min-h-11 flex-row gap-4 justify-between"
       >
         <Text className="leading-4">{label}</Text>
 

@@ -9,7 +9,7 @@ export function GroupLine({
 }: React.ComponentProps<typeof View>) {
   return (
     <View
-      className={cn("border-t border-white/5 mx-2 my-2", className)}
+      className={cn("border-t border-white/5 mx-2 my-1", className)}
       {...props}
     />
   );
