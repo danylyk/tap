@@ -1,4 +1,4 @@
-import {useVisibility} from "../hooks/useVisiibility";
+import {useVisibility} from "../hooks/useVisibility";
 
 export function Culling({
   children,
