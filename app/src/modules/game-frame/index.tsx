@@ -143,7 +143,7 @@ export default function Module({
       >
         <AnimatedPath
           animatedProps={animatedProps}
-          fill="#000000"
+          fill="#010101"
           fillRule="evenodd"
           strokeWidth={1}
           stroke="rgba(255, 255, 255, 0.1)"
