@@ -10,6 +10,14 @@ const store = {
       z: number;
     };
   }[],
+  cache: {
+    time: -1,
+    length: -1,
+    position: {
+      x: 1,
+      z: 1,
+    },
+  },
   get action() {
     const moves = store.history;
     const move = moves[moves.length - 1];
@@ -17,6 +25,24 @@ const store = {
     return move;
   },
   get position() {
+    if (
+      store.cache.time === store.time &&
+      store.cache.length === store.history.length
+    ) {
+      return store.cache.position;
+    }
+
+    const position = store.compute();
+
+    store.cache = {
+      time: store.time,
+      length: store.history.length,
+      position,
+    };
+
+    return position;
+  },
+  compute() {
     const move = store.action;
 
     if (!move) {

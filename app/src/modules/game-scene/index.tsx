@@ -13,6 +13,10 @@ export default function Module({children}: {children?: React.ReactNode}) {
   return (
     <Canvas
       orthographic
+      gl={{
+        antialias: false,
+        powerPreference: "high-performance",
+      }}
       camera={{
         up: [0, 1, 0],
         position: [-96, 90, -96],
