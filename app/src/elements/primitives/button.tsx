@@ -27,7 +27,7 @@ const buttonVariants = cva("flex-row items-center rounded-full", {
     variant: {
       default: "bg-primary/10",
       secondary: "bg-white/10 justify-center rounded-2xl",
-      primary: "bg-white",
+      primary: "bg-white shadow-[0_4px_20px_-8px_rgba(255,255,255,0.4)]",
     },
     size: {
       default: "py-2 px-3 gap-1.5",
