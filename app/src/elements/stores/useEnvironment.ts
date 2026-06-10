@@ -14,7 +14,16 @@ export default create<{
   content: {
     attempt: number;
     done: boolean;
-    color: string;
+    color: {
+      r: number;
+      g: number;
+      b: number;
+    };
+    vignette: {
+      r: number;
+      g: number;
+      b: number;
+    };
     positions: Map<string, string | undefined>;
     boundaries: {
       x: Record<number, number[]>;
@@ -37,9 +46,18 @@ export default create<{
     state: "opened" | "started" | "missed" | "paused" | "stopped" | "closed";
   }) => void;
   setContent: (payload: {
-    color: string;
+    color: {
+      r: number;
+      g: number;
+      b: number;
+    };
     done: boolean;
     attempt: number;
+    vignette: {
+      r: number;
+      g: number;
+      b: number;
+    };
     positions: Map<string, string | undefined>;
     boundaries: {
       x: Record<number, number[]>;
@@ -83,7 +101,16 @@ export default create<{
     content: {
       done: false,
       attempt: 0,
-      color: "#010101",
+      color: {
+        r: 1,
+        g: 1,
+        b: 1,
+      },
+      vignette: {
+        r: 1,
+        g: 1,
+        b: 1,
+      },
       positions: new Map(),
       boundaries: {
         x: {},
@@ -120,6 +147,7 @@ export default create<{
             color: payload.color,
             done: payload.done,
             attempt: payload.attempt,
+            vignette: payload.vignette,
             positions: payload.positions,
             boundaries: payload.boundaries,
             sections: payload.sections,

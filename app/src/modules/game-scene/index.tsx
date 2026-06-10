@@ -6,7 +6,7 @@ import useEnvironment from "@/elements/stores/useEnvironment";
 import {Scene} from "./components/scene";
 
 export default function Module({children}: {children?: React.ReactNode}) {
-  const color = useEnvironment((state) => {
+  const {r, g, b} = useEnvironment((state) => {
     return state.content.color;
   });
 
@@ -27,7 +27,7 @@ export default function Module({children}: {children?: React.ReactNode}) {
         far: 320,
       }}
       style={{
-        backgroundColor: color,
+        backgroundColor: `rgb(${r},${g},${b})`,
       }}
     >
       <directionalLight position={[-60, 120, -90]} />

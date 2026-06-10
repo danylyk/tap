@@ -58,6 +58,7 @@ export default function Module({children}: {children: React.ReactNode}) {
         done: document.done,
         attempt: document.attempt,
         duration: document.duration,
+        vignette: document.vignette,
         boundaries: document.boundaries,
         positions: new Map(
           document.positions.map(({x, z, type}) => {
@@ -98,6 +99,7 @@ export default function Module({children}: {children: React.ReactNode}) {
         size,
         color,
         duration,
+        vignette,
         sections,
         positions,
         boundaries,
@@ -116,6 +118,7 @@ export default function Module({children}: {children: React.ReactNode}) {
         color,
         done,
         attempt,
+        vignette,
         positions,
         boundaries,
         sections,

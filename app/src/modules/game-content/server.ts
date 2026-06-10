@@ -5,9 +5,20 @@ import useAccount from "@/elements/stores/useAccount";
 import {api} from "@/lib/api";
 import {groupOf, mapWith, when} from "@/lib/utils";
 
+const Vignette = z.object({
+  r: z.number().default(0),
+  g: z.number().default(0),
+  b: z.number().default(0),
+});
+
 const Scene = z.object({
   duration: z.number().default(0),
   sections: z.array(z.string()).default([]),
+  vignette: Vignette.default({
+    r: 1,
+    g: 1,
+    b: 1,
+  }),
 });
 
 const Section = z.object({
@@ -26,6 +37,7 @@ const Document = z.object({
 export type IScene = z.infer<typeof Scene>;
 export type ISection = z.infer<typeof Section>;
 export type IDocument = z.infer<typeof Document>;
+export type IVignette = z.infer<typeof Vignette>;
 
 async function getContent({id}: {id: string}) {
   const document = Document.parse(
@@ -164,16 +176,25 @@ export async function getDocument({id}: {id: string}) {
     ),
   );
 
+  const color = {
+    r: Math.floor(Math.random() * 255),
+    g: Math.floor(Math.random() * 255),
+    b: Math.floor(Math.random() * 255),
+  };
+
   return {
     id,
     done: attempt.done,
     marks: attempt.marks,
     attempt: attempt.marks.length,
     size: sections[sections.length - 1].offset * 2,
-    color: `#${Math.floor(Math.random() * 0xffffff)
-      .toString(16)
-      .padStart(6, "0")}`,
+    color: `rgb(${color.r},${color.g},${color.b})`,
     duration: content.scene.duration,
+    vignette: {
+      r: color.r * 0.6,
+      g: color.g * 0.6,
+      b: color.b * 0.6,
+    },
     sections,
     positions,
     boundaries: {

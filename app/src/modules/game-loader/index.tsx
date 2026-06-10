@@ -8,7 +8,7 @@ export default function Module({
 }: React.ComponentProps<typeof Animated.View>) {
   const [enabled, setEnabled] = useState(false);
 
-  const color = useEnvironment((state) => {
+  const {r, g, b} = useEnvironment((state) => {
     return state.content.color;
   });
 
@@ -31,7 +31,7 @@ export default function Module({
       exiting={FadeOut.duration(300)}
       className="absolute inset-0 z-25 pointer-events-none"
       style={{
-        backgroundColor: color,
+        backgroundColor: `rgb(${r},${g},${b})`,
         transitionProperty: "backgroundColor",
         transitionDuration: "0.4s",
       }}
