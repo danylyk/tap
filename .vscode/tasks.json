@@ -3,17 +3,17 @@
   "tasks": [
     {
       "label": "Start",
-      "dependsOn": ["start app"],
+      "dependsOn": ["start app", "start api"],
       "dependsOrder": "parallel"
     },
     {
       "label": "Validate",
-      "dependsOn": ["validate app"],
+      "dependsOn": ["validate app", "validate api"],
       "dependsOrder": "sequence"
     },
     {
       "label": "Install",
-      "dependsOn": ["ci app"],
+      "dependsOn": ["ci app", "ci api"],
       "dependsOrder": "sequence"
     },
     {
@@ -46,6 +46,41 @@
       "command": "npm run lint",
       "options": {
         "cwd": "./app"
+      },
+      "presentation": {
+        "panel": "new"
+      }
+    },
+    {
+      "label": "start api",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": {
+        "cwd": "./api"
+      },
+      "presentation": {
+        "panel": "new",
+        "reveal": "silent"
+      }
+    },
+    {
+      "label": "ci api",
+      "type": "shell",
+      "command": "npm ci",
+      "options": {
+        "cwd": "./api"
+      },
+      "presentation": {
+        "panel": "new",
+        "reveal": "silent"
+      }
+    },
+    {
+      "label": "validate api",
+      "type": "shell",
+      "command": "npm run lint",
+      "options": {
+        "cwd": "./api"
       },
       "presentation": {
         "panel": "new"

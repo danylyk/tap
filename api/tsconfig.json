@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "dist",
+    "target": "es2022",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}
