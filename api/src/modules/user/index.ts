@@ -22,6 +22,27 @@ const names = [
   "Wild Puffin",
 ];
 
+export async function getAccount({token}: {token: string}) {
+  const account = await db<{
+    id: string;
+    name: string;
+    token: string;
+  }>("users")
+    .where({
+      token,
+    })
+    .first("name", "id");
+
+  if (!account) {
+    return null;
+  }
+
+  return {
+    name: account.name,
+    id: account.id,
+  };
+}
+
 export async function auth({device_id}: {device_id: string}) {
   const {country, city, region, time_zone} = useRequest((store) => {
     return {
@@ -33,18 +54,16 @@ export async function auth({device_id}: {device_id: string}) {
   });
 
   const existing = await db<{
-    id: string;
     device_id: string;
     token: string;
   }>("users")
     .where({
       device_id,
     })
-    .first();
+    .first("token");
 
   if (existing) {
     return {
-      id: existing.id,
       token: existing.token,
     };
   }
@@ -68,10 +87,9 @@ export async function auth({device_id}: {device_id: string}) {
       region,
       time_zone,
     })
-    .returning(["id", "token"]);
+    .returning("token");
 
   return {
-    id: created.id,
     token: created.token,
   };
 }

@@ -15,12 +15,11 @@ export default <FastifyPluginAsyncZod>async function (app) {
     async (request) => {
       const {device_id} = request.body;
 
-      const {id, token} = await auth({
+      const {token} = await auth({
         device_id,
       });
 
       return {
-        id,
         token,
       };
     },

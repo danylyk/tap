@@ -2,12 +2,18 @@ http://localhost:3000/health
 
 ###
 
-# /v1/auth
 POST http://localhost:3000/v1/auth
 Content-Type: application/json
 
 {
-  "device_id": "device-123"
+  "device_id": "auth-test"
 }
+
+###
+
+GET http://localhost:3000/v1/get-account
+Authorization: Bearer 30530777910633244f4e2f348608b2fd60c4dad392a25537e40887eff4520d48
+
+###
 
 # /v1/get-map
