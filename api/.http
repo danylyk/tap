@@ -1,1 +1,13 @@
 http://localhost:3000/health
+
+###
+
+# /v1/auth
+POST http://localhost:3000/v1/auth
+Content-Type: application/json
+
+{
+  "device_id": "device-123"
+}
+
+# /v1/get-map

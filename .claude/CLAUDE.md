@@ -30,3 +30,9 @@ TypeScript is in strict mode. Styling is Tailwind through uniwind. Navigation is
 - Keep shared state in zustand stores under `app/src/elements/stores`, one per domain, and use the mitt event bus for cross-module communication instead of coupling modules directly.
 - Validate external and scene data with zod, and keep the data layer swappable between local JSON and a remote backend.
 - Reuse existing stores, hooks, UI primitives, and utilities from `app/src/elements` and `app/src/lib` before adding new ones.
+- HTTP request/response bodies, function parameters, destructured values, and DB columns all use snake_case (`device_id`, `time_zone`). No camelCase mapping at the boundary — it is snake_case end to end.
+- Pass an anonymous row type to each `db<{...}>()` call listing only the columns that query touches. Do not extract a shared row interface.
+- Keep module-specific constants (e.g. a `names` array) inline in the module that uses them, and call library functions directly. Don't create a lib file or a thin wrapper helper for something used in one place.
+- Destructure `request.body`, call the module function with an explicit object, and return an explicitly constructed object. Don't pass `request.body` straight through or `return fn(request.body)`.
+- Define a zod `body` schema; do not add a `response` schema. The handler controls the returned shape directly.
+- Prefer simple, idempotent operations. On repeat (e.g. auth for a known `device_id`), return the existing record as-is — don't rotate tokens or bump timestamps unless required.
