@@ -2,6 +2,7 @@ import {AsyncLocalStorage} from "node:async_hooks";
 
 interface IStore {
   headers: Record<string, string>;
+  token: string;
 }
 
 const storage = new AsyncLocalStorage<IStore>();
@@ -18,4 +19,14 @@ export function useRequest<T>(selector: (store: IStore) => T) {
   }
 
   return selector(store);
+}
+
+export function setRequest(values: Partial<IStore>) {
+  const store = storage.getStore();
+
+  if (!store) {
+    throw new Error("No event context found.");
+  }
+
+  Object.assign(store, values);
 }

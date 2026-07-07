@@ -1,14 +1,15 @@
 import {FastifyPluginAsyncZod} from "fastify-type-provider-zod";
+import {useAuthorization} from "@/elements/hooks/use-authorization";
 import {getAccount} from "@/modules/user";
-import {useAuthorization} from "@/lib/security";
+import {useRequest} from "@/lib/store";
 
 export default <FastifyPluginAsyncZod>async function (app) {
-  app.get("/", async () => {
-    const token = useAuthorization();
+  useAuthorization(app);
 
-    if (!token) {
-      throw app.httpErrors.unauthorized();
-    }
+  app.get("/", async () => {
+    const token = useRequest((store) => {
+      return store.token;
+    });
 
     const account = await getAccount({
       token,
