@@ -43,7 +43,7 @@ export async function getAccount({token}: {token: string}) {
   };
 }
 
-export async function auth({device_id}: {device_id: string}) {
+export async function createAccount() {
   const {country, city, region, time_zone} = useRequest((store) => {
     return {
       country: store.headers["cloudfront-viewer-country"],
@@ -53,36 +53,9 @@ export async function auth({device_id}: {device_id: string}) {
     };
   });
 
-  const existing = await db<{
-    device_id: string;
-    token: string;
-  }>("users")
-    .where({
-      device_id,
-    })
-    .first("token");
-
-  if (existing) {
-    db<{
-      token: string;
-      authenticated_at: string;
-    }>("users")
-      .where({
-        token: existing.token,
-      })
-      .update({
-        authenticated_at: db.fn.now(),
-      });
-
-    return {
-      token: existing.token,
-    };
-  }
-
   const [created] = await db<{
     id: string;
     name: string;
-    device_id: string;
     token: string;
     country: string;
     city: string;
@@ -92,7 +65,6 @@ export async function auth({device_id}: {device_id: string}) {
     .insert({
       token: createToken(),
       name: sample(names),
-      device_id,
       country,
       city,
       region,
