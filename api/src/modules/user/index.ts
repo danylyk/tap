@@ -63,6 +63,17 @@ export async function auth({device_id}: {device_id: string}) {
     .first("token");
 
   if (existing) {
+    db<{
+      token: string;
+      authenticated_at: string;
+    }>("users")
+      .where({
+        token: existing.token,
+      })
+      .update({
+        authenticated_at: db.fn.now(),
+      });
+
     return {
       token: existing.token,
     };
