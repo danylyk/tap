@@ -2,7 +2,7 @@
 import {z} from "zod";
 
 import useAccount from "@/elements/stores/useAccount";
-import {api} from "@/lib/api";
+import {resource} from "@/lib/api";
 import {groupOf, mapWith, when} from "@/lib/utils";
 
 const Color = z.object({
@@ -46,8 +46,8 @@ export type IColor = z.infer<typeof Color>;
 
 async function getContent({id}: {id: string}) {
   const document = Document.parse(
-    await api.get({
-      url: `documents/${id}.json`,
+    await resource.get({
+      path: `documents/${id}.json`,
     }),
   );
 

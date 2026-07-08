@@ -5,6 +5,7 @@ import {
   ZodTypeProvider,
 } from "fastify-type-provider-zod";
 import autoload from "@fastify/autoload";
+import cors from "@fastify/cors";
 import sensible from "@fastify/sensible";
 import path from "node:path";
 import {fileURLToPath} from "node:url";
@@ -46,11 +47,13 @@ app.addHook("onRequest", (request, _reply, done) => {
             return header !== null;
           }),
       ),
+      token: "",
     },
     done,
   );
 });
 
+app.register(cors);
 app.register(sensible);
 app.register(autoload, {
   dir: path.join(__dirname, "app"),

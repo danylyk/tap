@@ -44,7 +44,7 @@ export function GroupButton({
         style={animatedStyle}
         className="p-1.75 pl-2 rounded-xl items-center min-h-11 flex-row gap-4 justify-between"
       >
-        <Text className="leading-4">{label}</Text>
+        <Text className="leading-4 text-nowrap">{label}</Text>
 
         {value && (
           <Text className="leading-4 grow text-right opacity-40 truncate">

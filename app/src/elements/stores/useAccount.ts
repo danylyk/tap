@@ -3,8 +3,22 @@ import {createJSONStorage, persist} from "expo-zustand-persist";
 import {Platform} from "react-native";
 import {create} from "zustand";
 
+let resolveAccountStore!: () => void;
+
+export const waitAccountStore = new Promise<void>((resolve) => {
+  resolveAccountStore = resolve;
+});
+
 export default create(
   persist<{
+    app: {
+      token: string;
+      loading: boolean;
+    };
+    user: {
+      id: string;
+      name: string;
+    };
     attempts: {
       [id: string]: {
         done: boolean;
@@ -16,6 +30,9 @@ export default create(
         }[];
       };
     };
+    setToken: (payload: {token: string}) => void;
+    setAccount: (payload: {id: string; name: string}) => void;
+    setLoading: (payload: {loading: boolean}) => void;
     setAttempt: (payload: {
       id: string;
       done: boolean;
@@ -37,7 +54,46 @@ export default create(
   }>(
     (set, get) => {
       return {
+        app: {
+          loading: true,
+          token: "",
+        },
+        user: {
+          id: "",
+          name: "",
+        },
         attempts: {},
+        setToken: ({token}) => {
+          set((state) => {
+            return {
+              app: {
+                ...state.app,
+                token,
+              },
+            };
+          });
+        },
+        setAccount: ({id, name}) => {
+          set((state) => {
+            return {
+              user: {
+                ...state.user,
+                id,
+                name,
+              },
+            };
+          });
+        },
+        setLoading: ({loading}) => {
+          set((state) => {
+            return {
+              app: {
+                ...state.app,
+                loading,
+              },
+            };
+          });
+        },
         setAttempt: ({id, done, marks}) => {
           set((state) => {
             return {
@@ -113,6 +169,31 @@ export default create(
 
         return localStorage;
       }),
+      partialize: (state) => {
+        const {
+          app: {loading, ...app},
+          ...rest
+        } = state;
+
+        return {app, ...rest} as typeof state;
+      },
+      merge: (persisted, current) => {
+        const state = persisted as Partial<typeof current>;
+
+        return {
+          ...current,
+          ...state,
+          app: {
+            ...current.app,
+            ...state.app,
+          },
+        };
+      },
+      onRehydrateStorage: () => {
+        return () => {
+          resolveAccountStore();
+        };
+      },
     },
   ),
 );

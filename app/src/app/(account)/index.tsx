@@ -8,8 +8,17 @@ import {GroupButton} from "@/elements/components/group-button";
 import {GroupLine} from "@/elements/components/group-line";
 import {Title} from "@/elements/components/title";
 import {Button} from "@/elements/primitives/button";
+import useAccount from "@/elements/stores/useAccount";
 
 export default function Page() {
+  const name = useAccount((state) => {
+    return state.user.name;
+  });
+
+  const id = useAccount((state) => {
+    return state.user.id;
+  });
+
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="always"
@@ -19,7 +28,7 @@ export default function Page() {
         <Group>
           <GroupButton
             label="Name"
-            value="danylyk"
+            value={name}
             icon={<ChevronRight size={22} color="white" />}
           />
           <GroupButton
@@ -40,7 +49,7 @@ export default function Page() {
         <Title>Application</Title>
 
         <Group>
-          <GroupButton label="Player ID" value="adf61239gs172" />
+          <GroupButton label="Player ID" value={id} />
           <GroupButton label="Version" value="1.43.0" />
         </Group>
 

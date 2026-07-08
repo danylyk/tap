@@ -36,3 +36,12 @@ TypeScript is in strict mode. Styling is Tailwind through uniwind. Navigation is
 - Destructure `request.body`, call the module function with an explicit object, and return an explicitly constructed object. Don't pass `request.body` straight through or `return fn(request.body)`.
 - Define a zod `body` schema; do not add a `response` schema. The handler controls the returned shape directly.
 - Prefer simple, idempotent operations. On repeat (e.g. auth for a known `device_id`), return the existing record as-is — don't rotate tokens or bump timestamps unless required.
+- Always give arrow functions a block body with an explicit `return` — never an implicit-return expression body. This includes one-line store selectors (`useAccount((state) => { return state.user.name; })`) and inline callbacks.
+- Every function takes a single object argument and destructures it, even for one value (`setToken({token})`, `getAccount({token})`). No positional parameters.
+- Store actions live in the store, take one named-object payload, and update via functional `set((state) => { return {...} })` spreading the prior slice. Group related state into sub-objects (`app`, `user`, `attempts`) each with its own setter.
+- Subscribe to a store with a selector only for values used in render; inside async flows read imperatively with `useStore.getState()` instead of subscribing.
+- Never pass an `async` function to `useEffect`. Define an inner `async function action() {}` and call it at the end of the effect.
+- One hook per file under the module's `hooks/` folder, named exactly after the hook (`useUserSession.ts` → `useUserSession`). Hooks and server/data functions are named exports; screen and module components are the file's `default export`.
+- A feature module's `index.tsx` is a headless provider named `Module` that composes the module's hooks and returns `children`; mount it as a wrapper in the layout.
+- Put API clients in `app/src/lib/api.ts` as named client objects split by target (`resource` for the content CDN, `backend` for our own API). Each method takes a single `{path, token, query, json}` object and handles `404`/`!ok` uniformly.
+- In a module's `server.ts`, name zod schemas as PascalCase singular nouns (`Session`, `Account`), `parse` the client response, then `return` an explicitly constructed object selecting the fields the app needs — never return the parsed value directly. Export inferred types as `I`-prefixed via `z.infer` (`IColor`).
