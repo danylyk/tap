@@ -3,9 +3,16 @@ import "@/public/assets/global.css";
 import {DarkTheme, ThemeProvider} from "@react-navigation/native";
 import {Tabs} from "expo-router";
 import {House, User} from "lucide-react-native";
+import {LogBox} from "react-native";
 
 import Account from "@/modules/account";
 import Navigation from "@/modules/navigation";
+
+LogBox.ignoreLogs([
+  "props.pointerEvents is deprecated",
+  "Multiple instances of Three.js",
+  "EXT_color_buffer_float extension not supported",
+]);
 
 export default function Layout() {
   return (

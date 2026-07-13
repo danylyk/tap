@@ -4,6 +4,7 @@ import React from "react";
 import useEnvironment from "@/elements/stores/useEnvironment";
 
 import {Scene} from "./components/scene";
+import {silencePixelStorei} from "./lib/utils";
 
 export default function Module({children}: {children?: React.ReactNode}) {
   const {r, g, b} = useEnvironment((state) => {
@@ -13,6 +14,7 @@ export default function Module({children}: {children?: React.ReactNode}) {
   return (
     <Canvas
       orthographic
+      onCreated={silencePixelStorei}
       gl={{
         antialias: false,
         powerPreference: "high-performance",

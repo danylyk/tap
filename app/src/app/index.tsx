@@ -40,6 +40,14 @@ export default function Page() {
         </View>
         <Score className="absolute inset-0 z-25" />
         <Enter className="absolute inset-0 z-15" />
+
+        <View className="relative z-10">
+          <View className="absolute -bottom-1 -left-100 -right-100 h-100 z-10" />
+        </View>
+
+        <View className="absolute left-0 top-0 bottom-0 w-4 z-10" />
+        <View className="absolute right-0 top-0 bottom-0 w-4 z-10" />
+
         <View className="relative z-20">
           <Attempt className="absolute left-3 top-3 select-none" />
         </View>
@@ -51,6 +59,10 @@ export default function Page() {
         </View>
         <View className="relative z-25">
           <Restart className="absolute left-3 bottom-3 select-none" />
+        </View>
+
+        <View className="relative z-10">
+          <View className="absolute -top-1 -left-100 -right-100 h-100 z-10" />
         </View>
       </Content>
       <Loader />
