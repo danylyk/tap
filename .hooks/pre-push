@@ -40,5 +40,6 @@ if [ -z "$CLAUDE" ] || [ ! -x "$CLAUDE" ]; then
 fi
 
 "$CLAUDE" -p "Tell me a short programming joke."
+echo "Testing." >&2
 
 exit 1
