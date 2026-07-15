@@ -3,11 +3,11 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start",
-    "android": "expo run:android",
-    "ios": "expo run:ios --device --configuration Release",
-    "web": "expo start --web",
-    "lint": "expo lint && tsc --noEmit"
+    "start": "../run && expo start",
+    "android": "../run && expo run:android",
+    "ios": "../run && expo run:ios --device --configuration Release",
+    "web": "../run && expo start --web",
+    "lint": "../run && expo lint && tsc --noEmit"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",

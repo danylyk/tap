@@ -1,0 +1,3 @@
+#!/bin/sh
+root=$(git rev-parse --show-toplevel)
+git config core.hooksPath "$root/.hooks"

@@ -4,10 +4,10 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "tsx watch --require dotenv/config src/index.ts | pino-pretty",
-    "start": "node --require dotenv/config dist/index.js | pino-pretty",
-    "build": "tsup",
-    "lint": "eslint && tsc --noEmit"
+    "dev": "../run && tsx watch --require dotenv/config src/index.ts | pino-pretty",
+    "start": "../run && node --require dotenv/config dist/index.js | pino-pretty",
+    "build": "../run && tsup",
+    "lint": "../run && eslint && tsc --noEmit"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",

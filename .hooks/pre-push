@@ -1,0 +1,44 @@
+#!/bin/sh
+
+# An example hook script to verify what is about to be pushed.  Called by "git
+# push" after it has checked the remote status, but before anything has been
+# pushed.  If this script exits with a non-zero status nothing will be pushed.
+#
+# This hook is called with the following parameters:
+#
+# $1 -- Name of the remote to which the push is being done
+# $2 -- URL to which the push is being done
+#
+# If pushing without using a named remote those arguments will be equal.
+#
+# Information about the commits which are being pushed is supplied as lines to
+# the standard input in the form:
+#
+#   <local ref> <local oid> <remote ref> <remote oid>
+
+find_claude() {
+  if command -v claude >/dev/null 2>&1; then
+    command -v claude
+    return
+  fi
+
+  if [ -x "$HOME/.claude/local/claude" ]; then
+    echo "$HOME/.claude/local/claude"
+    return
+  fi
+
+  ls -d "$HOME"/.vscode*/extensions/anthropic.claude-code-*/resources/native-binary/claude 2>/dev/null \
+    | sort -V | tail -n 1
+}
+
+CLAUDE=$(find_claude)
+
+if [ -z "$CLAUDE" ] || [ ! -x "$CLAUDE" ]; then
+  echo "Could not find the 'claude' binary." >&2
+  echo "Install it with: npm install -g @anthropic-ai/claude-code" >&2
+  exit 1
+fi
+
+"$CLAUDE" -p "Tell me a short programming joke."
+
+exit 0
