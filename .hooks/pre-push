@@ -36,10 +36,11 @@ CLAUDE=$(find_claude)
 if [ -z "$CLAUDE" ] || [ ! -x "$CLAUDE" ]; then
   echo "Could not find the 'claude' binary." >&2
   echo "Install it with: npm install -g @anthropic-ai/claude-code" >&2
-  exit 1
+  exit 0
 fi
 
-"$CLAUDE" -p "Tell me a short programming joke."
-echo "Testing." >&2
+# Run the agent in the background so the push isn't blocked.
+# Redirect all streams and detach so git doesn't wait on the child.
+nohup "$CLAUDE" -p "Tell me a short programming joke." >./tmp/claude-pre-push.log 2>&1 </dev/null &
 
-exit 1
+exit 0
