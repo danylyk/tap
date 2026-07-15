@@ -39,8 +39,6 @@ if [ -z "$CLAUDE" ] || [ ! -x "$CLAUDE" ]; then
   exit 0
 fi
 
-# Run the agent in the background so the push isn't blocked.
-# Redirect all streams and detach so git doesn't wait on the child.
-nohup "$CLAUDE" -p "Tell me a short programming joke." >./tmp/claude-pre-push.log 2>&1 </dev/null &
+"$CLAUDE" --agent pre-push -p "Greet me before the push."
 
 exit 0
