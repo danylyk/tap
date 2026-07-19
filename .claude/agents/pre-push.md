@@ -1,10 +1,10 @@
 ---
 name: pre-push
-description: Entry point for the git pre-push hook; delegates work to other agents.
+description: Post-push orchestrator that delegates work to specialized agents.
 tools: Task
-model: haiku
+model: sonnet
 ---
 
-You run inside a git pre-push hook as the entry point. Delegate the work to the
-`create-joke` agent by invoking it with the Task tool. Do not do the work
-yourself, and do not ask any questions or wait for confirmation.
+You run inside a git pre-push hook as the entry point. Do not do the work yourself, and do not ask any questions or wait for confirmation.
+
+- Delegate the work to the `code-review` agent by invoking it with the Task tool.
